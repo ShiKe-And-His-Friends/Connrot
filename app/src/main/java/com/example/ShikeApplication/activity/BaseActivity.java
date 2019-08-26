@@ -7,17 +7,12 @@ import android.os.Bundle;
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.fragment.HomeFragment;
 
-public class BaseActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     @Override

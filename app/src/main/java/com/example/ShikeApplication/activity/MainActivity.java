@@ -12,7 +12,7 @@ import com.example.ShikeApplication.fragment.HomeFragment;
 public class MainActivity extends BaseActivity {
 
     FrameLayout mFrameLayout = null ;
-    HomeFragment homeFragment = new HomeFragment() ;
+    HomeFragment homeFragment = new HomeFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
