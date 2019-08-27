@@ -17,6 +17,9 @@ import android.view.SurfaceView;
 import com.example.ShikeApplication.carmera.utils.BitmapUtils;
 import com.example.ShikeApplication.carmera.utils.MetricsUtil;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class CameraSurfaceView extends SurfaceView {
 
     private static final String TAG = "CameraSurfaceView" ;
@@ -29,7 +32,6 @@ public class CameraSurfaceView extends SurfaceView {
     private Camera mCamera = null ;
     private Point mCameraSize = null ;
     private int mCameraType = CAMERA_BEHIND ;
-
 
     public CameraSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
