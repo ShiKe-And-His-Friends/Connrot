@@ -12,7 +12,6 @@ public class AuidoRawChannelBuffer {
 
     private static final String TAG = "AuidoRawChannelBuffer";
 
-
     //raw audio buffer process
     short[] getSamplesForChannel(MediaCodec codec , int bufferId ,int channellx){
         ByteBuffer outputBuffer = null ;
