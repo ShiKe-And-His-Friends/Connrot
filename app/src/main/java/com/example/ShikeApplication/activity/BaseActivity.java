@@ -1,13 +1,10 @@
 package com.example.ShikeApplication.activity;
 
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
-
 import com.example.ShikeApplication.R;
-import com.example.ShikeApplication.fragment.HomeFragment;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +13,5 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
+    public void onPointerCaptureChanged(boolean hasCapture) {}
 }
