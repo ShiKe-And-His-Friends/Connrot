@@ -24,8 +24,8 @@ public class NativeRenderFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_nativerendler,null);
-        return inflater.inflate(R.layout.fragment_nativerendler,null);
+        View view = inflater.inflate(R.layout.fragment_nativerendler,container,false);
+        return view;
     }
 
     @Override

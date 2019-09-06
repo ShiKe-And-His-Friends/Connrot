@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class VideoDecoder {
-    private final static String TAG = "VideoEncoder";
+    private final static String TAG = "VideoDecoder";
     private final static int CONFIGURE_FLAG_DECODE = 0;
 
     private MediaCodec  mMediaCodec;
@@ -30,6 +30,7 @@ public class VideoDecoder {
     private MediaCodec.Callback mCallback = new MediaCodec.Callback() {
         @Override
         public void onInputBufferAvailable(@NonNull MediaCodec mediaCodec, int id) {
+            Log.d(TAG, "------> onInputBufferAvailable");
             ByteBuffer inputBuffer = mediaCodec.getInputBuffer(id);
             inputBuffer.clear();
 
@@ -47,6 +48,7 @@ public class VideoDecoder {
 
         @Override
         public void onOutputBufferAvailable(@NonNull MediaCodec mediaCodec, int id, @NonNull MediaCodec.BufferInfo bufferInfo) {
+            Log.d(TAG, "------> onOutputBufferAvailable");
             ByteBuffer outputBuffer = mMediaCodec.getOutputBuffer(id);
             MediaFormat outputFormat = mMediaCodec.getOutputFormat(id);
             if(mMediaFormat == outputFormat && outputBuffer != null && bufferInfo.size > 0){

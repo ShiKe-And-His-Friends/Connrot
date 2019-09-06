@@ -116,7 +116,7 @@ public class CameraSurfaceView extends SurfaceView {
             mCamera.startPreview();
             isPreviewing = true ;
             //TODO 1
-            mCamera.autoFocus(null);
+//            mCamera.autoFocus(null);
             //连拍setPreviewCallback
             //mCamera.setPreviewCallback(mPreviewCallback);
 

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
+
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.carmera.CameraSurfaceView;
 
@@ -37,9 +39,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home,null);
+        View view = inflater.inflate(R.layout.fragment_home,container,false);
         unbinder =  ButterKnife.bind(this,view);
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 
     @Override
@@ -58,8 +60,8 @@ public class HomeFragment extends Fragment {
         super.onDetach();
     }
 
-    @OnClick({R.id.tab1 , R.id.tab2})
-    public void onViewClicked(View view) {
+    @OnClick({R.id.button_ok , R.id.button_cancel})
+    public void onViewClicked(@Nullable View view) {
         switch (view.getId()) {
             case R.id.button_ok:
                 surfaceView.doTakePhotoPath();

@@ -123,9 +123,10 @@ public class MediaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_media,null);
+        View view = inflater.inflate(R.layout.fragment_media,container,false);
         unbinder = ButterKnife.bind(this,view);
-        return inflater.inflate(R.layout.fragment_media,null);
+        initView();
+        return view;
     }
 
     @Override

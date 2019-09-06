@@ -32,6 +32,8 @@ public class MainActivity extends BaseActivity {
     ImageButton tab1ImageButton;
     @BindView(R.id.tab2)
     ImageButton tab2ImageButton;
+    @BindView(R.id.tab3)
+    ImageButton tab3ImageButton;
     Unbinder unbinder;
 
     private final static String TAG = "MainActivity";
@@ -46,31 +48,26 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder =  ButterKnife.bind(this);
-
-        if (mFrameLayout != null ) {
-            if (fragmentManager == null) {
-                fragmentManager = getFragmentManager()  ;
-            }
-            if (fragmentTransaction == null) {
-                fragmentTransaction = fragmentManager.beginTransaction() ;
-            }
-            fragmentTransaction.replace( R.id.frame_layout_main , homeFragment ) ;
-            fragmentTransaction.commit() ;
+        if (fragmentManager == null) {
+            fragmentManager = getFragmentManager()  ;
         }
+        if (fragmentTransaction == null) {
+            fragmentTransaction = fragmentManager.beginTransaction() ;
+        }
+        if (homeFragment == null) {
+            homeFragment = new HomeFragment();
+        }
+        if (mediaFragment == null) {
+            mediaFragment = new MediaFragment();
+        }
+        fragmentTransaction.replace( R.id.frame_layout_main , mediaFragment ) ;
+        fragmentTransaction.commit() ;
 
     }
 
     @Override
     protected void onResume() {
-        if (homeFragment == null) {
-            homeFragment = new HomeFragment();
-        }
-        if (nativeRenderFragment == null) {
-            nativeRenderFragment = new NativeRenderFragment();
-        }
-        if (mediaFragment == null){
-            mediaFragment = new MediaFragment();
-        }
+
         // apply permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG,"Granted");
@@ -93,23 +90,47 @@ public class MainActivity extends BaseActivity {
         Log.e(TAG, "onRequestPermissionsResult");
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    @OnClick({R.id.tab1 , R.id.tab2})
+
+    @OnClick({R.id.tab1 , R.id.tab2,R.id.tab3 })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab1 :
-                fragmentTransaction.replace( R.id.frame_layout_main , homeFragment ) ;
-                fragmentTransaction.commit() ;
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add( R.id.frame_layout_main , homeFragment ) ;
+                }
+                hideFragment(fragmentTransaction);
+                fragmentTransaction.show(homeFragment);
                 break;
             case R.id.tab2 :
-                fragmentTransaction.replace( R.id.frame_layout_main , nativeRenderFragment ) ;
-                fragmentTransaction.commit() ;
+                if (nativeRenderFragment == null) {
+                    nativeRenderFragment = new NativeRenderFragment();
+                    fragmentTransaction.add(R.id.frame_layout_main , nativeRenderFragment);
+                }
+                hideFragment(fragmentTransaction);
+                fragmentTransaction.show(nativeRenderFragment);
                 break;
             case R.id.tab3 :
-                fragmentTransaction.replace( R.id.frame_layout_main , mediaFragment ) ;
-                fragmentTransaction.commit() ;
+                if (mediaFragment == null){
+                    mediaFragment = new MediaFragment();
+                    fragmentTransaction.add(R.id.frame_layout_main , mediaFragment);
+                }
+                hideFragment(fragmentTransaction);
+                fragmentTransaction.show(mediaFragment);
                 break;
         }
     }
 
+    private void hideFragment(FragmentTransaction transaction){
+        if (homeFragment != null) {
+            transaction.hide(homeFragment);
+        }
+        if (nativeRenderFragment != null) {
+            transaction.hide(nativeRenderFragment);
+        }
+        if (mediaFragment != null) {
+            transaction.hide(mediaFragment);
+        }
+    }
 
 }
