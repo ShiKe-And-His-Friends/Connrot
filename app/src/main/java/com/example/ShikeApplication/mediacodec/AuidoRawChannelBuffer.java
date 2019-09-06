@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.Media;
+package com.example.ShikeApplication.mediacodec;
 
 import android.media.MediaCodec;
 import android.media.MediaFormat;

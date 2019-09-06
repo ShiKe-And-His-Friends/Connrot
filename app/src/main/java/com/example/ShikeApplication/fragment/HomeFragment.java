@@ -11,11 +11,20 @@ import android.widget.Button;
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.carmera.CameraSurfaceView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 public class HomeFragment extends Fragment {
 
-    private Button buttonOk = null ;
-    private Button buttonCancel = null ;
-    private CameraSurfaceView surfaceView = null ;
+    @BindView(R.id.button_cancel)
+    Button buttonCancel;
+    @BindView(R.id.button_ok)
+    Button buttonOk;
+    @BindView(R.id.carmare_surface_view)
+    CameraSurfaceView surfaceView;
+    Unbinder unbinder;
 
     public HomeFragment() {
     }
@@ -29,18 +38,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,null);
-        buttonCancel = view.findViewById(R.id.button_cancel);
-        buttonOk = view.findViewById(R.id.button_ok);
-        surfaceView = view.findViewById(R.id.carmare_surface_view);
-        buttonOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                surfaceView.doTakePhotoPath();
-            }
-        });
+        unbinder =  ButterKnife.bind(this,view);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    @Override
+    public void onDestroy() {
+        unbinder.unbind();
+        super.onDestroy();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -50,6 +56,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @OnClick({R.id.tab1 , R.id.tab2})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.button_ok:
+                surfaceView.doTakePhotoPath();
+                break;
+        }
     }
 
 }

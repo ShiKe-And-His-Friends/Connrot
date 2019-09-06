@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.Media;
+package com.example.ShikeApplication.mediacodec;
 
 public class EncoderTypicalMode {
     //asynchronous
