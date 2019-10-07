@@ -60,7 +60,9 @@ public class MainActivity extends BaseActivity {
         if (mediaFragment == null) {
             mediaFragment = new MediaFragment();
         }
-        fragmentTransaction.replace( R.id.frame_layout_main , mediaFragment ) ;
+        //[08/10/19 sk] native jni demo
+//        fragmentTransaction.replace( R.id.frame_layout_main , mediaFragment ) ;
+        fragmentTransaction.replace( R.id.frame_layout_main , homeFragment ) ;
         fragmentTransaction.commit() ;
 
     }

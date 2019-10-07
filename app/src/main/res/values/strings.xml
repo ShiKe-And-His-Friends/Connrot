@@ -5,4 +5,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_home_below_button_cancel_string">Cancel</string>
     <string name="fragment_home_below_button_ok_string">OK</string>
+    <string name="fragment_native_demo_text_view">JNI is Not the Key to solve all trouble.</string>
+
 </resources>
