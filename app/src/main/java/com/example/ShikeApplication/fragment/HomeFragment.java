@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
 //        View view = inflater.inflate(R.layout.fragment_home,container,false);
         View view = inflater.inflate(R.layout.fragment_native_demo,container,false);
         unbinder =  ButterKnife.bind(this,view);
-        textView.setText(ndktool.getSomeDumpTextFromNDK());
+        textView.setText(ndktool.getSomeDumpTextFromNDK() + "\n"+ndktool.getNativeLibraryVersion());
         Toast.makeText(this.getContext(),ndktool.getNativeCompileVersion(),Toast.LENGTH_LONG).show();
 
         return view;

@@ -7,13 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     com_example_ShikeApplication_ndkdemo_ndktool
- * Method:    getSomeDumpTextFromNDK
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_ndktool_getSomeDumpTextFromNDK
-  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

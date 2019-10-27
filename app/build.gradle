@@ -10,9 +10,15 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        ndk {
-            moduleName "connrot-jni"
-            abiFilters "armeabi-v7a", "x86"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+                abiFilters "arm64-v8a","armeabi-v7a", "x86"
+            }
+//            ndk {
+//                moduleName "connrot-jni"
+//                abiFilters "arm64-v8a","armeabi-v7a", "x86"
+//            }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -20,20 +26,26 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "So_Library_name", "\"connrotCmake-lib\""    //connrot-lib
         }
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        externalNativeBuild {
-            ndkBuild {
-                path 'src/main/jni/Android.mk'
-            }
+            buildConfigField "String", "So_Library_name", "\"connrotCmake-lib\""      //connrot-lib
+
         }
         sourceSets.main {
             jni.srcDirs = []
             jniLibs.srcDirs = ['src/main/jniLibs']
         }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+//        ndkBuild {
+//            path 'src/main/jni/Android.mk'
+//        }
     }
     compileOptions {
         sourceCompatibility 1.8
