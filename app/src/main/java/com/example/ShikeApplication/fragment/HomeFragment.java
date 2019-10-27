@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_native_demo,container,false);
         unbinder =  ButterKnife.bind(this,view);
         textView.setText(ndktool.getSomeDumpTextFromNDK());
+        Toast.makeText(this.getContext(),ndktool.getNativeCompileVersion(),Toast.LENGTH_LONG).show();
+
         return view;
     }
 
