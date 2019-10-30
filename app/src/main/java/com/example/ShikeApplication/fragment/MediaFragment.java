@@ -38,6 +38,7 @@ public class MediaFragment extends Fragment {
     TextureView mDecodeTexture;
     Unbinder unbinder;
 
+    private static volatile MediaFragment mediaFragment;
     private VideoDecoder mVideoDecoder;
     private VideoEncoder mVideoEncoder;
 
@@ -45,7 +46,18 @@ public class MediaFragment extends Fragment {
     private int mPreviewWidth;
     private int mPreviewHeight;
 
-    public MediaFragment(){}
+    private MediaFragment(){}
+
+    public static MediaFragment getInstance(){
+        if(mediaFragment == null){
+            synchronized (MediaFragment.class){
+                if(mediaFragment == null){
+                    mediaFragment = new MediaFragment();
+                }
+            }
+        }
+        return mediaFragment;
+    }
 
     private Camera.PreviewCallback mPreviewCallBack = new Camera.PreviewCallback() {
         @Override

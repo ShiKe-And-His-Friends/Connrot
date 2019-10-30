@@ -14,7 +14,20 @@ import com.example.ShikeApplication.R;
 
 public class NativeRenderFragment extends Fragment {
 
-    public NativeRenderFragment(){}
+    private static volatile NativeRenderFragment nativeRenderFragment;
+
+    private NativeRenderFragment(){}
+
+    public static NativeRenderFragment getInstance(){
+        if(nativeRenderFragment == null){
+            synchronized (NativeRenderFragment.class){
+                if(nativeRenderFragment == null){
+                    nativeRenderFragment = new NativeRenderFragment();
+                }
+            }
+        }
+        return nativeRenderFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

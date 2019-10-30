@@ -23,7 +23,7 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends Fragment {
 
-    //[08/10/19 sk] native jni demo
+    private static HomeFragment homeFragment;
     @BindView(R.id.fagment_native_demo_text)
     TextView textView;
 //    @BindView(R.id.button_cancel)
@@ -34,7 +34,18 @@ public class HomeFragment extends Fragment {
 //    CameraSurfaceView surfaceView;
     Unbinder unbinder;
 
-    public HomeFragment() {
+    private HomeFragment() {
+    }
+
+    public static HomeFragment getInstance(){
+        if(homeFragment == null){
+            synchronized (HomeFragment.class){
+                if(homeFragment == null){
+                    homeFragment = new HomeFragment();
+                }
+            }
+        }
+        return homeFragment;
     }
 
     @Override

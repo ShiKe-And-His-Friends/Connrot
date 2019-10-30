@@ -37,39 +37,20 @@ public class MainActivity extends BaseActivity {
     Unbinder unbinder;
 
     private final static String TAG = "MainActivity";
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    HomeFragment homeFragment;
-    NativeRenderFragment nativeRenderFragment;
-    MediaFragment mediaFragment;
+    private HomeFragment homeFragment;
+    private NativeRenderFragment nativeRenderFragment;
+    private MediaFragment mediaFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder =  ButterKnife.bind(this);
-        if (fragmentManager == null) {
-            fragmentManager = getFragmentManager()  ;
-        }
-        if (fragmentTransaction == null) {
-            fragmentTransaction = fragmentManager.beginTransaction() ;
-        }
-        if (homeFragment == null) {
-            homeFragment = new HomeFragment();
-        }
-        if (mediaFragment == null) {
-            mediaFragment = new MediaFragment();
-        }
-        //[08/10/19 sk] native jni demo
-//        fragmentTransaction.replace( R.id.frame_layout_main , mediaFragment ) ;
-        fragmentTransaction.replace( R.id.frame_layout_main , homeFragment ) ;
-        fragmentTransaction.commit() ;
-
     }
 
     @Override
     protected void onResume() {
-
+        showFragment(R.id.tab1);
         // apply permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG,"Granted");
@@ -81,8 +62,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        fragmentManager = null;
         homeFragment = null;
+        nativeRenderFragment = null;
+        mediaFragment = null;
         unbinder.unbind();
         super.onDestroy();
     }
@@ -93,34 +75,56 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @OnClick({R.id.tab1 , R.id.tab2,R.id.tab3 })
+    @OnClick({R.id.tab1, R.id.tab2, R.id.tab3 })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab1 :
-                if (homeFragment == null) {
-                    homeFragment = new HomeFragment();
-                    fragmentTransaction.add( R.id.frame_layout_main , homeFragment ) ;
-                }
-                hideFragment(fragmentTransaction);
-                fragmentTransaction.show(homeFragment);
+                showFragment(R.id.tab1);
                 break;
             case R.id.tab2 :
-                if (nativeRenderFragment == null) {
-                    nativeRenderFragment = new NativeRenderFragment();
-                    fragmentTransaction.add(R.id.frame_layout_main , nativeRenderFragment);
-                }
-                hideFragment(fragmentTransaction);
-                fragmentTransaction.show(nativeRenderFragment);
+                showFragment(R.id.tab2);
                 break;
             case R.id.tab3 :
-                if (mediaFragment == null){
-                    mediaFragment = new MediaFragment();
-                    fragmentTransaction.add(R.id.frame_layout_main , mediaFragment);
-                }
-                hideFragment(fragmentTransaction);
-                fragmentTransaction.show(mediaFragment);
+                showFragment(R.id.tab3);
                 break;
         }
+    }
+
+    private void showFragment (int index) {
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getFragmentManager().beginTransaction() ;
+        hideFragment(fragmentTransaction);
+        switch (index) {
+            case R.id.tab1 :
+                if (homeFragment == null) {
+                    homeFragment = HomeFragment.getInstance();
+                    fragmentTransaction.add( R.id.frame_layout_main , homeFragment ) ;
+                } else {
+                    fragmentTransaction.show(homeFragment);
+                }
+                break;
+            case R.id.tab2 :
+                hideFragment(fragmentTransaction);
+                if (nativeRenderFragment == null) {
+                    nativeRenderFragment = NativeRenderFragment.getInstance();
+                    fragmentTransaction.add(R.id.frame_layout_main , nativeRenderFragment);
+                } else {
+                    fragmentTransaction.show(nativeRenderFragment);
+
+                }
+                break;
+            case R.id.tab3 :
+                hideFragment(fragmentTransaction);
+                if (mediaFragment == null){
+                    mediaFragment = MediaFragment.getInstance();
+                    fragmentTransaction.add(R.id.frame_layout_main , mediaFragment);
+                } else {
+                    fragmentTransaction.show(mediaFragment);
+
+                }
+                break;
+        }
+        fragmentTransaction.commit();
     }
 
     private void hideFragment(FragmentTransaction transaction){
