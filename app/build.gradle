@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion versionCompiler
     defaultConfig {
         applicationId "com.example.ShikeApplication"
-        minSdkVersion 26
-        targetSdkVersion 28
-        versionCode 2
-        versionName "1.2"
+        minSdkVersion minSdkVersionSupport
+        targetSdkVersion versionTarget
+        versionCode versionCodeInt
+        versionName versionNameString
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
@@ -48,8 +48,8 @@ android {
 //        }
     }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility javaSourceCompatibility
+        targetCompatibility javaTargetCompatibility
     }
 }
 
@@ -60,6 +60,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }
 repositories {
     mavenCentral()

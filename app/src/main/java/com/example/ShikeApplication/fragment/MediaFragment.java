@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import com.example.ShikeApplication.mediacodec.VideoDecoder;
 import com.example.ShikeApplication.mediacodec.VideoEncoder;
 import com.example.ShikeApplication.R;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.IOException;
 import java.util.List;
@@ -197,6 +198,12 @@ public class MediaFragment extends Fragment {
         }
         mCamera.stopPreview();
         mCamera.release();
+        try {
+            throw  new IllegalAccessException();
+        } catch (Exception e){
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
+        }
     }
 
 }
