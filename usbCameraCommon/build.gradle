@@ -47,7 +47,7 @@ android {
 
 dependencies {
 	api fileTree(dir: 'libs', include: ['*.jar'])
-	implementation("com.serenegiant:common:${commonLibVersion}") {
+	api("com.serenegiant:common:${rootProject.ext.commonLibVersion}") {
    		exclude module: 'support-v4'
    	}
 	implementation project(':libuvccamera')
