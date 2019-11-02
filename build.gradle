@@ -8,7 +8,7 @@ buildscript {
         minSdkVersionSupport = 26
         versionCompiler = 28
         versionTarget = 28
-        versionNameString = '1.0.0'
+        versionNameString = '1.0.3'
         versionCodeInt = 3
 
         supportLibVersion = '27.1.1'
