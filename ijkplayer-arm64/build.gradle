@@ -27,4 +27,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-apply from: new File(rootProject.projectDir, "tools/gradle-on-demand.gradle");
+//apply from: new File(rootProject.projectDir, "tools/gradle-on-demand.gradle");
