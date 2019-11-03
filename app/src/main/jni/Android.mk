@@ -9,7 +9,7 @@ include $(CLEAR_VARS)
 # Different *.so file
 LOCAL_MODULE := connrot-jni
 APP_PLATFORM := android-28
-app_abi := arm64-v8a armeabi-v7a x86
+app_abi := arm64-v8a armeabi-v7a armeabi x86 x86_64
 
 # List the set of C/C++ files that will compile.Not include *.H file
 LOCAL_SRC_FILES := MainConnrotNativeThread.c
