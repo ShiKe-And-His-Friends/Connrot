@@ -46,11 +46,18 @@ public class NativeRenderFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nativerendler,container,false);
-        Button button = (Button)view.findViewById(R.id.ijkplayer_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button ijkPlayerButton = (Button)view.findViewById(R.id.ijkplayer_button);
+        Button startThreadButton = (Button)view.findViewById(R.id.ijkplayer_button);
+        ijkPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                this.getActivity().startActivity(new Intent(this,FileExplorerActivity.class));
+//                startActivity(new Intent(this,FileExplorerActivity.class));
+            }
+        });
+        startThreadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         return view;

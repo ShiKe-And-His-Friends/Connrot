@@ -17,4 +17,5 @@ public class ndktool {
     public native static String getSomeDumpTextFromNDK();
     public native static String getNativeCompileVersion();
     public native static String getNativeLibraryVersion();
+    public native static void startNativeThreadDemoOne();
 }

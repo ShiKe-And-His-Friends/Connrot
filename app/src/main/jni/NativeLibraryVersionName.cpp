@@ -4,6 +4,7 @@
 #include "com_example_ShikeApplication_ndkdemo_ndktool.h"
 #include <jni.h>
 #include <string.h>
+#include <pthread.h>
 
 #include "MainConnrotNativeThread.c"
 
@@ -19,3 +20,16 @@ extern "C" {
 }
 #endif
 
+pthread_t countTimeThread;
+
+void *threadCallBack()
+{
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_startNativeThreadDemoOne(JNIEnv *env,
+                                                                           jclass clazz) {
+    pthread_create(&countTimeThread,NULL,threadCallBack,NULL);
+}

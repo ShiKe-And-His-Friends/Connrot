@@ -1,5 +1,18 @@
 package com.example.ShikeApplication.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 public class SharedPreferencesUtil {
     private SharedPreferences preferences = null;
     private SharedPreferences.Editor editor = null;

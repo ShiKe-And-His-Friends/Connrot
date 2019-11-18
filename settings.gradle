@@ -1,1 +1,1 @@
-include ':app', ':libuvccamera', ':usbCameraCommon', ':ijkplayer-example'
+include ':app', ':ijkplayer-example','libuvccamera'
