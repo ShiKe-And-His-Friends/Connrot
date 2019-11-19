@@ -1,10 +1,12 @@
 package com.example.ShikeApplication.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.ShikeApplication.R;
+import com.example.ShikeApplication.audioProcess.AudioClass;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.UUID;
@@ -22,8 +25,6 @@ import java.util.UUID;
 public class NativeRenderFragment extends Fragment {
 
     private static volatile NativeRenderFragment nativeRenderFragment;
-
-    private NativeRenderFragment(){}
 
     public static NativeRenderFragment getInstance(){
         if(nativeRenderFragment == null){
@@ -48,6 +49,8 @@ public class NativeRenderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nativerendler,container,false);
         Button ijkPlayerButton = (Button)view.findViewById(R.id.ijkplayer_button);
         Button startThreadButton = (Button)view.findViewById(R.id.ijkplayer_button);
+        Button startAudioThreadButton = (Button)view.findViewById(R.id.audio_service_start);
+        Button stopAudioThreadButton = (Button)view.findViewById(R.id.audio_service_stop);
         ijkPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +63,23 @@ public class NativeRenderFragment extends Fragment {
 
             }
         });
+        startAudioThreadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AudioClass.getInstance().prepareSystemAudioRecod()) {
+                    AudioClass.getInstance().startSystemAudioRecod();
+                } else {
+                    Log.e("AudioClass","Prepare System Audio Recod Fail.");
+                }
+            }
+        });
+        stopAudioThreadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AudioClass.getInstance().stopSystemAudioRecod();
+            }
+        });
+
         return view;
     }
 
@@ -73,6 +93,7 @@ public class NativeRenderFragment extends Fragment {
         super.onDetach();
     }
 
+    @SuppressLint("MissingPermission")
     public String getUUID(){
         String serial = null;
         String m_szDevIDShort = "35" +
@@ -85,7 +106,7 @@ public class NativeRenderFragment extends Fragment {
                 Build.USER.length() % 10;//13 位
         try {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                serial = android.os.Build.getSerial();
+                serial = Build.getSerial();
             } else {
                 serial = Build.SERIAL;
             }

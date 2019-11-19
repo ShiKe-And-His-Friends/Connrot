@@ -10,3 +10,7 @@
 /build
 /captures
 .externalNativeBuild
+/ijkplayer-example/build/
+/ijkplayer-example/*.iml
+/libuvccamera/build/
+/libuvccamera/*.iml

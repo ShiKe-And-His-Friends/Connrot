@@ -75,6 +75,16 @@ public class MainActivity extends BaseActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 23333);
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG,"Granted");
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 23333);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG,"Granted");
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 23333);
+        }
         super.onResume();
     }
 

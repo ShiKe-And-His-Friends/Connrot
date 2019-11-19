@@ -22,14 +22,14 @@ extern "C" {
 
 pthread_t countTimeThread;
 
-void *threadCallBack()
-{
-
-}
+//void *threadCallBack()
+//{
+//
+//}
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_startNativeThreadDemoOne(JNIEnv *env,
                                                                            jclass clazz) {
-    pthread_create(&countTimeThread,NULL,threadCallBack,NULL);
+//    pthread_create(&countTimeThread,NULL,threadCallBack,NULL);
 }
