@@ -85,7 +85,7 @@ public class VideoEncoder {
 
         mMediaFormat = MediaFormat.createVideoFormat(mimeType, mViewWidth, mViewHeight);
         mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 1920 * 1280);
+        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mViewWidth * mViewHeight);
         mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
         mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
     }

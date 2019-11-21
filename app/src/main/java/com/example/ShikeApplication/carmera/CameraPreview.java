@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Environment;
 import android.util.Log;
 
+import com.example.ShikeApplication.utils.CameraUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class CameraPreview implements Camera.PreviewCallback {
     private Camera mCamera;
     private SurfaceTexture mSurfaceTexture;
     private byte mBuffer[][];
+    private byte[] i420bytes;
 
     private Context mContext;
     private IFramePreviewInterface iFramePreviewInterface;
@@ -68,15 +71,18 @@ public class CameraPreview implements Camera.PreviewCallback {
             }
         }
         mCameraParameters.setPictureSize(previewWidth,previewHeight);
+        mCameraParameters.setPreviewFormat(ImageFormat.YV12);
         mCamera.setParameters(mCameraParameters);
 
         int mBufferSize = previewHeight * previewWidth;
-        mBufferSize = mBufferSize * ImageFormat.getBitsPerPixel(mCameraParameters.getPreviewFormat()) / 8 ;
+        mBufferSize = mBufferSize * ImageFormat.getBitsPerPixel(ImageFormat.YV12) / 8;
+        Log.d(TAG,"mCameraParameters.getPreviewFormat() =" + mCameraParameters.getPreviewFormat());
 
-
+        i420bytes = new byte[mBufferSize];
         byte[] buffer1 = new byte[mBufferSize];
+//        mCamera.addCallbackBuffer(buffer1);
         byte[] buffer2 = new byte[mBufferSize];
-        mCamera.addCallbackBuffer(buffer2);
+//        mCamera.addCallbackBuffer(buffer2);
 
         mBuffer = new byte[mBufferNum][];
         mBuffer[0] = buffer1;
@@ -84,7 +90,7 @@ public class CameraPreview implements Camera.PreviewCallback {
 
         mBufferFlop = 0;
 
-        mCamera.setPreviewCallbackWithBuffer(this);
+        mCamera.setPreviewCallback(this);
     }
 
     public boolean cameraOpen() {
@@ -160,19 +166,24 @@ public class CameraPreview implements Camera.PreviewCallback {
         //Log.d(TAG,"time1 =" + System.currentTimeMillis());
         //Log.d(TAG, "onPreviewFrame thread id:" + android.os.Process.myTid());
 
-        Log.e(TAG,"data = " + data.length);
+        if (data != null) {
+            Log.e(TAG,"data = " + data.length);
+            //CameraUtil.save(data,0,data.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video1.YV20",true);
+            //from YV20 TO i420
+            System.arraycopy(data, 0, i420bytes, 0, previewWidth * previewHeight);
+            System.arraycopy(data, previewWidth * previewHeight + previewWidth * previewHeight / 4, i420bytes, previewWidth * previewHeight, previewWidth * previewHeight / 4);
+            System.arraycopy(data, previewWidth * previewHeight, i420bytes, previewWidth * previewHeight + previewWidth * previewHeight / 4, previewWidth * previewHeight / 4);
 
-        //from YV20 TO i420
-        byte[] i420bytes = new byte[data.length];
-        System.arraycopy(data, 0, i420bytes, 0, previewWidth * previewHeight);
-        System.arraycopy(data, previewWidth * previewHeight + previewWidth * previewHeight / 4, i420bytes, previewWidth * previewHeight, previewWidth * previewHeight / 4);
-        System.arraycopy(data, previewWidth * previewHeight, i420bytes, previewWidth * previewHeight + previewWidth * previewHeight / 4, previewWidth * previewHeight / 4);
+//            camera.addCallbackBuffer(mBuffer[mBufferFlop]);
+            mBufferFlop = (mBufferFlop + 1) % mBufferNum;
 
-        camera.addCallbackBuffer(mBuffer[mBufferFlop]);
-        mBufferFlop = (mBufferFlop + 1) % mBufferNum;
-
-        if (iFramePreviewInterface != null) {
-            iFramePreviewInterface.handlePreviewFrame(data);
+            if (iFramePreviewInterface != null) {
+                //CameraUtil.save(i420bytes,0,i420bytes.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video2.i420",true);
+                iFramePreviewInterface.handlePreviewFrame(i420bytes);
+            }
+        } else {
+            Log.e(TAG,"data == null.");
         }
+
     }
 }

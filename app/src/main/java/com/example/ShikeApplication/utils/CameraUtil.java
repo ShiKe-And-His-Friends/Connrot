@@ -1,11 +1,68 @@
 package com.example.ShikeApplication.utils;
 
+import android.os.Environment;
+import android.util.Log;
+
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CameraUtil {
+    private static final String TAG = "CameraTwoUtils";
+
+    public static String getNowDateTime() {
+        String format = "yyyyMMddHHmmss";
+        SimpleDateFormat s_format = new SimpleDateFormat(format);
+        Date d_date = new Date();
+        String s_date = "";
+        s_date = s_format.format(d_date);
+        return s_date;
+    }
+
+    public static String getNowDateTimeFull() {
+        String format = "yyyyMMddHHmmssSSS";
+        SimpleDateFormat s_format = new SimpleDateFormat(format);
+        Date d_date = new Date();
+        String s_date = "";
+        s_date = s_format.format(d_date);
+        return s_date;
+    }
+
+    public static String getNowDateTimeFormat() {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat s_format = new SimpleDateFormat(format);
+        Date d_date = new Date();
+        String s_date = "";
+        s_date = s_format.format(d_date);
+        return s_date;
+    }
+
+    public static String getNowTime() {
+        SimpleDateFormat s_format = new SimpleDateFormat("HH:mm:ss");
+        return s_format.format(new Date());
+    }
+
+    public static String getRecordFilePath(String dir_name, String extend_name) {
+        String path = "";
+        File recordDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/" + dir_name + "/");
+        if (!recordDir.exists()) {
+            recordDir.mkdirs();
+        }
+        try {
+            File recordFile = File.createTempFile(CameraUtil.getNowDateTime(), extend_name, recordDir);
+            path = recordFile.getAbsolutePath();
+            Log.d(TAG, "dir_name="+dir_name+", extend_name="+extend_name+", path="+path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
 
     /**
      * 将YUV420SP数据顺时针旋转90度
@@ -108,6 +165,5 @@ public class CameraUtil {
         }
         return src;
     }
-
 
 }

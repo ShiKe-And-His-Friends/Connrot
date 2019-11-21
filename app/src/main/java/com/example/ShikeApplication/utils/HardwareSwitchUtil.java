@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.carmera.utils;
+package com.example.ShikeApplication.utils;
 
 import java.lang.reflect.Method;
 
@@ -16,8 +16,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
-public class SwitchUtil {
-	private static final String TAG = "SwitchUtil";
+public class HardwareSwitchUtil {
+	private static final String TAG = "HardwareSwitchUtil";
 
 	// 获取Gps的开关状态
 	public static boolean getGpsStatus(Context ctx) {
