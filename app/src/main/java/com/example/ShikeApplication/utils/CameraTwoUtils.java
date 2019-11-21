@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.carmera.utils;
+package com.example.ShikeApplication.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -6,8 +6,8 @@ import java.util.Date;
 import android.annotation.SuppressLint;
 
 @SuppressLint("SimpleDateFormat")
-public class Utils {
-	private static final String TAG = "Utils";
+public class CameraTwoUtils {
+	private static final String TAG = "CameraTwoUtils";
 
 	public static String getNowDateTime() {
 		String format = "yyyyMMddHHmmss";

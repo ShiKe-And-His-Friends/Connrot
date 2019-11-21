@@ -5,6 +5,8 @@ import java.io.File;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.ShikeApplication.utils.CameraTwoUtils;
+
 public class MediaUtil {
 	private final static String TAG = "MediaUtil";
 
@@ -16,7 +18,7 @@ public class MediaUtil {
 			recordDir.mkdirs();
 		}
 		try {
-			File recordFile = File.createTempFile(Utils.getNowDateTime(), extend_name, recordDir);
+			File recordFile = File.createTempFile(CameraTwoUtils.getNowDateTime(), extend_name, recordDir);
 			path = recordFile.getAbsolutePath();
 			Log.d(TAG, "dir_name="+dir_name+", extend_name="+extend_name+", path="+path);
 		} catch (Exception e) {

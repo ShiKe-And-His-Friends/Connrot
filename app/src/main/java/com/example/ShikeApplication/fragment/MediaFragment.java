@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.ShikeApplication.carmera.CameraPreview;
+import com.example.ShikeApplication.carmera.IFramePreviewInterface;
 import com.example.ShikeApplication.mediacodec.VideoDecoder;
 import com.example.ShikeApplication.mediacodec.VideoEncoder;
 import com.example.ShikeApplication.R;
@@ -28,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MediaFragment extends Fragment {
+public class MediaFragment extends Fragment implements IFramePreviewInterface {
 
     private final static String TAG = "MediaFragment";
     private final static String MIME_FORMAT = "video/avc"; //support h.264
@@ -42,6 +44,7 @@ public class MediaFragment extends Fragment {
     private static volatile MediaFragment mediaFragment;
     private VideoDecoder mVideoDecoder;
     private VideoEncoder mVideoEncoder;
+    private CameraPreview mCameraPreview;
 
     private Camera mCamera;
     private int mPreviewWidth;
@@ -60,27 +63,16 @@ public class MediaFragment extends Fragment {
         return mediaFragment;
     }
 
-    private Camera.PreviewCallback mPreviewCallBack = new Camera.PreviewCallback() {
-        @Override
-        public void onPreviewFrame(byte[] bytes, Camera camera) {
-            Log.e(TAG, "onPreviewFrame");
-            byte[] i420bytes = new byte[bytes.length];
-            //from YV20 TO i420
-            System.arraycopy(bytes, 0, i420bytes, 0, mPreviewWidth * mPreviewHeight);
-            System.arraycopy(bytes, mPreviewWidth * mPreviewHeight + mPreviewWidth * mPreviewHeight / 4, i420bytes, mPreviewWidth * mPreviewHeight, mPreviewWidth * mPreviewHeight / 4);
-            System.arraycopy(bytes, mPreviewWidth * mPreviewHeight, i420bytes, mPreviewWidth * mPreviewHeight + mPreviewWidth * mPreviewHeight / 4, mPreviewWidth * mPreviewHeight / 4);
-            if(mVideoEncoder != null) {
-                mVideoEncoder.inputFrameToEncoder(i420bytes);
-            }
-        }
-    };
-
     private TextureView.SurfaceTextureListener mCameraTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             Log.e(TAG, "onSurfaceTextureAvailable");
-            openCamera(surfaceTexture,i, i1);
-            mVideoEncoder = new VideoEncoder(MIME_FORMAT, mPreviewWidth, mPreviewHeight);
+            mCameraPreview.setSurfaceTexture(surfaceTexture);
+            mCameraPreview.cameraOpen();
+            mPreviewWidth = mCameraPreview.getPreviewWidth();
+            mPreviewHeight = mCameraPreview.getPreviewHeight();
+            mCameraPreview.startCamera();
+            mVideoEncoder = new VideoEncoder(MIME_FORMAT, mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
             mVideoEncoder.startEncoder();
         }
 
@@ -95,7 +87,7 @@ public class MediaFragment extends Fragment {
             if(mVideoEncoder != null){
                 mVideoEncoder.release();
             }
-            closeCamera();
+            mCameraPreview.cameraClose();
             return true;
         }
 
@@ -110,7 +102,7 @@ public class MediaFragment extends Fragment {
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             Log.e(TAG, "onSurfaceTextureAvailable");
             Log.e(TAG, "----------" + i + " ," + i1);
-            mVideoDecoder = new VideoDecoder(MIME_FORMAT, new Surface(surfaceTexture), mPreviewWidth, mPreviewHeight);
+            mVideoDecoder = new VideoDecoder(MIME_FORMAT, new Surface(surfaceTexture), mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
             mVideoDecoder.setEncoder(mVideoEncoder);
             mVideoDecoder.startDecoder();
         }
@@ -138,6 +130,8 @@ public class MediaFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_media,container,false);
         unbinder = ButterKnife.bind(this,view);
+        mCameraPreview = new CameraPreview(this.getContext());
+        mCameraPreview.setPreviewFrameHandler(this);
         initView();
         return view;
     }
@@ -163,47 +157,10 @@ public class MediaFragment extends Fragment {
         mDecodeTexture.setSurfaceTextureListener(mDecodeTextureListener);
     }
 
-    private void openCamera(SurfaceTexture texture,int width, int height){
-        if(texture == null){
-            Log.e(TAG, "openCamera need SurfaceTexture");
-            return;
-        }
-
-        mCamera = Camera.open(0);
-        try{
-            mCamera.setPreviewTexture(texture);
-            Camera.Parameters parameters = mCamera.getParameters();
-            parameters.setPreviewFormat(ImageFormat.YV12);
-            List<Camera.Size> list = parameters.getSupportedPreviewSizes();
-            for(Camera.Size size: list){
-                System.out.println("----size width = " + size.width + " size height = " + size.height);
-            }
-
-            mPreviewWidth = 640;
-            mPreviewHeight = 480;
-            parameters.setPreviewSize(mPreviewWidth,mPreviewHeight);
-            mCamera.setParameters(parameters);
-            mCamera.setPreviewCallback(mPreviewCallBack);
-            mCamera.startPreview();
-        }catch(IOException e){
-            Log.e(TAG, Log.getStackTraceString(e));
-            mCamera = null;
+    @Override
+    public void handlePreviewFrame(byte[] cameraFrameDate) {
+        if (mVideoEncoder != null) {
+            mVideoEncoder.inputFrameToEncoder(cameraFrameDate);
         }
     }
-
-    private void closeCamera(){
-        if(mCamera == null){
-            Log.e(TAG, "Camera not open");
-            return;
-        }
-        mCamera.stopPreview();
-        mCamera.release();
-        try {
-            throw  new IllegalAccessException();
-        } catch (Exception e){
-            e.printStackTrace();
-            CrashReport.postCatchedException(e);
-        }
-    }
-
 }
