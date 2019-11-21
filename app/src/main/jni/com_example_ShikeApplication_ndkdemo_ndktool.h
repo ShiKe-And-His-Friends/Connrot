@@ -4,11 +4,4 @@
 
 #ifndef _Included_com_example_ShikeApplication_ndkdemo_ndktool
 #define _Included_com_example_ShikeApplication_ndkdemo_ndktool
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef __cplusplus
-}
-#endif
 #endif
