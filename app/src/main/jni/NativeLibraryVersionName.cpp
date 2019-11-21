@@ -22,7 +22,7 @@ extern "C" {
 
 pthread_t countTimeThread;
 
-//void *threadCallBack()
+//void *threadCallBack(void *)
 //{
 //
 //}

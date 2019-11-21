@@ -8,11 +8,16 @@ include $(CLEAR_VARS)
 
 # Different *.so file
 LOCAL_MODULE := connrot-jni
-APP_PLATFORM := android-28
-app_abi := arm64-v8a armeabi-v7a x86 x86_64
+# APP_PLATFORM := android-28
+app_abi := all
 
 # List the set of C/C++ files that will compile.Not include *.H file
 LOCAL_SRC_FILES := MainConnrotNativeThread.c
+rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+MY_ALL_FILES := $(foreach src_path,$(MY_FILES_PATH), $(call rwildcard,$(src_path),*.*) )
+MY_ALL_FILES := $(MY_ALL_FILES:$(MY_CPP_PATH)/./%=$(MY_CPP_PATH)%)
+MY_SRC_LIST  := $(filter $(MY_FILES_SUFFIX),$(MY_ALL_FILES))
+LOCAL_SRC_FILES  := $(MY_SRC_LIST)
 
 # Collect  all type files After CLEAR_VARS script run ,like LOCAL_xxxinx
 # BUILD_STATIC_LIBRARY  a Type Static Library
