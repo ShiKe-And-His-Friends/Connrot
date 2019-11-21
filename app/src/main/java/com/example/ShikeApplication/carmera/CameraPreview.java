@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CameraPreview implements Camera.PreviewCallback {
     private static final String TAG = "CameraPreview";
-    public static int PREVIEW_DEFAULT_HEIGHT = 960;
+    public static int PREVIEW_DEFAULT_HEIGHT = 720;
     public static int PREVIEW_DEFAULT_WIDTH = 1280;
     private static final int MY_TEXTURE_ID = 123321;
 
@@ -60,6 +60,8 @@ public class CameraPreview implements Camera.PreviewCallback {
         for (int i = 1 ; i < mCameraSize.size() ; i++) {
             int sizeSimilarity = Math.abs(mCameraSize.get(i).height - PREVIEW_DEFAULT_HEIGHT)
                     + Math.abs(mCameraSize.get(i).width - PREVIEW_DEFAULT_WIDTH);
+            Log.d(TAG,"mCameraParameters.getSupportedPreviewSizes(" + i + ") ="
+                    + mCameraSize.get(i).height+ ","+mCameraSize.get(i).width);
             if (sizeSimilarity <= 0) {
                 previewHeight = mCameraSize.get(i).height;
                 previewWidth = mCameraSize.get(i).width;
@@ -77,6 +79,7 @@ public class CameraPreview implements Camera.PreviewCallback {
         int mBufferSize = previewHeight * previewWidth;
         mBufferSize = mBufferSize * ImageFormat.getBitsPerPixel(ImageFormat.YV12) / 8;
         Log.d(TAG,"mCameraParameters.getPreviewFormat() =" + mCameraParameters.getPreviewFormat());
+        Log.d(TAG,"mBufferSize =" + mBufferSize);
 
         i420bytes = new byte[mBufferSize];
         byte[] buffer1 = new byte[mBufferSize];
@@ -167,7 +170,7 @@ public class CameraPreview implements Camera.PreviewCallback {
         //Log.d(TAG, "onPreviewFrame thread id:" + android.os.Process.myTid());
 
         if (data != null) {
-            Log.e(TAG,"data = " + data.length);
+            Log.i(TAG,"data = " + data.length);
             //CameraUtil.save(data,0,data.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video1.YV20",true);
             //from YV20 TO i420
             System.arraycopy(data, 0, i420bytes, 0, previewWidth * previewHeight);
