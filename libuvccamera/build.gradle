@@ -58,8 +58,8 @@ String getNdkBuildPath() {
 	properties.load(project.rootProject.file('local.properties').newDataInputStream())
 	def ndkBuildingDir = properties.getProperty("ndk.dir")
 	def ndkBuildPath = ndkBuildingDir
-		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd'
-		ndkBuildPath = ndkBuildingDir + '/ndk-build'
+		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd' //Windows Ndk command
+		//ndkBuildPath = ndkBuildingDir + '/ndk-build' //Linus Ndk command
 	return ndkBuildPath
 }
 

@@ -17,6 +17,7 @@ To build libusb for Android do the following:
  4. Change directory to libusb's "android/jni"
 
  5. Run "$NDK/ndk-build".
+ 5. Run "$NDK\ndk-build".
 
 The libusb library, examples and tests can then be found in:
     "android/libs/$ARCH"
