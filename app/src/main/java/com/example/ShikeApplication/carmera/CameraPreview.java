@@ -177,7 +177,7 @@ public class CameraPreview implements Camera.PreviewCallback {
 //            System.arraycopy(data, 0, i420bytes, 0, previewWidth * previewHeight);
 //            System.arraycopy(data, previewWidth * previewHeight + previewWidth * previewHeight / 4, i420bytes, previewWidth * previewHeight, previewWidth * previewHeight / 4);
 //            System.arraycopy(data, previewWidth * previewHeight, i420bytes, previewWidth * previewHeight + previewWidth * previewHeight / 4, previewWidth * previewHeight / 4);
-//            camera.addCallbackBuffer(mBuffer[mBufferFlop]);
+            camera.addCallbackBuffer(mBuffer[mBufferFlop]);
             mBufferFlop = (mBufferFlop + 1) % mBufferNum;
 
             System.arraycopy(data, 0, i420bytes, 0,i420bytes.length);
