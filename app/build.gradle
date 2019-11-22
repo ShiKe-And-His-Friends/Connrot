@@ -13,7 +13,7 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-                abiFilters "arm64-v8a","armeabi-v7a","armeabi", "x86", 'x86_64'
+                abiFilters "arm64-v8a","armeabi-v7a", "x86", 'x86_64'
             }
 //            ndk {
 //                moduleName "connrot-jni"
@@ -43,9 +43,9 @@ android {
         cmake {
             path "CMakeLists.txt"
         }
-        ndkBuild {
-            path 'src/main/jni/Android.mk'
-        }
+//        ndkBuild {
+//            path 'src/main/jni/Android.mk'
+//        }
     }
     compileOptions {
         sourceCompatibility javaSourceCompatibility
