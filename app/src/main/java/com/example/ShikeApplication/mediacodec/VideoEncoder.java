@@ -72,8 +72,8 @@ public class VideoEncoder {
     public VideoEncoder(int viewwidth, int viewheight){
         try {
             mMediaCodec = MediaCodec.createEncoderByType(MediaConstant.MimeTypeVideoList[0]);
-            MediaConstant.setEncoderSupportVideoWidth(viewwidth);
-            MediaConstant.setEncoderSupportVideoHeight(viewheight);
+            MediaConstant.setEncoderSupportVideoWidth(1920);
+            MediaConstant.setEncoderSupportVideoHeight(1080);
             MediaConstant.getSupportEncodeFormat();
         } catch (IOException e) {
             Log.e(TAG, Log.getStackTraceString(e));

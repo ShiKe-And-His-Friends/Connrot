@@ -2,6 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/native_fragment_body_margin"
+    android:layout_marginRight="@dimen/native_fragment_body_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent">
 
@@ -9,25 +11,56 @@
         android:id="@+id/ijkplayer_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/native_fragment_sub_margin_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ijkplayer"/>
 
-    <Button
-        android:id="@+id/native_thread_start_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/native_thread_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Native pthread"
+        android:layout_marginTop="@dimen/native_fragment_sub_margin_top"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="@+id/ijkplayer_button"
-        app:layout_constraintTop_toBottomOf="@+id/ijkplayer_button"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/ijkplayer_button">
+        <Button
+            android:id="@+id/native_thread_start_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Native pthread"
+            />
+        <Button
+            android:id="@+id/native_thread_set_normal_thread_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="setNormalThread"
+            />
+        <Button
+            android:id="@+id/native_thread_set_mutex_thread_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="setMutexThread"
+            />
+        <Button
+            android:id="@+id/native_thread_call_back_from_c_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="setCallbackFromC"
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/native_fragment_sub_margin_top"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/native_thread_start_button"
+        app:layout_constraintTop_toBottomOf="@+id/native_thread_layout"
         >
         <Button
             android:id="@+id/audio_service_start"
