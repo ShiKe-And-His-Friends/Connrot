@@ -1,3 +1,5 @@
+# departed in 2019/11/25. Using Cmake
+
 # Return *.mk dir by build system
 LOCAL_PATH := $(call my-dir)
 NDK_PROJECT_PATH := $(call my-dir)

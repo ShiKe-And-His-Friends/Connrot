@@ -6,9 +6,9 @@ cmake_minimum_required(VERSION 3.4.1)
 
 aux_source_directory( ./src/main/jni NATIVE_BASE_SRC )
 aux_source_directory( ./src/main/cpp THREAD_SRC )
-aux_source_directory( ./src/main/cpp/ThreadDemo THREAD_Demo_SRC )
+#aux_source_directory( ./src/main/cpp/ThreadDemo THREAD_Demo_SRC )
 list(APPEND NATIVE_BASE_SRC ${THREAD_SRC})
-list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
+#list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -16,7 +16,7 @@ list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-        connrotCmake-jni
+        connrot-jni
 
         # Sets the library as a shared library.
         SHARED
@@ -44,7 +44,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-        connrotCmake-jni
+        connrot-jni
 
         # Links the target library to the log library
         # included in the NDK.

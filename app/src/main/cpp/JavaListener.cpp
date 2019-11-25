@@ -1,5 +1,5 @@
 // Created by yangw on 2018-2-25.
-#include "..//jni//com_example_ShikeApplication_ndkdemo_ndktool.h"
+#include "ThreadDemo/JavaListener.h"
 
 void JavaListener::onError(int type, int code, const char *msg) {
 
@@ -37,5 +37,4 @@ JavaListener::JavaListener(JavaVM *vm, _JNIEnv *env, jobject obj) {
     jmid = env->GetMethodID(clz, "onError", "(ILjava/lang/String;)V");
     if(!jmid)
         return;
-
 }

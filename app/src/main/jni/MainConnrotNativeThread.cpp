@@ -98,7 +98,7 @@ extern "C"  JNIEXPORT void JNICALL Java_com_example_ShikeApplication_ndkdemo_ndk
     pthread_create(&custom, NULL, customCallback, NULL);
 }
 
-#include "../cpp/JavaListener.cpp"
+#include "../cpp/ThreadDemo/JavaListener.h"
 
 JavaVM *jvm;
 
