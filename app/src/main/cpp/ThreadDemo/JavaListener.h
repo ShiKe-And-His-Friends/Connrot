@@ -1,4 +1,5 @@
 // Created by shike on 2019/11/25.
+#include "../../jni/com_example_ShikeApplication_ndkdemo_ndktool.h"
 #ifndef CONNROT_JAVALISTENER_H
 #define CONNROT_JAVALISTENER_H
 class JavaListener {

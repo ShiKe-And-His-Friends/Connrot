@@ -1,4 +1,5 @@
 // Created by yangw on 2018-2-24.
+#include "../../jni/com_example_ShikeApplication_ndkdemo_ndktool.h"
 #ifndef JNITHREAD_ANDROIDLOG_H_H
 #define JNITHREAD_ANDROIDLOG_H_H
 

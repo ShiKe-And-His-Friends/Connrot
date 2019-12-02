@@ -14,6 +14,10 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
     }
 
     @Override
@@ -25,5 +29,6 @@ public class SplashActivity extends BaseActivity {
         alphaAnimation.setInterpolator(overshootInterpolator);
         alphaAnimation.start();
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

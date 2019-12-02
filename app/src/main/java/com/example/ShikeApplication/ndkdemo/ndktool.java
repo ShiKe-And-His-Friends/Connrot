@@ -3,6 +3,13 @@ package com.example.ShikeApplication.ndkdemo;
 public class ndktool {
     static {
         System.loadLibrary("connrot-jni");
+//        System.loadLibrary("swresample");
+//        System.loadLibrary("avcodec");
+//        System.loadLibrary("avformat");
+//        System.loadLibrary("swscale");
+//        System.loadLibrary("postproc");
+//        System.loadLibrary("avfilter");
+//        System.loadLibrary("avdevice");
 //        System.loadLibrary("ijkffmpeg");
     }
 
