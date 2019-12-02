@@ -134,3 +134,44 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void* reserved)
     }
     return JNI_VERSION_1_6;
 }
+
+#include "../cpp/ffmpeg/VideoEncoder.cpp"
+VideoEncoder *videoEncoder = NULL;
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoStart
+(JNIEnv *env, jclass clazz,jstring video_loacl_path,jint video_in_stream_width,jint video_in_stream_height) {
+    // TODO: implement encoderMP4VideoStart()
+    const char *mp4Path = env->GetStringUTFChars(video_loacl_path, NULL);
+    if (videoEncoder == NULL) {
+        videoEncoder = new MP4Encoder();
+    }
+    videoEncoder->InitEncoder(mp4Path, video_in_stream_width, video_in_stream_height);
+    videoEncoder->EncodeStart();
+
+    env->ReleaseStringUTFChars(video_loacl_path, mp4Path);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoEnd
+(JNIEnv *env, jclass clazz) {
+    // TODO: implement encoderMP4VideoEnd()
+    if (NULL != videoEncoder) {
+        videoEncoder->EncodeStop();
+        videoEncoder = NULL;
+    }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoOnPrevireFrame
+(JNIEnv *env,jclass clazz,jbyteArray raw_yuv_date,jint video_in_stream_width,jint video_in_stream_height) {
+    // TODO: implement encoderMP4VideoOnPrevireFrame()
+    if (NULL != videoEncoder && videoEncoder->isTransform()) {
+        jbyte *yuv420Buffer = env->GetByteArrayElements(raw_yuv_date, 0);
+        videoEncoder->EncodeBuffer((unsigned char *) yuv420Buffer);
+        env->ReleaseByteArrayElements(raw_yuv_date, yuv420Buffer, 0);
+    }
+}
