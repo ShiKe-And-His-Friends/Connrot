@@ -3,29 +3,32 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
 
-aux_source_directory( ./src/main/jni NATIVE_BASE_SRC )
-aux_source_directory( ./src/main/cpp THREAD_SRC )
+aux_source_directory( . NATIVE_BASE_SRC )
+aux_source_directory( ../cpp THREAD_SRC )
 set(path_project ./src/main/libs)
+#
 #aux_source_directory( ./src/main/cpp/ThreadDemo THREAD_Demo_SRC )
-list(APPEND NATIVE_BASE_SRC ${THREAD_SRC})
 #list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
+#
+list(APPEND NATIVE_BASE_SRC ${THREAD_SRC})
 
+# Add Third part header linked file
+#
 #include_directories(src/main/cpp/include/libavcodec)
-target_include_directories(avcodec
-        PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
-
 add_library( # Sets the name of the library.
         connrot-jni
         # Sets the library as a shared library.
         SHARED
         # Provides a relative path to your source file(s).
         ${NATIVE_BASE_SRC}
+        #${CMAKE_SOURCE_DIR}/src/main/jni/com_example_ShikeApplication_ndkdemo_ndktool.h,
+        #${CMAKE_SOURCE_DIR}/src/main/jni/MainConnrotNativeThread.cpp,
+        #${CMAKE_SOURCE_DIR}/src/main/cpp/JavaListener.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -33,20 +36,28 @@ add_library( # Sets the name of the library.
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
+target_include_directories(
+        connrot-jni
+        PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
+
+# Specifies libraries CMake should link to your target library. You
+# can link multiple libraries, such as libraries you define in this
+# build script, prebuilt third-party libraries, or system libraries.
+#
+#target_include_directories(avcodec
+#        PRIVATE
+#        ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
+
+add_library(avcodec SHARED IMPORTED)
+set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION
+        ${CMAKE_SOURCE_DIR}/src/main/libs/${ANDROID_ABI}/libavcodec.so)
 
 find_library( # Sets the name of the path variable.
         log-lib
         # Specifies the name of the NDK library that
         # you want CMake to locate.
         log )
-
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in this
-# build script, prebuilt third-party libraries, or system libraries.
-#
-add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/src/main/libs/${ANDROID_ABI}/libavcodec.so)
 
 #add_library(avdevice SHARED IMPORTED)
 #set_target_properties(avdevice PROPERTIES IMPORTED_LOCATION
@@ -93,5 +104,5 @@ set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION
 
 target_link_libraries( # Specifies the target library.
         connrot-jni
-        avcodec
+        ${avcodec}
         ${log-lib} )
