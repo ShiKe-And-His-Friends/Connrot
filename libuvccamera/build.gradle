@@ -58,8 +58,8 @@ String getNdkBuildPath() {
 	properties.load(project.rootProject.file('local.properties').newDataInputStream())
 	def ndkBuildingDir = properties.getProperty("ndk.dir")
 	def ndkBuildPath = ndkBuildingDir
-		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd'
-		ndkBuildPath = ndkBuildingDir + '/ndk-build'
+		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd' //Windows Ndk command
+		//ndkBuildPath = ndkBuildingDir + '/ndk-build' //Linus Ndk command
 	return ndkBuildPath
 }
 
@@ -78,8 +78,8 @@ task ndkClean(type: Exec, description: 'clean JNI libraries') {
 clean.dependsOn 'ndkClean'
 
 dependencies {
-    implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
-
-	implementation "com.android.support:support-v4:${supportLibVersion}"
-	implementation "com.android.support:support-annotations:${supportLibVersion}"
+    api fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
+	api "com.android.support:support-v4:${supportLibVersion}"
+	api "com.android.support:support-annotations:${supportLibVersion}"
+	api("com.serenegiant:common:${rootProject.ext.commonLibVersion}")
 }
