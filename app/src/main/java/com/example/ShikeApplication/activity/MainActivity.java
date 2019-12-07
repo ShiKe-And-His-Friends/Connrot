@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 23333);
         }
+
         super.onResume();
     }
 
