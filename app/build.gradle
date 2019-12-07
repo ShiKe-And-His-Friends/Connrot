@@ -47,6 +47,11 @@ android {
 //            path 'src/main/jni/Android.mk'
 //        }
     }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/src']
+        }
+    }
     compileOptions {
         sourceCompatibility javaSourceCompatibility
         targetCompatibility javaTargetCompatibility
@@ -62,6 +67,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    compile project(path: ':libuvccamera')
 }
 repositories {
     mavenCentral()

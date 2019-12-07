@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.carmera.CameraSurfaceView;
 import com.example.ShikeApplication.ndkdemo.ndktool;
+import com.serenegiant.usb.USBMonitor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +34,8 @@ public class HomeFragment extends Fragment {
 //    @BindView(R.id.carmare_surface_view)
 //    CameraSurfaceView surfaceView;
     Unbinder unbinder;
+
+    private USBMonitor mUSBMonitor;
 
     private HomeFragment() {
     }
