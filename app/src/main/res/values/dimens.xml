@@ -3,4 +3,6 @@
     <dimen name="fragment_home_below_button_size">25sp</dimen>
     <dimen name="activity_main_tab_linearlayout_height">30dp</dimen>
     <dimen name="activity_main_padding_top">10dp</dimen>
+    <dimen name="native_fragment_sub_margin_top">6dp</dimen>
+    <dimen name="native_fragment_body_margin">5dp</dimen>
 </resources>

@@ -1,13 +1,15 @@
 package com.example.ShikeApplication.mediacodec;
 
 import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.example.ShikeApplication.utils.CameraUtil;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -19,8 +21,6 @@ public class VideoEncoder {
 
     private MediaCodec  mMediaCodec;
     private MediaFormat mMediaFormat;
-    private int         mViewWidth;
-    private int         mViewHeight;
 
     private Handler mVideoEncoderHandler;
     private HandlerThread mVideoEncoderHandlerThread = new HandlerThread("VideoEncoder");
@@ -52,7 +52,8 @@ public class VideoEncoder {
                 byte [] buffer = new byte[outputBuffer.remaining()];
                 outputBuffer.get(buffer);
                 boolean result = mOutputDatasQueue.offer(buffer);
-                Log.d(TAG, "Offer to queue failed, queue in full state");
+                CameraUtil.save(buffer,0,buffer.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video.h264",true);
+                Log.d(TAG, "Offer to queue success.");
             }
             mMediaCodec.releaseOutputBuffer(id, true);
         }
@@ -68,26 +69,26 @@ public class VideoEncoder {
         }
     };
 
-    public VideoEncoder(String mimeType, int viewwidth, int viewheight){
+    public VideoEncoder(int viewwidth, int viewheight){
         try {
-            mMediaCodec = MediaCodec.createEncoderByType(mimeType);
+            mMediaCodec = MediaCodec.createEncoderByType(MediaConstant.MimeTypeVideoList[0]);
+            MediaConstant.setEncoderSupportVideoWidth(1920);
+            MediaConstant.setEncoderSupportVideoHeight(1080);
+            MediaConstant.getSupportEncodeFormat();
         } catch (IOException e) {
             Log.e(TAG, Log.getStackTraceString(e));
             mMediaCodec = null;
             return;
         }
 
-        this.mViewWidth  = viewwidth;
-        this.mViewHeight = viewheight;
-
         mVideoEncoderHandlerThread.start();
         mVideoEncoderHandler = new Handler(mVideoEncoderHandlerThread.getLooper());
 
-        mMediaFormat = MediaFormat.createVideoFormat(mimeType, mViewWidth, mViewHeight);
-        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, mViewWidth * mViewHeight);
-        mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
-        mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+        mMediaFormat = MediaFormat.createVideoFormat(MediaConstant.MimeTypeVideoList[0], MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight());
+        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaConstant.VIDEO_CODEC_COLOR_FORMAT);
+        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, MediaConstant.calcBitRate( MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight() ));
+        mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, MediaConstant.FrameRate);
+        mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL ,MediaConstant.FrameInterval);
     }
 
     /**

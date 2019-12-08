@@ -33,7 +33,6 @@ import butterknife.Unbinder;
 public class MediaFragment extends Fragment implements IFramePreviewInterface {
 
     private final static String TAG = "MediaFragment";
-    private final static String MIME_FORMAT = "video/avc"; //support h.264
 
     @BindView(R.id.camera)
     TextureView mCameraTexture;
@@ -46,9 +45,7 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
     private VideoEncoder mVideoEncoder;
     private CameraPreview mCameraPreview;
 
-    private Camera mCamera;
-    private int mPreviewWidth;
-    private int mPreviewHeight;
+
 
     private MediaFragment(){}
 
@@ -69,10 +66,8 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
             Log.e(TAG, "onSurfaceTextureAvailable");
             mCameraPreview.setSurfaceTexture(surfaceTexture);
             mCameraPreview.cameraOpen();
-            mPreviewWidth = mCameraPreview.getPreviewWidth();
-            mPreviewHeight = mCameraPreview.getPreviewHeight();
             mCameraPreview.startCamera();
-            mVideoEncoder = new VideoEncoder(MIME_FORMAT, mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
+            mVideoEncoder = new VideoEncoder(mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
             mVideoEncoder.startEncoder();
         }
 
@@ -102,7 +97,7 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             Log.e(TAG, "onSurfaceTextureAvailable");
             Log.e(TAG, "----------" + i + " ," + i1);
-            mVideoDecoder = new VideoDecoder(MIME_FORMAT, new Surface(surfaceTexture), mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
+            mVideoDecoder = new VideoDecoder(new Surface(surfaceTexture));
             mVideoDecoder.setEncoder(mVideoEncoder);
             mVideoDecoder.startDecoder();
         }

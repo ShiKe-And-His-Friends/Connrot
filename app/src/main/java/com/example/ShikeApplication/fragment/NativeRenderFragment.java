@@ -18,6 +18,9 @@ import androidx.annotation.Nullable;
 
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.audioProcess.AudioClass;
+import com.example.ShikeApplication.ndkdemo.CallbackInterface.JavaNdkListener;
+import com.example.ShikeApplication.ndkdemo.CallbackInterface.ThreadErrorListener;
+import com.example.ShikeApplication.ndkdemo.ndktool;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.UUID;
@@ -25,6 +28,7 @@ import java.util.UUID;
 public class NativeRenderFragment extends Fragment {
 
     private static volatile NativeRenderFragment nativeRenderFragment;
+    private static final String TAG = "NativeRenderFragment";
 
     public static NativeRenderFragment getInstance(){
         if(nativeRenderFragment == null){
@@ -48,7 +52,10 @@ public class NativeRenderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nativerendler,container,false);
         Button ijkPlayerButton = (Button)view.findViewById(R.id.ijkplayer_button);
-        Button startThreadButton = (Button)view.findViewById(R.id.ijkplayer_button);
+        Button startThreadButton = (Button)view.findViewById(R.id.native_thread_start_button);
+        Button setNormalThreadButton = (Button)view.findViewById(R.id.native_thread_set_normal_thread_button);
+        Button setMutexThreadButton = (Button)view.findViewById(R.id.native_thread_set_mutex_thread_button);
+        Button callBackCMethodsButton = (Button)view.findViewById(R.id.native_thread_call_back_from_c_button);
         Button startAudioThreadButton = (Button)view.findViewById(R.id.audio_service_start);
         Button stopAudioThreadButton = (Button)view.findViewById(R.id.audio_service_stop);
         ijkPlayerButton.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +68,24 @@ public class NativeRenderFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        setNormalThreadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ndktool.setNormalThread();
+            }
+        });
+        setMutexThreadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ndktool.setMutexThread();
+            }
+        });
+        callBackCMethodsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ndktool.setCallbackFromC();
             }
         });
         startAudioThreadButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +102,14 @@ public class NativeRenderFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AudioClass.getInstance().stopSystemAudioRecod();
+            }
+        });
+
+        JavaNdkListener javaNdkListener = new JavaNdkListener();
+        javaNdkListener.setOnErrerListener(new ThreadErrorListener() {
+            @Override
+            public void onError(int code, String msg) {
+                Log.d(TAG, "code = " + code + " msg = " + msg);
             }
         });
 

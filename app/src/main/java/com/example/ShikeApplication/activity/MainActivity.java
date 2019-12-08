@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_temp);
         unbinder =  ButterKnife.bind(this);
         CrashReport.setUserSceneTag(this,102 );
 
@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 23333);
         }
+
         super.onResume();
     }
 

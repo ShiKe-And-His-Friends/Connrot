@@ -20,8 +20,6 @@ public class VideoDecoder {
     private MediaCodec  mMediaCodec;
     private MediaFormat mMediaFormat;
     private Surface     mSurface;
-    private int         mViewWidth;
-    private int         mViewHeight;
 
     private VideoEncoder mVideoEncoder;
     private Handler mVideoDecoderHandler;
@@ -69,9 +67,9 @@ public class VideoDecoder {
         }
     };
 
-    public VideoDecoder(String mimeType, Surface surface, int viewwidth, int viewheight){
+    public VideoDecoder(Surface surface){
         try {
-            mMediaCodec = MediaCodec.createDecoderByType(mimeType);
+            mMediaCodec = MediaCodec.createDecoderByType(MediaConstant.MimeTypeVideoList[0]);
         } catch (IOException e) {
             Log.e(TAG, Log.getStackTraceString(e));
             mMediaCodec = null;
@@ -81,19 +79,16 @@ public class VideoDecoder {
         if(surface == null){
             return;
         }
-
-        this.mViewWidth  = viewwidth;
-        this.mViewHeight = viewheight;
         this.mSurface = surface;
 
         mVideoDecoderHandlerThread.start();
         mVideoDecoderHandler = new Handler(mVideoDecoderHandlerThread.getLooper());
 
-        mMediaFormat = MediaFormat.createVideoFormat(mimeType, mViewWidth, mViewHeight);
-        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 1920 * 1280);
-        mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
-        mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+        mMediaFormat = MediaFormat.createVideoFormat(MediaConstant.MimeTypeVideoList[0], MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight());
+        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaConstant.VIDEO_CODEC_COLOR_FORMAT);
+        mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, MediaConstant.calcBitRate( MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight() ));
+        mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, MediaConstant.FrameRate);
+        mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL ,MediaConstant.FrameInterval);
     }
 
     public void setEncoder(VideoEncoder videoEncoder){
