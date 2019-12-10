@@ -4,25 +4,27 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
-public class GLSLSurfaceView extends GLSurfaceView {
+public class OpenGlElSurfaceView extends GLSurfaceView {
 
-    private GLELRender mGLELRender;
-    public GLSLSurfaceView(Context context) {
+    private OpenGlElRender mOpenGlElRender;
+
+    public OpenGlElSurfaceView(Context context) {
         this(context,null);
     }
 
-    public GLSLSurfaceView(Context context, AttributeSet attrs) {
+    public OpenGlElSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(2);
-        mGLELRender = new GLELRender(context);
-        setRenderer(mGLELRender);
+        mOpenGlElRender = new OpenGlElRender(context);
+        setRenderer(mOpenGlElRender);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);//requestRender()时不会重复渲染
     }
 
     public void setYUVData(int width,int height,byte[] y,byte[] u,byte[] v){
-        if (mGLELRender != null) {
-            mGLELRender.setYUVRenderData(width, height, y, u, v);
+        if (mOpenGlElRender != null) {
+            mOpenGlElRender.setYUVRenderData(width, height, y, u, v);
             requestRender();
         }
     }
+
 }

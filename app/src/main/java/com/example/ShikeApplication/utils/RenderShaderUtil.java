@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class JfShaderUtil {
+public class RenderShaderUtil {
     public static String readRawTxt(Context context, int rawId) {
         InputStream inputStream = context.getResources().openRawResource(rawId);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
