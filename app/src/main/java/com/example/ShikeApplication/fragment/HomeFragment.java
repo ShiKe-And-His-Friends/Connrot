@@ -9,23 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.example.ShikeApplication.R;
-import com.example.ShikeApplication.carmera.CameraSurfaceView;
 import com.example.ShikeApplication.ndkdemo.ndktool;
-import com.example.ShikeApplication.opengl.GLSLPlayer;
-import com.example.ShikeApplication.opengl.GLSLSurfaceView;
+import com.example.ShikeApplication.opengl.OpenGlElPlayer;
+import com.example.ShikeApplication.opengl.OpenGlElSurfaceView;
 import com.example.ShikeApplication.utils.AssetsUtil;
 import com.serenegiant.usb.USBMonitor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class HomeFragment extends Fragment {
@@ -34,7 +29,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.fagment_native_demo_text)
     TextView textView;
     @BindView(R.id.opengl_el_surface_view)
-    GLSLSurfaceView mLocalGLSLSurfaceView;
+    OpenGlElSurfaceView mLocalOpenGlElSurfaceView;
 //    @BindView(R.id.button_cancel)
 //    Button buttonCancel;
 //    @BindView(R.id.button_ok)
@@ -44,7 +39,7 @@ public class HomeFragment extends Fragment {
     Unbinder unbinder;
 
     private USBMonitor mUSBMonitor;
-    private GLSLPlayer mGLSLPlayer;
+    private OpenGlElPlayer mGLSLPlayer;
 
     private HomeFragment() {
     }
@@ -74,7 +69,7 @@ public class HomeFragment extends Fragment {
         textView.setText(ndktool.getSomeDumpTextFromNDK() + "\n"+ndktool.getNativeLibraryVersion());
         Toast.makeText(this.getContext(),ndktool.getNativeCompileVersion(),Toast.LENGTH_LONG).show();
 
-        mGLSLPlayer.setGLSLSurfaceView(mLocalGLSLSurfaceView);
+        mGLSLPlayer.setGLSLSurfaceView(mLocalOpenGlElSurfaceView);
         mGLSLPlayer.onCallRenderYUV();
         showDemoDialog();
         return view;
