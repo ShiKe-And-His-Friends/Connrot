@@ -13,12 +13,12 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-                abiFilters "arm64-v8a","armeabi-v7a"
+                abiFilters "armeabi-v7a"
             }
-//            ndk {
+            ndk {
 //                moduleName "connrot-jni"
-//                abiFilters "arm64-v8a","armeabi-v7a", "x86"
-//            }
+                abiFilters "armeabi-v7a"
+            }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -67,7 +67,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-    compile project(path: ':libuvccamera')
 }
 repositories {
     mavenCentral()

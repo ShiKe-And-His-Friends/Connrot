@@ -21,7 +21,7 @@ list(APPEND NATIVE_BASE_SRC ${THREAD_SRC})
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 add_library( # Sets the name of the library.
-        connrot-jni
+        connrotCmake-lib
         # Sets the library as a shared library.
         SHARED
         # Provides a relative path to your source file(s).
@@ -37,7 +37,7 @@ add_library( # Sets the name of the library.
 # you want to add. CMake verifies that the library exists before
 # completing its build.
 target_include_directories(
-        connrot-jni
+        connrotCmake-lib
         PRIVATE
         ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
 
@@ -103,6 +103,7 @@ find_library( # Sets the name of the path variable.
 #        ${log-lib} )
 
 target_link_libraries( # Specifies the target library.
-        connrot-jni
+        connrotCmake-lib
         ${avcodec}
-        ${log-lib} )
+        ${log-lib}
+        android)

@@ -2,7 +2,7 @@ package com.example.ShikeApplication.ndkdemo;
 
 public class ndktool {
     static {
-        System.loadLibrary("connrot-jni");
+        System.loadLibrary("connrotCmake-lib");
 //        System.loadLibrary("ijkffmpeg");
     }
 

@@ -35,7 +35,8 @@ public class MediaConstant {
 	final static int DequeueTimeout = 10000;
 	final static int FrameInterval = 2;
 
-	static int VIDEO_CODEC_COLOR_FORMAT = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar;//COLOR_FormatYUV420Planar 19  COLOR_FormatYUV420SemiPlanar 21
+	static int Encode_VIDEO_CODEC_COLOR_FORMAT = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar;//COLOR_FormatYUV420Planar 19  COLOR_FormatYUV420SemiPlanar 21
+	static int Decode_VIDEO_CODEC_COLOR_FORMAT = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar;//COLOR_FormatYUV420Planar 19  COLOR_FormatYUV420SemiPlanar 21
 
 	public static int calcBitRate(int mWidth,int mHeight) {
 		int bitrate = (int)(BitPerPixel * FrameRate * mWidth * mHeight);
