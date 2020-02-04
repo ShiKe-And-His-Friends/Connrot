@@ -3,6 +3,7 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
 
+include_directories(include)
 aux_source_directory( . NATIVE_BASE_SRC )
 aux_source_directory( ../cpp THREAD_SRC )
 set(path_project ./src/main/libs)
@@ -59,6 +60,22 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log )
 
+set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
+add_library(avcodec SHARED IMPORTED)
+set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FF}/libavcodec.so)
+
+add_library(avformat SHARED IMPORTED)
+set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${FF}/libavformat.so)
+
+add_library(avutil SHARED IMPORTED)
+set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${FF}/libavutil.so)
+
+add_library(swscale SHARED IMPORTED)
+set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FF}/libswscale.so)
+
+add_library(swresample SHARED IMPORTED)
+set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FF}/libswresample.so)
+
 #add_library(avdevice SHARED IMPORTED)
 #set_target_properties(avdevice PROPERTIES IMPORTED_LOCATION
 #        ${CMAKE_SOURCE_DIR}/src/main/libs/${ANDROID_ABI}/libavdevice.so)
@@ -104,6 +121,8 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
         connrotCmake-lib
-        ${avcodec}
-        ${log-lib}
-        android)
+        GLESv2 EGL
+        OpenSLES
+        android
+        avcodec avformat avutil swscale swresample
+        ${log-lib})
