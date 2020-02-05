@@ -9,6 +9,12 @@
 #include "XThread.h"
 #include "XParameter.h"
 
+class IDemux;
+class IAudioPlay;
+class IVideoPlay;
+class IResample;
+class IDecode;
+
 class IPlayer
 {
 public:
