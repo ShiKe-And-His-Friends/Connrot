@@ -6,6 +6,8 @@
 #define CONNROT_IPLAYER_H
 
 #include <mutex>
+#include "XThread.h"
+#include "XParameter.h"
 
 class IPlayer
 {
