@@ -16,7 +16,7 @@ public:
     void AddObs(IObserver *obs);
     void Notify(XData data);
 protected:
-    std::vector<IObserver *>obss;
+    std::vector<IObserver *> obss;
     std::mutex mux;
 };
 

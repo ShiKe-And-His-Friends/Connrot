@@ -10,7 +10,7 @@ class XLog {
 
 };
 
-#ifdef ANDROID_LOG_HEAD_FILE
+#ifdef ANDROID
 #include <android/log.h>
 #define XLOGD(...) __android_log_print(ANDROID_LOG_DEBUG,"connort-jni",__VA_ARGS__)
 #define XLOGI(...) __android_log_print(ANDROID_LOG_INFO,"connort-jni",__VA_ARGS__)

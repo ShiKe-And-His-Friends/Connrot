@@ -4,7 +4,7 @@
 
 #include "IObserver.h"
 
-void IOberver::AddObs(IObserver *obs) {
+void IObserver::AddObs(IObserver *obs) {
     if (!obs) {
         return;
     }

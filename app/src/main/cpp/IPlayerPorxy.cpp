@@ -37,7 +37,7 @@ double IPlayerPorxy::PlayPos () {
     return pos;
 }
 
-bool IPlayerPorxy::Seek (double ps) {
+bool IPlayerPorxy::Seek (double pos) {
     bool re = false;
     mux.lock();
     if (player) {
@@ -47,7 +47,7 @@ bool IPlayerPorxy::Seek (double ps) {
     return re;
 }
 
-bool IPlayerProxy::Open (const char *path) {
+bool IPlayerPorxy::Open (const char *path) {
     bool re = false;
     mux.lock();
     if (player) {

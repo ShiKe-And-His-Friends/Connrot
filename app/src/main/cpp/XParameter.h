@@ -5,10 +5,10 @@
 #ifndef CONNROT_XPARAMETER_H
 #define CONNROT_XPARAMETER_H
 
-struct AVCodecParameter;
+struct AVCodecParameters;
 class XParameter {
 public:
-    AVCodecParameter *para = 0;
+    AVCodecParameters *para = 0;
     int channels = 2;
     int sample_rate = 44100;
 };

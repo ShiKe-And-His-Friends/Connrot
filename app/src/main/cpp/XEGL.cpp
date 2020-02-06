@@ -2,16 +2,17 @@
 // Created by shike on 2/5/2020.
 //
 
-#include "XEGL.h"
-#include "android/native_window.h"
-#include "mutex"
+#include <EGL/egl.h>
+#include <android/native_window.h>
+#include <mutex>
 #include "XLog.h"
+#include "XEGL.h"
 
-class CXEGL:public XEGL {
+class CXEGL :public XEGL {
 public:
     EGLDisplay display = EGL_NO_DISPLAY;
     EGLSurface surface = EGL_NO_SURFACE;
-    EGLContext context = EGL_No_CONTEXT;
+    EGLContext context = EGL_NO_CONTEXT;
     std::mutex mux;
 
     virtual void Draw () {
@@ -32,10 +33,10 @@ public:
         }
         eglMakeCurrent(display ,EGL_NO_SURFACE ,EGL_NO_SURFACE ,EGL_NO_CONTEXT);
         if (surface != EGL_NO_SURFACE) {
-            eglDestorySurface(display ,surface);
+            eglDestroySurface(display ,surface);
         }
         if (context != EGL_NO_CONTEXT) {
-            eglDestoryContext(display ,context);
+            eglDestroyContext(display ,context);
         }
         eglTerminate(display);
         display = EGL_NO_DISPLAY;
@@ -62,10 +63,10 @@ public:
         }
         XLOGE("eglInitialized success!");
         EGLint configSpec [] = {
-                EGL_RED_SIZE , 8 ,
-                EGL_GREEN_SIZE , 8 ,
-                EGL_BLUE_SIZE , 8 ,
-                EGL_SURFACE_TYPE , EGL_WINDOW_BIN ,
+                EGL_RED_SIZE,8,
+                EGL_GREEN_SIZE,8,
+                EGL_BLUE_SIZE,8,
+                EGL_SURFACE_TYPE,EGL_WINDOW_BIT,
                 EGL_NONE
         };
         EGLConfig config = 0;
@@ -89,7 +90,7 @@ public:
             XLOGE("eglMakeCurrent failed!");
         }
         XLOGE("eglMakeCurrent success!");
-        mux.unlcok();
+        mux.unlock();
         return true;
     }
 };

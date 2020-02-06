@@ -7,7 +7,7 @@
 
 #include "IAudioPlay.h"
 
-class SLAudioPlay {
+class SLAudioPlay : public IAudioPlay{
 public:
     virtual bool StartPlay(XParameter out);
     virtual void Close();

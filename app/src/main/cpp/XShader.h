@@ -9,8 +9,8 @@
 
 enum XShaderType {
     XSHADER_YUV420P = 0,
-    XSHADER_NV12 = 15;
-    XSHADER_NV21 = 26;
+    XSHADER_NV12 = 15,
+    XSHADER_NV21 = 26
 };
 
 class XShader {
@@ -24,7 +24,7 @@ public:
 protected:
     unsigned int vsh = 0;
     unsigned int fsh = 0;
-    unsigned int programe = 0;
+    unsigned int program = 0;
     unsigned int texts[100] = {0};
     std::mutex mux;
 };

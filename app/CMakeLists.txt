@@ -4,9 +4,26 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 include_directories(include)
-aux_source_directory( . NATIVE_BASE_SRC )
-aux_source_directory( ../cpp THREAD_SRC )
-set(path_project ./src/main/libs)
+
+set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
+add_library(avcodec SHARED IMPORTED)
+set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FF}/libavcodec.so)
+
+add_library(avformat SHARED IMPORTED)
+set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${FF}/libavformat.so)
+
+add_library(avutil SHARED IMPORTED)
+set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${FF}/libavutil.so)
+
+add_library(swscale SHARED IMPORTED)
+set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FF}/libswscale.so)
+
+add_library(swresample SHARED IMPORTED)
+set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FF}/libswresample.so)
+
+aux_source_directory(src/main/jni NATIVE_BASE_SRC )
+aux_source_directory(src/main/cpp THREAD_SRC )
+set(path_project /libs)
 #
 #aux_source_directory( ./src/main/cpp/ThreadDemo THREAD_Demo_SRC )
 #list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
@@ -37,10 +54,6 @@ add_library( # Sets the name of the library.
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
-target_include_directories(
-        connrotCmake-lib
-        PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
 
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
@@ -49,32 +62,11 @@ target_include_directories(
 #target_include_directories(avcodec
 #        PRIVATE
 #        ${CMAKE_SOURCE_DIR}/src/main/cpp/include/libavcodec)
-
-add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION
-        ${CMAKE_SOURCE_DIR}/src/main/libs/${ANDROID_ABI}/libavcodec.so)
-
 find_library( # Sets the name of the path variable.
         log-lib
         # Specifies the name of the NDK library that
         # you want CMake to locate.
         log )
-
-set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
-add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FF}/libavcodec.so)
-
-add_library(avformat SHARED IMPORTED)
-set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${FF}/libavformat.so)
-
-add_library(avutil SHARED IMPORTED)
-set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${FF}/libavutil.so)
-
-add_library(swscale SHARED IMPORTED)
-set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FF}/libswscale.so)
-
-add_library(swresample SHARED IMPORTED)
-set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FF}/libswresample.so)
 
 #add_library(avdevice SHARED IMPORTED)
 #set_target_properties(avdevice PROPERTIES IMPORTED_LOCATION

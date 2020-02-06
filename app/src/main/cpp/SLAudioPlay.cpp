@@ -6,11 +6,10 @@
 #include "XLog.h"
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
-#include "XData.h"
 
 static SLObjectItf enginSL = NULL;
 static SLEngineItf eng = NULL;
-static SLObjectItf min = NULL;
+static SLObjectItf mix = NULL;
 static SLObjectItf player = NULL;
 static SLPlayItf iplayer = NULL;
 static SLAndroidSimpleBufferQueueItf pcmQue = NULL;
@@ -31,7 +30,7 @@ static SLEngineItf CreateSL () {
     if (re != SL_RESULT_SUCCESS) {
         return NULL;
     }
-    re = (*enginSL)->Realize(enginSL, SL_IID_ENGINE, &en);
+    re = (*enginSL)->Realize(enginSL, SL_BOOLEAN_FALSE);
     if (re != SL_RESULT_SUCCESS) {
         return NULL;
     }
@@ -83,13 +82,13 @@ void SLAudioPlay::Close() {
         (*pcmQue)->Clear(pcmQue);
     }
     if (player && (*player)) {
-        (*player)->Destory(player);
+        (*player)->Destroy(player);
     }
-    if (min && (*mix)) {
-        (*mix)->Destory(mix);
+    if (mix && (*mix)) {
+        (*mix)->Destroy(mix);
     }
     if (enginSL && (*enginSL)) {
-        (*enginSL)->Destory(enginSL);
+        (*enginSL)->Destroy(enginSL);
     }
     enginSL = NULL;
     eng = NULL;
@@ -109,7 +108,7 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     } else {
         mux.unlock();
         XLOGE("CreateSL failed.");
-        return;
+        return false;
     }
     SLresult re = 0;
     re = (*eng)->CreateOutputMix(eng ,&mix ,0 ,0 ,0);
@@ -120,11 +119,11 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     }
     SLDataLocator_OutputMix outMix = {SL_DATALOCATOR_OUTPUTMIX ,mix};
     SLDataSink audioSink = {&outMix ,0};
-    SLDataLocator_AndroidSimpleBufferQueue que = {SL_DATALOCATOR_ANDROIDSIMPLERBUFFERQUEUE ,10};
+    SLDataLocator_AndroidSimpleBufferQueue que = {SL_DATALOCATOR_ANDROIDBUFFERQUEUE ,10};
     SLDataFormat_PCM pcm = {
             SL_DATAFORMAT_PCM,
-            (SLunit32) out.channels,
-            (SLunit32) out.sample_rata * 1000,
+            (SLuint32) out.channels,
+            (SLuint32) out.sample_rate * 1000,
             SL_PCMSAMPLEFORMAT_FIXED_16,
             SL_PCMSAMPLEFORMAT_FIXED_16,
             SL_SPEAKER_FRONT_LEFT | SL_SPEAKER_FRONT_RIGHT,
@@ -133,7 +132,7 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     SLDataSource ds = {&que ,&pcm};
 
     const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE};
-    const SLboolean req[] = {SL_BOOL_TRUE};
+    const SLboolean req[] = {SL_BOOLEAN_TRUE};
     re = (*eng)->CreateAudioPlayer(eng ,&player ,&ds ,&audioSink , sizeof(ids)/ sizeof(SLInterfaceID) ,ids ,req);
     if (re != SL_RESULT_SUCCESS) {
         mux.unlock();
@@ -142,7 +141,7 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     } else {
         XLOGI("CreateAudioPlay success!");
     }
-    (*player)-> Realize(player ,SL_BOOLEAN_FAISE);
+    (*player)-> Realize(player ,SL_BOOLEAN_FALSE);
     re = (*player)->GetInterface(player ,SL_IID_PLAY ,&iplayer);
     if (re != SL_RESULT_SUCCESS) {
         mux.unlock();

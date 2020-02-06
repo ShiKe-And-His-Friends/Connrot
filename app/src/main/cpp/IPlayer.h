@@ -11,12 +11,11 @@
 
 class IDemux;
 class IAudioPlay;
-class IVideoPlay;
+class IVideoView;
 class IResample;
 class IDecode;
 
-class IPlayer
-{
+class IPlayer : public XThread{
 public:
     static IPlayer *Get(unsigned char index = 0);
     virtual bool Open(const char *path);
@@ -30,14 +29,14 @@ public:
 
     bool isHardDecode = true;
 
-    XParamter outPara;
+    XParameter outPara;
 
     IDemux *demux = 0;
     IDecode *vdecode = 0;
     IDecode *adecode = 0;
     IResample *resample = 0;
     IVideoView *videoView = 0;
-    IAudioPlay *auidoPlay = 0;
+    IAudioPlay *audioPlay = 0;
 
 protected:
     void Main();

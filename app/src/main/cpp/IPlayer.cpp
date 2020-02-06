@@ -4,15 +4,18 @@
 
 #include "IPlayer.h"
 #include "XLog.h"
+#include "IAudioPlay.h"
+#include "IDecode.h"
+#include "IDemux.h"
+#include "IResample.h"
+#include "IVideoView.h"
 
-IPlayer *IPlayer::Get(unsigned )
-{
+IPlayer *IPlayer::Get(unsigned char index) {
     static IPlayer p[256];
     return &p[index];
 }
 
-void IPlayer::Main()
-{
+void IPlayer::Main() {
     while (!isExit) {
         mux.lock();
         if (!audioPlay || !vdecode) {
@@ -20,10 +23,10 @@ void IPlayer::Main()
             XSleep(2);
             continue;
         }
-        int apts = auidoPlay->pts;
+        int apts = audioPlay->pts;
         vdecode->synPts = apts;
 
-         mux.unclock;
+         mux.unlock();
          XSleep(2);
     }
 }
@@ -88,7 +91,7 @@ double IPlayer::PlayPos()
 
 bool IPlayer::Seek(double pos) {
     bool re = false;
-    mux.lock;
+    mux.lock();
     if (demux) {
         re = demux->Seek(pos);
     }
@@ -100,7 +103,7 @@ bool IPlayer::Open(const char *path) {
     Close();
     mux.lock();
     if (!demux || !demux->Open(path)) {
-        mux.unlock;
+        mux.unlock();
         XLOGD("demux->Open %s failed!",path);
         return false;
     }

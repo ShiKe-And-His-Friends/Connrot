@@ -6,8 +6,8 @@
 #define CONNROT_XDATA_H
 
 enum XDataType {
-    AVPACKET_TYPE = 0;
-    UCHAR_TYPE = 1;
+    AVPACKET_TYPE = 0,
+    UCHAR_TYPE = 1
 };
 
 struct XData {

@@ -12,6 +12,9 @@ public:
     virtual void Close() = 0;
     virtual void Draw() = 0;
     static XEGL * Get();
+
+protected:
+    XEGL(){}
 };
 
 

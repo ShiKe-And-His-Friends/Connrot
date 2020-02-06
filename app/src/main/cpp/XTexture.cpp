@@ -13,7 +13,7 @@ public:
     XTextureType type;
     std::mutex mux;
     virtual void Drop(){
-        mux.lock;
+        mux.lock();
         XEGL::Get()->Close();
         sh.Close();
         mux.unlock();

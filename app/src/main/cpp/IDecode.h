@@ -17,7 +17,7 @@ public:
     virtual bool SendPacket(XData pkt) = 0;
     virtual XData RecvFrame() = 0;
     virtual void Update(XData pkt);
-    virtual isAudio = false;
+    bool isAudio = false;
     int maxList = 100;
     int synPts = 0;
     int pts = 0;

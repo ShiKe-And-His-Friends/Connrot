@@ -3,7 +3,6 @@
 //
 
 #include "XShader.h"
-#include "XShader.h"
 #include "XLog.h"
 #include <GLES2/gl2.h>
 
@@ -73,8 +72,8 @@ static const char *fragNV21 = GET_STR(
         }
 );
 
-static GLunit InitShader (const char * code ,GLint type) {
-    GLunit sh = glCreateShader (type);
+static GLuint InitShader (const char * code ,GLint type) {
+    GLuint sh = glCreateShader (type);
     if (sh == 0) {
         XLOGE("glCreateShader %d failed!" ,type);
         return 0;
@@ -96,8 +95,8 @@ static GLunit InitShader (const char * code ,GLint type) {
 
 void XShader::Close () {
     mux.lock();
-    if (programe) {
-        glDeleteProgram (programe);
+    if (program) {
+        glDeleteProgram (program);
     }
     if (fsh) {
         glDeleteShader (fsh);
@@ -145,31 +144,40 @@ bool XShader::Init (XShaderType type) {
     }
     XLOGE("InitShader GL_FRAGMENT_SHADER success!");
 
-    programe = glCreateProgram ();
-    if (programe == 0) {
+    program = glCreateProgram ();
+    if (program == 0) {
         mux.unlock();
         XLOGE("glCreateProgram failed!");
         return false;
     }
-    glAttachShader (programe ,vsh);
-    glAttachShader (programe ,fsh);
-    gLinkPrograme  (programe);
+    glAttachShader (program ,vsh);
+    glAttachShader (program ,fsh);
+    glLinkProgram (program);
     GLint status = 0;
-    glGetProgramiv (programe ,GL_LINK_STATUS ,&status);
+    glGetProgramiv (program ,GL_LINK_STATUS ,&status);
     if (status != GL_TRUE) {
         mux.unlock();
         XLOGE("glLinkPrograme failed!");
         return false;
     }
-    glUsePrograme(programe);
-    LOGE("glLinkPrograme success!");
-    status float vers[] = {
+    glUseProgram (program);
+    XLOGE("glLinkPrograme success!");
+    static float vers[] = {
             1.0f ,0.0f
             ,0.0f ,0.0f
             ,1.0f ,1.0f
             ,0.0 ,1.0
     };
-    GLuint atex = (GLuint)glGetAttribLocation (programe ,"aTexCoord");
+    GLuint apos = (GLuint)glGetAttribLocation(program,"aPosition");
+    glEnableVertexAttribArray(apos);
+    glVertexAttribPointer(apos,3,GL_FLOAT,GL_FALSE,12,vers);
+    static float txts[] = {
+            1.0f,0.0f ,
+            0.0f,0.0f,
+            1.0f,1.0f,
+            0.0,1.0
+    };
+    GLuint atex = (GLuint)glGetAttribLocation (program ,"aTexCoord");
     glEnableVertexAttribArray(atex);
     glVertexAttribPointer(atex,2,GL_FLOAT,GL_FALSE,8,txts);
     glUniform1i( glGetUniformLocation(program,"yTexture"),0);
