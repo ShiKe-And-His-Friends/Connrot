@@ -4,9 +4,9 @@
 
 #include "FFResample.h"
 #include "XLog.h"
-#include <libavcodec/avcodec.h>
 extern "C"
 {
+#include <libavcodec/avcodec.h>
 #include <libswresample/swresample.h>
 }
 

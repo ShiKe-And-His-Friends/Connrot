@@ -6,10 +6,10 @@ buildscript {
         commonLibVersion= '2.12.4' //uvcCamera Library
 
         minSdkVersionSupport = 26
-        versionCompiler = 28
-        versionTarget = 28
+        versionCompiler = 29
+        versionTarget = 29
         versionNameString = '1.0.3'
-        versionCodeInt = 3
+        versionCodeInt = 4
 
         supportLibVersion = '27.1.1'
         versionBuildTool = '27.0.3'

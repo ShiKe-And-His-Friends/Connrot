@@ -2,13 +2,12 @@
 // Created by shike on 2/6/2020.
 //
 
-#include "FFDecode.h"
-#include "XLog.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavcodec/jni.h>
 }
-
+#include "FFDecode.h"
+#include "XLog.h"
 void FFDecode::InitHard(void *vm) {
     av_jni_set_java_vm(vm ,0);
 }
