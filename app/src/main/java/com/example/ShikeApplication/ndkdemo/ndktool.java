@@ -1,11 +1,6 @@
 package com.example.ShikeApplication.ndkdemo;
 
 public class ndktool {
-    static {
-        System.loadLibrary("connrotCmake-lib");
-//        System.loadLibrary("ijkffmpeg");
-    }
-
     public native static String getSomeDumpTextFromNDK();
     public native static String getNativeCompileVersion();
     public native static String getNativeLibraryVersion();

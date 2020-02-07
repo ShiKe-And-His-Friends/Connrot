@@ -3,8 +3,6 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
 
-include_directories(include)
-
 set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
 add_library(avcodec SHARED IMPORTED)
 set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FF}/libavcodec.so)
@@ -21,9 +19,11 @@ set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FF}/libswscale.so)
 add_library(swresample SHARED IMPORTED)
 set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FF}/libswresample.so)
 
+include_directories(include)
+include_directories(src/main/jni/)
+
 aux_source_directory(src/main/jni NATIVE_BASE_SRC )
 aux_source_directory(src/main/cpp THREAD_SRC )
-set(path_project /libs)
 #
 #aux_source_directory( ./src/main/cpp/ThreadDemo THREAD_Demo_SRC )
 #list(APPEND NATIVE_BASE_SRC ${THREAD_Demo_SRC})
