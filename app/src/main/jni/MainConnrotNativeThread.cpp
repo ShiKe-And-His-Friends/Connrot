@@ -1,9 +1,12 @@
 // Created by shike on 10/27/2019.
 #include "com_example_ShikeApplication_ndkdemo_ndktool.h"
-#include <jni.h>
 #include <string>
 #include "pthread.h"
 #include "../cpp/ThreadDemo/AndroidLogHelp.h"
+#include "XLog.h"
+#include "IPlayerPorxy.h"
+#include "../cpp/IPlayerPorxy.h"
+#include <android/native_window_jni.h>
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_getSomeDumpTextFromNDK
@@ -19,6 +22,13 @@ extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_
 extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_ndktool_getNativeLibraryVersion
         (JNIEnv *env, jobject obj) {
     return env->NewStringUTF("内核版本号:001.19.10.27.1001");
+}
+
+extern "C" JNIEXPORT jint JNI_OnLoad (JavaVM * vm ,void *res){
+    IPlayerPorxy::Get()->Init(vm);
+    //IPlayerPorxy::Get()->Open("/sdcard/v1080.mp4");
+    //IPlayerPorxy::Get()->Start();
+    return JNI_VERSION_1_4;
 }
 
 
@@ -122,4 +132,34 @@ JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoOnPrevireFrame
 (JNIEnv *env,jclass clazz,jbyteArray raw_yuv_date,jint video_in_stream_width,jint video_in_stream_height) {
     // TODO: implement encoderMP4VideoOnPrevireFrame()
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, jclass clazz,
+                                                           jobject surface) {
+    ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
+    IPlayerPorxy::Get()->Init(win);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerOpenUrl(JNIEnv *env, jclass clazz, jstring SourceUrl) {
+    const char *url = env->GetStringUTFChars(SourceUrl ,0);
+    IPlayerPorxy::Get()->Open(url);
+    IPlayerPorxy::Get()->Start();
+    //IPlayerPorxy::Get()->Seek(0.5);
+    env->ReleaseStringUTFChars(SourceUrl ,url);
+}
+
+extern "C"
+JNIEXPORT jdouble JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerGetPos(JNIEnv *env, jclass clazz) {
+    return IPlayerPorxy::Get()->PlayPos();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerSeek(JNIEnv *env, jclass clazz ,jdouble pos) {
+    IPlayerPorxy::Get()->Seek(pos);
 }
