@@ -5,7 +5,6 @@ android {
     //noinspection GroovyAssignabilityCheck
     compileSdkVersion rootProject.ext.versionCompiler
     //noinspection GroovyAssignabilityCheck
-    buildToolsVersion rootProject.ext.versionBuildTool
 
     lintOptions {
         abortOnError false

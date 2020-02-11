@@ -3,8 +3,6 @@
 #include <string>
 #include "pthread.h"
 #include "../cpp/ThreadDemo/AndroidLogHelp.h"
-#include "XLog.h"
-#include "IPlayerPorxy.h"
 #include "../cpp/IPlayerPorxy.h"
 #include <android/native_window_jni.h>
 
