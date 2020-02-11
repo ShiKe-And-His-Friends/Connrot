@@ -160,4 +160,8 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerSeek(JNIEnv *env, jclass clazz ,jdouble pos) {
     IPlayerPorxy::Get()->Seek(pos);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerPauseOrPlay(JNIEnv *env, jclass clazz) {
+    IPlayerPorxy::Get()->SetPause(!IPlayerPorxy::Get()->IsPause());
 }

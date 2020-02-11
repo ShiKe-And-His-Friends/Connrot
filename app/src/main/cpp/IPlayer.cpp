@@ -72,6 +72,21 @@ void IPlayer::Close()
     }
 }
 
+void IPlayer::SetPause(bool isP)
+{
+    mux.lock();
+    XThread::SetPause(isP);
+    if(demux)
+        demux->SetPause(isP);
+    if(vdecode)
+        vdecode->SetPause(isP);
+    if(adecode)
+        adecode->SetPause(isP);
+    if(audioPlay)
+        audioPlay->SetPause(isP);
+    mux.unlock();
+}
+
 double IPlayer::PlayPos() 
 {
     double pos = 0.0;

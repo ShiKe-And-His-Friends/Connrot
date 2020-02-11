@@ -11,11 +11,19 @@ class XThread {
 public:
     virtual bool Start();
     virtual void Stop();
+    virtual void SetPause(bool isP);
+    virtual bool IsPause()
+    {
+        isPausing = isPause;
+        return isPause;
+    }
     virtual void Main(){}
 
 protected:
     bool isExit = false;
     bool isRunning = false;
+    bool isPause = false;
+    bool isPausing = false;
 
 private:
     void ThreadMain();

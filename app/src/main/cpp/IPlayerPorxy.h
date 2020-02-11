@@ -20,6 +20,7 @@ public:
     virtual bool Seek(double ps);
     virtual void Close();
     virtual bool Start();
+    virtual void SetPause(bool isP);
     virtual void InitView(void *win);
 
     virtual double PlayPos();

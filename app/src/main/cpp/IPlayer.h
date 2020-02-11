@@ -26,6 +26,7 @@ public:
 
     virtual double PlayPos();
     virtual bool Seek(double pos);
+    virtual void SetPause(bool isP);
 
     bool isHardDecode = true;
 

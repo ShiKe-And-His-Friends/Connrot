@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.fragment.HomeFragment;
 import com.example.ShikeApplication.fragment.MediaFragment;
+import com.example.ShikeApplication.fragment.NPlayerFragment;
 import com.example.ShikeApplication.fragment.NativeRenderFragment;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity {
     private HomeFragment homeFragment;
     private NativeRenderFragment nativeRenderFragment;
     private MediaFragment mediaFragment;
+    private NPlayerFragment playerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity {
         homeFragment = null;
         nativeRenderFragment = null;
         mediaFragment = null;
+        playerFragment = null;
         unbinder.unbind();
         super.onDestroy();
     }
@@ -112,7 +115,7 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @OnClick({R.id.tab1, R.id.tab2, R.id.tab3 })
+    @OnClick({R.id.tab1, R.id.tab2, R.id.tab3 , R.id.tab4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tab1 :
@@ -123,6 +126,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tab3 :
                 showFragment(R.id.tab3);
+                break;
+            case R.id.tab4 :
+                showFragment(R.id.tab4);
                 break;
         }
     }
@@ -160,6 +166,16 @@ public class MainActivity extends BaseActivity {
 
                 }
                 break;
+
+            case R.id.tab4 :
+                hideFragment(fragmentTransaction);
+                if (playerFragment == null){
+                    playerFragment = new NPlayerFragment();
+                    fragmentTransaction.add(R.id.frame_layout_main , playerFragment);
+                } else {
+                    fragmentTransaction.show(playerFragment);
+                }
+                break;
         }
         fragmentTransaction.commit();
     }
@@ -173,6 +189,9 @@ public class MainActivity extends BaseActivity {
         }
         if (mediaFragment != null) {
             transaction.hide(mediaFragment);
+        }
+        if (playerFragment != null) {
+            transaction.hide(playerFragment);
         }
     }
 

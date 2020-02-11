@@ -42,6 +42,12 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/activity_main_tab_linearlayout_height"
                 android:background="@drawable/tab_name3"/>
+            <ImageButton
+                android:id="@+id/tab4"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/activity_main_tab_linearlayout_height"
+                android:background="@drawable/tab_name4"/>
         </LinearLayout>
     </LinearLayout>
 
