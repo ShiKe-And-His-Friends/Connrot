@@ -69,9 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"/>
-        <GLSLSurfaceView
-            android:id="@+id/opengl_el_surface_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+<!--        <GLSLSurfaceView-->
+<!--            android:id="@+id/opengl_el_surface_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

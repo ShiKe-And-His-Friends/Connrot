@@ -1,9 +1,12 @@
 // Created by shike on 10/27/2019.
 #include "com_example_ShikeApplication_ndkdemo_ndktool.h"
-#include <jni.h>
 #include <string>
 #include "pthread.h"
-#include "../cpp/ThreadDemo/AndroidLog.h"
+#include "../cpp/ThreadDemo/AndroidLogHelp.h"
+#include "XLog.h"
+#include "IPlayerPorxy.h"
+#include "../cpp/IPlayerPorxy.h"
+#include <android/native_window_jni.h>
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_getSomeDumpTextFromNDK
@@ -19,6 +22,13 @@ extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_
 extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_ndktool_getNativeLibraryVersion
         (JNIEnv *env, jobject obj) {
     return env->NewStringUTF("内核版本号:001.19.10.27.1001");
+}
+
+extern "C" JNIEXPORT jint JNI_OnLoad (JavaVM * vm ,void *res){
+    IPlayerPorxy::Get()->Init(vm);
+    //IPlayerPorxy::Get()->Open("/sdcard/v1080.mp4");
+    //IPlayerPorxy::Get()->Start();
+    return JNI_VERSION_1_4;
 }
 
 
@@ -98,59 +108,16 @@ extern "C"  JNIEXPORT void JNICALL Java_com_example_ShikeApplication_ndkdemo_ndk
     pthread_create(&custom, NULL, customCallback, NULL);
 }
 
-#include "../cpp/ThreadDemo/JavaListener.h"
-
-JavaVM *jvm;
-
-JavaListener *javaListener;
-
-pthread_t chidlThread;
-
-
-void *childCallback(void *data)
-{
-    JavaListener *javaListener1 = (JavaListener *) data;
-
-    javaListener1->onError(0, 101, "c++ call java meid from child thread!");
-    pthread_exit(&chidlThread);
-}
 
 extern "C"  JNIEXPORT void JNICALL Java_com_example_ShikeApplication_ndkdemo_ndktool_setCallbackFromC(JNIEnv *env, jobject instance) {
     // TODO
-    javaListener = new JavaListener(jvm, env, env->NewGlobalRef(instance));
-    //javaListener->onError(1, 100, "c++ call java meid from main thread!");
-    pthread_create(&chidlThread, NULL, childCallback, javaListener);
 }
-
-
-
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void* reserved)
-{
-    JNIEnv *env;
-    jvm = vm;
-    if(vm->GetEnv((void **) &env, JNI_VERSION_1_6) != JNI_OK)
-    {
-        return -1;
-    }
-    return JNI_VERSION_1_6;
-}
-
-#include "../cpp/ffmpeg/VideoEncoder.cpp"
-VideoEncoder *videoEncoder = NULL;
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoStart
 (JNIEnv *env, jclass clazz,jstring video_loacl_path,jint video_in_stream_width,jint video_in_stream_height) {
     // TODO: implement encoderMP4VideoStart()
-    const char *mp4Path = env->GetStringUTFChars(video_loacl_path, NULL);
-    if (videoEncoder == NULL) {
-        videoEncoder = new MP4Encoder();
-    }
-    videoEncoder->InitEncoder(mp4Path, video_in_stream_width, video_in_stream_height);
-    videoEncoder->EncodeStart();
-
-    env->ReleaseStringUTFChars(video_loacl_path, mp4Path);
 }
 
 extern "C"
@@ -158,10 +125,6 @@ JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoEnd
 (JNIEnv *env, jclass clazz) {
     // TODO: implement encoderMP4VideoEnd()
-    if (NULL != videoEncoder) {
-        videoEncoder->EncodeStop();
-        videoEncoder = NULL;
-    }
 }
 
 extern "C"
@@ -169,9 +132,34 @@ JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_encoderMP4VideoOnPrevireFrame
 (JNIEnv *env,jclass clazz,jbyteArray raw_yuv_date,jint video_in_stream_width,jint video_in_stream_height) {
     // TODO: implement encoderMP4VideoOnPrevireFrame()
-    if (NULL != videoEncoder && videoEncoder->isTransform()) {
-        jbyte *yuv420Buffer = env->GetByteArrayElements(raw_yuv_date, 0);
-        videoEncoder->EncodeBuffer((unsigned char *) yuv420Buffer);
-        env->ReleaseByteArrayElements(raw_yuv_date, yuv420Buffer, 0);
-    }
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, jclass clazz,
+                                                           jobject surface) {
+    ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
+    IPlayerPorxy::Get()->Init(win);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerOpenUrl(JNIEnv *env, jclass clazz, jstring SourceUrl) {
+    const char *url = env->GetStringUTFChars(SourceUrl ,0);
+    IPlayerPorxy::Get()->Open(url);
+    IPlayerPorxy::Get()->Start();
+    //IPlayerPorxy::Get()->Seek(0.5);
+    env->ReleaseStringUTFChars(SourceUrl ,url);
+}
+
+extern "C"
+JNIEXPORT jdouble JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerGetPos(JNIEnv *env, jclass clazz) {
+    return IPlayerPorxy::Get()->PlayPos();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerSeek(JNIEnv *env, jclass clazz ,jdouble pos) {
+    IPlayerPorxy::Get()->Seek(pos);
 }

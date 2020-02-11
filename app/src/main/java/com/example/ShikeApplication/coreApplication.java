@@ -24,6 +24,9 @@ public class coreApplication extends Application {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         CrashReport.initCrashReport(getApplicationContext(), "8398b7067f", false);
+        System.loadLibrary("connrotCmake-lib");
+//        System.loadLibrary("ijkffmpeg");
+
     }
 
     @Override

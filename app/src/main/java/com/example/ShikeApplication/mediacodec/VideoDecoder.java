@@ -85,7 +85,7 @@ public class VideoDecoder {
         mVideoDecoderHandler = new Handler(mVideoDecoderHandlerThread.getLooper());
 
         mMediaFormat = MediaFormat.createVideoFormat(MediaConstant.MimeTypeVideoList[0], MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight());
-        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaConstant.VIDEO_CODEC_COLOR_FORMAT);
+        mMediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaConstant.Decode_VIDEO_CODEC_COLOR_FORMAT);
         mMediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, MediaConstant.calcBitRate( MediaConstant.getEncoderSupportVideoWidth(), MediaConstant.getEncoderSupportVideoHeight() ));
         mMediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, MediaConstant.FrameRate);
         mMediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL ,MediaConstant.FrameInterval);

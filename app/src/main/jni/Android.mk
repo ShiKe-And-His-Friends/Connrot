@@ -24,6 +24,6 @@ LOCAL_SRC_FILES += MainConnrotNativeThread.cpp
 # Collect  all type files After CLEAR_VARS script run ,like LOCAL_xxxinx
 # BUILD_STATIC_LIBRARY  a Type Static Library
 # BUILD_SHARED_LIBRARY  a Type Dynamic Library
-# BUILD_SHARED_LIBRARY  a Type Executable Native programe
+# BUILD_SHARED_LIBRARY  a Type Executable Native program
 # BUILD_PREBUILT  means this module has precompile
 include $(BUILD_SHARED_LIBRARY)
