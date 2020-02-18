@@ -1,7 +1,6 @@
 package com.example.ShikeApplication.activity;
 
 import android.Manifest;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.pm.PackageManager;
 import android.media.MediaCodecInfo;
