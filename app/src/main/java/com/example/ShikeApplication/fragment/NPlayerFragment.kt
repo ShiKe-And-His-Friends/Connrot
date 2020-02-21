@@ -11,6 +11,7 @@ import android.widget.Toast
 
 import com.example.ShikeApplication.R
 import com.example.ShikeApplication.activity.VideoPlayActivity
+import com.example.ShikeApplication.ndkdemo.*
 
 class NPlayerFragment : Fragment() ,View.OnClickListener{
 
@@ -35,11 +36,13 @@ class NPlayerFragment : Fragment() ,View.OnClickListener{
             R.id.playvideo -> {
                 Toast.makeText(this.activity,"PalyVideo" ,Toast.LENGTH_LONG).show()
                 val initent = Intent(this.activity ,VideoPlayActivity::class.java)
+                ndktool.NPlayerOpenUrl(mPlayVideoEditText?.text.toString())
                 startActivity(initent)
             }
             R.id.playrtmp -> {
                 Toast.makeText(this.activity,"PalyRtmp" ,Toast.LENGTH_LONG).show()
                 val initent = Intent(this.activity ,VideoPlayActivity::class.java)
+                ndktool.NPlayerOpenUrl(mPlayRtmpEditText?.text.toString())
                 startActivity(initent)
             }
         }
