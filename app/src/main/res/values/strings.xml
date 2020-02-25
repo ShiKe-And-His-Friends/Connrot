@@ -11,4 +11,8 @@
     <string name="fragment_native_player_local_play">播放</string>
     <string name="fragment_native_player_remota_src">rtmp://live.hkstv.hk.lxdns.com/live/hks</string>
     <string name="fragment_native_player_remota_play">香港卫视直播</string>
+    <string name="audio_input_text">输入声音 : </string>
+    <string name="audio_output_text">输出声音 : </string>
+    <string name="audio_input_initialize_text">输入声音 :  0 (未开始)</string>
+    <string name="audio_output_initialize_text">输出声音 :  0 (未开始)</string>
 </resources>
