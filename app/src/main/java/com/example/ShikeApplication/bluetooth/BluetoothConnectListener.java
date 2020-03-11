@@ -8,12 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
-import com.idcvideo.haokaihui.bluetooth.interfaces.IBTConnectListener;
+
+import com.example.ShikeApplication.bluetooth.interfaces.IBTConnectListener;
 
 import java.util.List;
 
 @Deprecated
-public class BluetoothConnectListener implements IBTConnectListener{
+public class BluetoothConnectListener implements IBTConnectListener {
     private Context mContext;
 
     public BluetoothConnectListener (Context context) {
