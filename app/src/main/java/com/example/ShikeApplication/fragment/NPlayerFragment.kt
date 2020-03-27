@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 
 import com.example.ShikeApplication.R
@@ -17,8 +18,8 @@ class NPlayerFragment : Fragment() ,View.OnClickListener{
 
     private var mPlayVideo :Button ? = null
     private var mPlayRtmp :Button ? = null
-    private var mPlayVideoEditText :Button ? = null
-    private var mPlayRtmpEditText :Button ? = null
+    private var mPlayVideoEditText :EditText ? = null
+    private var mPlayRtmpEditText :EditText ? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         var view : View? = inflater.inflate(R.layout.fragment_native_player,container,false)
@@ -36,7 +37,9 @@ class NPlayerFragment : Fragment() ,View.OnClickListener{
             R.id.playvideo -> {
                 Toast.makeText(this.activity,"PalyVideo" ,Toast.LENGTH_LONG).show()
                 val initent = Intent(this.activity ,VideoPlayActivity::class.java)
-                ndktool.NPlayerOpenUrl(mPlayVideoEditText?.text.toString())
+                var bundle = Bundle()
+                bundle.putString("videoUrl" ,mPlayVideoEditText?.text.toString())
+                initent.putExtras(bundle)
                 startActivity(initent)
             }
             R.id.playrtmp -> {
