@@ -10,3 +10,7 @@
   Create a Code Maven, named Connrot.May be a useful app.
 ### Day 2019.11.21
   After a long time, I pack up some passion and knowlage that make this maven bigger.
+### Day 2020.02.12
+  I study and use Android raw media interface to build this demo.I learn C++ and FFmepg build this demo.
+### Day 2019.04.28
+  I like OpenGL and Graphic aera more.
