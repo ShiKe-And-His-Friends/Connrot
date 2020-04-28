@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.opengl.render;
+package com.example.ShikeApplication.opengl.threedimensionalrender;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
 public class VideoEncoderCore {
     private static final String TAG = "VideoEncoderCore";
 
-    private static final boolean VERBOSE = false;
+    private static final boolean VERBOSE = true;
 
     // TODO: these ought to be configurable as well
     private static final String MIME_TYPE = "video/avc";    // H.264 Advanced Video Coding
@@ -70,11 +70,12 @@ public class VideoEncoderCore {
         //
         // We're not actually interested in multiplexing audio.  We just want to convert
         // the raw H.264 elementary stream we get from MediaCodec into a .mp4 file.
+        if (VERBOSE) Log.d(TAG, "MediaMuxer output file path is : " + outputFile.toString());
         mMuxer = new MediaMuxer(outputFile.toString(),
                 MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
-
         mTrackIndex = -1;
         mMuxerStarted = false;
+        if (VERBOSE) Log.d(TAG, "format success.");
     }
 
     /**

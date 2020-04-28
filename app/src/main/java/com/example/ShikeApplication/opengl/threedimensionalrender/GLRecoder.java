@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.opengl.render;
+package com.example.ShikeApplication.opengl.threedimensionalrender;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;

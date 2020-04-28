@@ -54,6 +54,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/opengl_smaple_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/native_fragment_sub_margin_top"
@@ -61,6 +62,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/native_thread_layout"
+        >
+        <Button
+            android:id="@+id/start_opengles_button"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="启动OpenGlES" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/native_fragment_sub_margin_top"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/opengl_smaple_button"
         >
         <Button
             android:id="@+id/audio_service_start"

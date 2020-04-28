@@ -1,0 +1,10 @@
+/**
+ *  3D obj convert to OpengGLES
+ *  https://github.com/miffels/org.obj2openjl
+ * **/
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+}
