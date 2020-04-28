@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.ShikeApplication.R;
+import com.example.ShikeApplication.activity.OpenGLESSampleActivity;
 import com.example.ShikeApplication.audioProcess.AudioClass;
 import com.example.ShikeApplication.ndkdemo.CallbackInterface.JavaNdkListener;
 import com.example.ShikeApplication.ndkdemo.CallbackInterface.ThreadErrorListener;
@@ -58,6 +59,7 @@ public class NativeRenderFragment extends Fragment {
         Button callBackCMethodsButton = (Button)view.findViewById(R.id.native_thread_call_back_from_c_button);
         Button startAudioThreadButton = (Button)view.findViewById(R.id.audio_service_start);
         Button stopAudioThreadButton = (Button)view.findViewById(R.id.audio_service_stop);
+        Button startOpenGLESButton = (Button)view.findViewById(R.id.start_opengles_button);
         ijkPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +114,10 @@ public class NativeRenderFragment extends Fragment {
                 Log.d(TAG, "code = " + code + " msg = " + msg);
             }
         });
-
+        startOpenGLESButton.setOnClickListener(v->{
+            Log.d(TAG, "start activity opengles.");
+            startActivity(new Intent(getActivity(), OpenGLESSampleActivity.class));
+        });
         return view;
     }
 

@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "So_Library_name", "\"connrotCmake-lib\""    //connrot-lib
         }
@@ -32,16 +32,15 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "So_Library_name", "\"connrotCmake-lib\""      //connrot-lib
-
         }
     }
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
-//        ndkBuild {
-//            path 'src/main/jni/Android.mk'
-//        }
+        /*ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }*/
     }
     sourceSets {
         main {
@@ -64,6 +63,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.tencent.bugly:crashreport:3.1.0'
     implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    implementation project(path: ':obj2opengles')
 }
 repositories {
     mavenCentral()

@@ -1,4 +1,4 @@
-package com.example.ShikeApplication.opengl.render;
+package com.example.ShikeApplication.opengl.threedimensionalrender;
 
 import android.util.Log;
 import android.view.Surface;
