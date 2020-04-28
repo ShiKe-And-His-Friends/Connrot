@@ -13,4 +13,4 @@
 ### Day 2020.02.12
   I study and use Android raw media interface to build this demo.I learn C++ and FFmepg build this demo.
 ### Day 2020.04.28
-  I like OpenGL and Graphic aera more.
+  I like OpenGL and Graphics more.
