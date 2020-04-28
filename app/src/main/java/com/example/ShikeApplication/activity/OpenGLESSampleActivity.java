@@ -1,5 +1,7 @@
 package com.example.ShikeApplication.activity;
 
+import android.app.Activity;
+import android.app.AppComponentFactory;
 import android.os.Bundle;
 
 import com.example.ShikeApplication.opengl.threedimensionalrender.GLRecoder;
