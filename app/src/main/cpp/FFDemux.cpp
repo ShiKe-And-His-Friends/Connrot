@@ -48,7 +48,7 @@ bool FFDemux::Open (const char *url) {
         mux.unlock();
         char buf[1024] = {0};
         av_strerror(re ,buf , sizeof(buf));
-        XLOGE("FFDemux open %s failed!" ,url);
+        XLOGE("FFDemux open %s failed! %s" ,url,buf);
         return false;
     }
     XLOGI("FFDemux open %s success!" ,url);
@@ -75,10 +75,26 @@ XParameter FFDemux::GetVPara () {
         XLOGE("GetVPara failed! ic is NULL!");
         return XParameter();
     }
-    int re = av_find_best_stream(ic ,AVMEDIA_TYPE_VIDEO ,-1 ,-1 ,0 ,0);
+    int re = 0;
+    for (int i = 0 ; i < ic->nb_streams ; i++) {
+        if (DEBUG)
+            XLOGI("GetVPara stream channel is %d", i);
+        AVStream *as = ic->streams[i];
+        if (as->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+            if (DEBUG)
+                XLOGI("GetVPara stream channel find Video is %d", i);
+            int fps = (int)r2d(as->avg_frame_rate);
+            if (DEBUG)
+                XLOGI("GetVPara stream fps = %d ,width = %d ,height = %d ,codec is = %d ,avformat = %d"
+                    ,fps ,as->codecpar->width ,as->codecpar->height ,as->codecpar->codec_id ,as->codecpar->format);
+        }
+    }
+    //int re = av_find_best_stream(ic ,AVMEDIA_TYPE_VIDEO ,-1 ,-1 ,0 ,0);
     if (re < 0) {
         mux.unlock();
-        XLOGI("av_find_best_stream video failed!");
+        char errorBuf[1024] = {0};
+        av_strerror(re ,errorBuf , sizeof(errorBuf));
+        XLOGI("av_find_best_stream is %d failed!,%s" ,re ,errorBuf);
         return XParameter();
     }
     videoStream = re;
@@ -95,7 +111,23 @@ XParameter FFDemux::GetAPara () {
         XLOGI("GetAPara failed! ic is NULL !");
         return XParameter();
     }
-    int re = av_find_best_stream(ic ,AVMEDIA_TYPE_AUDIO ,-1 ,-1 ,0 ,0);
+    int re = 0;
+    for (int i = 0 ; i < ic->nb_streams ; i++) {
+        if (DEBUG)
+            XLOGI("GetAPara stream channel is %d", i);
+        AVStream *as = ic->streams[i];
+        if (as->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+            if (DEBUG)
+                XLOGI("GetAPara stream channel find Video is %d", i);
+            int fps = (int)r2d(as->avg_frame_rate);
+            if (DEBUG)
+                XLOGI("GetAPara stream smaple_rate = %d ,channels is = %d ,format = %d"
+            ,as->codecpar->sample_rate ,as->codecpar->channels ,as->codecpar->format);
+            re = i;
+            break;
+        }
+    }
+    //int re = av_find_best_stream(ic ,AVMEDIA_TYPE_AUDIO ,-1 ,-1 ,0 ,0);
     if (re < 0) {
         mux.unlock();
         XLOGE("FFDemux avfind_best_stream audio failed!");

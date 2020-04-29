@@ -2,6 +2,7 @@
 // Created by shike on 2/4/2020.
 //
 
+#include <libavutil/error.h>
 #include "IPlayer.h"
 #include "XLog.h"
 #include "IAudioPlay.h"

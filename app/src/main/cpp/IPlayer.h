@@ -28,7 +28,7 @@ public:
     virtual bool Seek(double pos);
     virtual void SetPause(bool isP);
 
-    bool isHardDecode = true;
+    bool isHardDecode = false;
 
     XParameter outPara;
 
