@@ -32,10 +32,11 @@ bool FFDecode::Open(XParameter para, bool isHard) {
         return false;
     }
     AVCodecParameters *p = para.para;
+    XLOGI("codec id is %d, codec type is %d." ,p->codec_id ,p->codec_type);
     AVCodec *cd = avcodec_find_decoder(p->codec_id);
-    if (isHard) {
+    /*if (isHard) {
         cd = avcodec_find_encoder_by_name("h264_mediacodec");
-    }
+    }*/
     if (!cd) {
         XLOGI("avcodec_find_decode %d failed! %d" ,p->codec_id ,isHard);
         return false;
