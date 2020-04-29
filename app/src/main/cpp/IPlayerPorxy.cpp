@@ -4,6 +4,7 @@
 
 #include "IPlayerPorxy.h"
 #include "FFPlayerBuilder.h"
+#include "XLog.h"
 
 void IPlayerPorxy::Close () {
     mux.lock();
@@ -56,6 +57,7 @@ bool IPlayerPorxy::Seek (double pos) {
 }
 
 bool IPlayerPorxy::Open (const char *path) {
+    XLOGI("IplayerPorxy is %s" ,path);
     bool re = false;
     mux.lock();
     if (player) {
