@@ -2,11 +2,14 @@ package com.example.ShikeApplication.NPaly
 
 import android.content.Context
 import android.opengl.GLSurfaceView
+import android.os.Environment
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.View
+import com.example.ShikeApplication.R
 import com.example.ShikeApplication.ndkdemo.ndktool
+import java.io.File
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -34,7 +37,10 @@ class XPlaySurfaceView(context: Context, attrs: AttributeSet) : GLSurfaceView(co
     override fun surfaceDestroyed(p0: SurfaceHolder?) {}
 
     override fun surfaceCreated(holder: SurfaceHolder) {
+        var path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/glOutput.mp4"
         ndktool.NPlayerInitView(holder.surface)
+        ndktool.NPlayerOpenUrl(path)
+        //ndktool.NPlayerOpenUrl(this.resources.getString(R.string.fragment_native_player_remota_src))
         Log.d(TAG , "XPlaySurfaceView surfaceCreated.")
     }
 }

@@ -115,7 +115,7 @@ bool IPlayer::Seek(double pos) {
 }
 
 bool IPlayer::Open(const char *path) {
-    Close();
+    //Close();  //Debug for process go
     mux.lock();
     if (!demux || !demux->Open(path)) {
         mux.unlock();
