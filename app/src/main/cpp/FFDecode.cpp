@@ -3,9 +3,11 @@
 //
 
 extern "C" {
-#include <libavcodec/avcodec.h>
 #include <libavcodec/jni.h>
+#include <libavutil/frame.h>
+#include <libavcodec/avcodec.h>
 }
+
 #include "FFDecode.h"
 #include "XLog.h"
 void FFDecode::InitHard(void *vm) {
@@ -34,9 +36,9 @@ bool FFDecode::Open(XParameter para, bool isHard) {
     AVCodecParameters *p = para.para;
     XLOGI("codec id is %d, codec type is %d." ,p->codec_id ,p->codec_type);
     AVCodec *cd = avcodec_find_decoder(p->codec_id);
-    /*if (isHard) {
+    if (isHard) {
         cd = avcodec_find_encoder_by_name("h264_mediacodec");
-    }*/
+    }
     if (!cd) {
         XLOGI("avcodec_find_decode %d failed! %d" ,p->codec_id ,isHard);
         return false;
