@@ -7,6 +7,9 @@
 #include "XLog.h"
 
 void IPlayerPorxy::Close () {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Close methods.");
+    }
     mux.lock();
     if (player) {
         player->Close();
@@ -15,6 +18,9 @@ void IPlayerPorxy::Close () {
 }
 
 void IPlayerPorxy::Init (void *vm) {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Init methods.");
+    }
     mux.lock();
     if (vm) {
         FFPlayerBuilder::InitHard(vm);
@@ -29,6 +35,9 @@ void IPlayerPorxy::Init (void *vm) {
 }
 
 double IPlayerPorxy::PlayPos () {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy PlayPos methods.");
+    }
     double pos = 0.0;
     mux.lock();
     if (player) {
@@ -40,6 +49,9 @@ double IPlayerPorxy::PlayPos () {
 
 void IPlayerPorxy::SetPause(bool isP)
 {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy SetPause methods.");
+    }
     mux.lock();
     if(player)
         player->SetPause(isP);
@@ -47,6 +59,9 @@ void IPlayerPorxy::SetPause(bool isP)
 }
 
 bool IPlayerPorxy::Seek (double pos) {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Seek methods.");
+    }
     bool re = false;
     mux.lock();
     if (player) {
@@ -57,6 +72,9 @@ bool IPlayerPorxy::Seek (double pos) {
 }
 
 bool IPlayerPorxy::Open (const char *path) {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Open methods.");
+    }
     XLOGI("IplayerPorxy is %s" ,path);
     bool re = false;
     mux.lock();
@@ -69,9 +87,13 @@ bool IPlayerPorxy::Open (const char *path) {
 }
 
 bool IPlayerPorxy::Start() {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Start methods.");
+    }
     bool re = false;
     mux.lock();
     if (player) {
+        XLOGD("shikeDebug player start...");
         re = player->Start();
     }
     mux.unlock();
@@ -79,6 +101,9 @@ bool IPlayerPorxy::Start() {
 }
 
 void IPlayerPorxy::InitView(void *win) {
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy InitView methods.");
+    }
     mux.lock();
     if (player) {
         player->InitView(win);

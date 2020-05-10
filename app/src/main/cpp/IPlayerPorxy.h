@@ -26,6 +26,7 @@ public:
     virtual double PlayPos();
 
 protected:
+    int IPlayerPorxy_DEBUG_LOG = 1;
     IPlayerPorxy(){}
     IPlayer *player = 0;
     std::mutex mux;
