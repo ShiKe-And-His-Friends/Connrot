@@ -21,6 +21,7 @@ public:
     int totalMs = 0;
 
 protected:
+    int IDemux_DEBUG_LOG = 1;
     virtual void Main();
 };
 

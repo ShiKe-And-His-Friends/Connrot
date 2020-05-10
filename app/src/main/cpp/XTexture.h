@@ -20,6 +20,8 @@ public:
     virtual ~XTexture(){};
 
 protected:
+    int CXTexture_DEBUG_LOG = 1;
+    int XTexture_DEBUG_LOG = 1;
     XTexture(){};
 };
 

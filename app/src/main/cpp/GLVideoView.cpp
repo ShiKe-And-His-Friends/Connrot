@@ -7,10 +7,16 @@
 #include "XLog.h"
 
 void GLVideoView::SetRender (void *win) {
+    if (GLVideoView_DEBUG_LOG) {
+        XLOGD("GLVideoView SetRender methods.");
+    }
     view = win;
 }
 
 void GLVideoView::Close () {
+    if (GLVideoView_DEBUG_LOG) {
+        XLOGD("GLVideoView Close methods.");
+    }
     mux.lock();
     if (txt) {
         txt->Drop();
@@ -20,12 +26,19 @@ void GLVideoView::Close () {
 }
 
 void GLVideoView::Render(XData data) {
+    if (GLVideoView_DEBUG_LOG) {
+        XLOGD("GLVideoView Render methods.");
+    }
     if (!view) {
+        XLOGE("GLVideoView Render failed,no view.");
         return;
     }
     if (!txt) {
         txt = XTexture::Create();
         txt->Init(view ,(XTextureType)data.format);
+        if (GLVideoView_DEBUG_LOG) {
+            XLOGD("GLVideoView Render create.");
+        }
     }
     txt->Draw(data.datas ,data.width ,data.height);
 }

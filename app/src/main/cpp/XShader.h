@@ -26,6 +26,7 @@ protected:
     unsigned int fsh = 0;
     unsigned int program = 0;
     unsigned int texts[100] = {0};
+    int XShader_DEBUG_LOG = 1;
     std::mutex mux;
 };
 

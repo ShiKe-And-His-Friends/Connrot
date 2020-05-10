@@ -56,7 +56,7 @@ public:
             return false;
         }
         XLOGE("eglGetDisplay success!");
-        if (EGL_TRUE == eglInitialize(display ,0 ,0)) {
+        if (EGL_TRUE != eglInitialize(display ,0 ,0)) {
             mux.unlock();
             XLOGE("eglInitialized failed!");
             return false;

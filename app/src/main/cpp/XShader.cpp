@@ -94,6 +94,9 @@ static GLuint InitShader (const char * code ,GLint type) {
 }
 
 void XShader::Close () {
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Close methods.");
+    }
     mux.lock();
     if (program) {
         glDeleteProgram (program);
@@ -104,13 +107,16 @@ void XShader::Close () {
     if (vsh) {
         glDeleteShader (vsh);
     }
-    for (int i = 0 ; i < sizeof(texts)/ sizeof(unsigned int) ; i++) {
+    for (int i = 0 ; i < sizeof(texts)/ sizeof(unsigned int) - 1; i++) {
         if (texts[i]) {
-            glDeleteTextures (1 ,&texts[1]);
+            glDeleteTextures (1 ,&texts[i]);
         }
         texts[i] = 0;
     }
-    mux.lock();
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Close success.");
+    }
+    mux.unlock();
 }
 
 bool XShader::Init (XShaderType type) {

@@ -20,6 +20,7 @@ public:
     virtual XData RecvFrame();
 
 protected:
+    int FFDecode_DEBUG_LOG = 1;
     AVCodecContext *codec = 0;
     AVFrame *frame = 0;
     std::mutex mux;
