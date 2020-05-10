@@ -46,7 +46,7 @@ bool FFDecode::Open(XParameter para, bool isHard) {
     XLOGI("avcodec_find_decode %d success. %d" ,p->codec_id ,isHard);
     mux.unlock();
     codec = avcodec_alloc_context3(cd);
-    avcodec_parameters_to_context(codec ,0);
+    avcodec_parameters_to_context(codec ,p);
     codec->thread_count = 8;
     int re = avcodec_open2(codec ,0 ,0);
     if (re != 0) {

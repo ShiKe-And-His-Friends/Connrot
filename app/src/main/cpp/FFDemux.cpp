@@ -105,6 +105,7 @@ XParameter FFDemux::GetVPara () {
 }
 
 XParameter FFDemux::GetAPara () {
+    XLOGI("GetAPara staret!");
     mux.lock();
     if (!ic) {
         mux.unlock();
@@ -121,10 +122,9 @@ XParameter FFDemux::GetAPara () {
                 XLOGI("GetAPara stream channel find Video is %d", i);
             int fps = (int)r2d(as->avg_frame_rate);
             if (DEBUG)
-                XLOGI("GetAPara stream smaple_rate = %d ,channels is = %d ,format = %d"
-            ,as->codecpar->sample_rate ,as->codecpar->channels ,as->codecpar->format);
+                XLOGI("GetAPara stream smaple_rate = %d ,channels is = %d ,format = %d  ,codecid = %d"
+            ,as->codecpar->sample_rate ,as->codecpar->channels ,as->codecpar->format ,as->codecpar->codec_id);
             re = i;
-            break;
         }
     }
     //int re = av_find_best_stream(ic ,AVMEDIA_TYPE_AUDIO ,-1 ,-1 ,0 ,0);
@@ -139,6 +139,7 @@ XParameter FFDemux::GetAPara () {
     para.channels = ic->streams[re]->codecpar->channels;
     para.sample_rate = ic->streams[re]->codecpar->sample_rate;
     mux.unlock();
+    XLOGI("GetAPara success!");
     return para;
 }
 

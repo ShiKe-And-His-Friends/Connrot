@@ -137,7 +137,7 @@ JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, jclass clazz,
                                                            jobject surface) {
     ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
-    IPlayerPorxy::Get()->Init(win);
+    IPlayerPorxy::Get()->InitView(win);
 }
 
 extern "C"

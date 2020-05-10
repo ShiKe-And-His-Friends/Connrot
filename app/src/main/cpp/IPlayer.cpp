@@ -17,6 +17,9 @@ IPlayer *IPlayer::Get(unsigned char index) {
 }
 
 void IPlayer::Main() {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Main methods.");
+    }
     while (!isExit) {
         mux.lock();
         if (!audioPlay || !vdecode) {
@@ -26,14 +29,19 @@ void IPlayer::Main() {
         }
         int apts = audioPlay->pts;
         vdecode->synPts = apts;
-
-         mux.unlock();
-         XSleep(2);
+        if (IPLAYER_DEBUG_LOG) {
+            XLOGD("IPlayer Main Thread running.");
+        }
+        mux.unlock();
+        XSleep(2);
     }
 }
 
 void IPlayer::Close()
 {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Close methods.");
+    }
     mux.lock();
     XThread::Stop();
     if (demux) {
@@ -75,6 +83,9 @@ void IPlayer::Close()
 
 void IPlayer::SetPause(bool isP)
 {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer SetPause methods.");
+    }
     mux.lock();
     XThread::SetPause(isP);
     if(demux)
@@ -90,6 +101,9 @@ void IPlayer::SetPause(bool isP)
 
 double IPlayer::PlayPos() 
 {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer PlayPos methods.");
+    }
     double pos = 0.0;
     mux.lock();
     int total = 0;
@@ -106,6 +120,9 @@ double IPlayer::PlayPos()
 }
 
 bool IPlayer::Seek(double pos) {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Seek methods.");
+    }
     bool re = false;
     mux.lock();
     if (demux) {
@@ -116,6 +133,9 @@ bool IPlayer::Seek(double pos) {
 }
 
 bool IPlayer::Open(const char *path) {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Open methods.");
+    }
     //Close();  //Debug for process go
     mux.lock();
     if (!demux || !demux->Open(path)) {
@@ -126,7 +146,7 @@ bool IPlayer::Open(const char *path) {
     if (!vdecode || !vdecode->Open(demux->GetVPara(),isHardDecode)) {
         XLOGE("vdecode->Open %s failed!",path);
     }
-    if (!adecode || !adecode->Open(demux->GetAPara(),path)) {
+    if (!adecode || !adecode->Open(demux->GetAPara(),isHardDecode)) {
         XLOGE("adecode->Open %s failed!",path);
     }
     //if (outPara.sample_rate <= 0)
@@ -139,6 +159,9 @@ bool IPlayer::Open(const char *path) {
 }
 
 bool IPlayer::Start(){
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Start methods.");
+    }
     mux.lock();
     if(vdecode){
         vdecode->Start();
@@ -151,6 +174,9 @@ bool IPlayer::Start(){
 }
 
 void IPlayer::InitView(void *win) {
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer InitView methods.");
+    }
     if (videoView) {
         videoView->Close();
         videoView->SetRender(win);
