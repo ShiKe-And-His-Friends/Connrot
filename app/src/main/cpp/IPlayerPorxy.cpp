@@ -93,7 +93,7 @@ bool IPlayerPorxy::Start() {
     bool re = false;
     mux.lock();
     if (player) {
-        XLOGD("shikeDebug player start...");
+        XLOGD("IPlayerProxy player start...");
         re = player->Start();
     }
     mux.unlock();

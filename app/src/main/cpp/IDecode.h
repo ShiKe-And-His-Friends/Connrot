@@ -23,6 +23,7 @@ public:
     int pts = 0;
 
 protected:
+    int IDecode_DEBUG_LOG = 1;
     virtual void Main();
     std::list<XData> packs;
     std::mutex packsMutex;

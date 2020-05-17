@@ -83,6 +83,7 @@ void IPlayer::Close()
 
 void IPlayer::SetPause(bool isP)
 {
+    XLOGE("thread pause.");
     if (IPLAYER_DEBUG_LOG) {
         XLOGD("IPlayer SetPause methods.");
     }
@@ -170,6 +171,14 @@ bool IPlayer::Start(){
     if (!demux || !demux->Start()) {
         mux.unlock();
     }
+    if (adecode) {
+        adecode->Start();
+    }
+    if (audioPlay) {
+        audioPlay->StartPlay(outPara);
+    }
+    XThread::Start();
+    mux.unlock();
     return true;
 }
 

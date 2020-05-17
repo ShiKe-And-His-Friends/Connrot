@@ -6,12 +6,18 @@
 #include "XLog.h"
 
 void IDecode::Update (XData pkt) {
+    if (IDecode_DEBUG_LOG) {
+        XLOGI("IDecode Update methods.");
+    }
     if (pkt.isAudio != isAudio) {
         return;
     }
     while (!isExit) {
         packsMutex.lock();
         if (packs.size() < maxList) {
+            if (IDecode_DEBUG_LOG) {
+                XLOGI("IDecode stack push size is %d" ,pkt.size);
+            }
             packs.push_back(pkt);
             packsMutex.unlock();
             break;
@@ -22,10 +28,16 @@ void IDecode::Update (XData pkt) {
 }
 
 void IDecode::Clear () {
+    if (IDecode_DEBUG_LOG) {
+        XLOGI("IDecode Clear methods.");
+    }
     packsMutex.lock();
     while (!packs.empty()) {
         packs.front().Drop();
         packs.pop_front();
+        if (IDecode_DEBUG_LOG) {
+            XLOGI("IDecode stack pop a data.");
+        }
     }
     pts = 0;
     synPts = 0;
@@ -33,6 +45,9 @@ void IDecode::Clear () {
 }
 
 void IDecode::Main () {
+    if (IDecode_DEBUG_LOG) {
+        XLOGI("IDecode Main methods.");
+    }
     while (!isExit) {
         packsMutex.lock();
         if (!isAudio && synPts > 0) {
@@ -57,6 +72,9 @@ void IDecode::Main () {
                 }
                 pts = frame.pts;
                 this->Notify(frame);
+                if (IDecode_DEBUG_LOG) {
+                    XLOGI("IDecode notify a data.");
+                }
             }
         }
         pack.Drop();

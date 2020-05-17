@@ -15,6 +15,9 @@ void FFDecode::InitHard(void *vm) {
 }
 
 void FFDecode::Close() {
+    if (FFDecode_DEBUG_LOG) {
+        XLOGD("FFDecode Close methods.");
+    }
     IDecode::Clear();
     mux.lock();
     pts = 0;
@@ -29,6 +32,9 @@ void FFDecode::Close() {
 }
 
 bool FFDecode::Open(XParameter para, bool isHard) {
+    if (FFDecode_DEBUG_LOG) {
+        XLOGD("FFDecode Open methods.");
+    }
     Close();
     if (!para.para) {
         return false;
@@ -67,6 +73,9 @@ bool FFDecode::Open(XParameter para, bool isHard) {
 }
 
 bool FFDecode::SendPacket(XData pkt) {
+    if (FFDecode_DEBUG_LOG) {
+        XLOGD("FFDecode SendPacket methods.");
+    }
     if (pkt.size <0 || !pkt.data) {
         return false;
     }
@@ -84,6 +93,9 @@ bool FFDecode::SendPacket(XData pkt) {
 }
 
 XData FFDecode::RecvFrame() {
+    if (FFDecode_DEBUG_LOG) {
+        XLOGD("FFDecode RecvFrame methods.");
+    }
     mux.unlock();
     if (!codec) {
         mux.unlock();
@@ -111,5 +123,8 @@ XData FFDecode::RecvFrame() {
     d.pts = frame->pts;
     pts = d.pts;
     mux.unlock();
+    if (FFDecode_DEBUG_LOG) {
+        XLOGD("FFDecode RecvFrame and process success.");
+    }
     return d;
 }

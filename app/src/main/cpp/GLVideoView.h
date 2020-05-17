@@ -16,6 +16,7 @@ public:
     virtual void Close();
 
 protected:
+    int GLVideoView_DEBUG_LOG = 1;
     void *view = 0;
     XTexture *txt = 0;
     std::mutex mux;
