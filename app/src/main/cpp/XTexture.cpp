@@ -25,7 +25,7 @@ public:
 
     virtual bool Init(void *win , XTextureType type){
         if (CXTexture_DEBUG_LOG) {
-            XLOGD("CXTexture Init methods.");
+            XLOGD("CXTexture Init methods. Type is %d" ,type);
         }
         mux.lock();
         XEGL::Get()->Close();

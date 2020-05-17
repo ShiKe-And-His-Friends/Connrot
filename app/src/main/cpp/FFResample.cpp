@@ -34,7 +34,7 @@ bool FFResample::Open (XParameter in, XParameter out) {
         XLOGE("swr_init failed!");
         return false;
     } else {
-        XLOGE("swr_init success!");
+        XLOGI("swr_init success!");
     }
     outChannels = in.para -> channels;
     outFormat = AV_SAMPLE_FMT_S16;

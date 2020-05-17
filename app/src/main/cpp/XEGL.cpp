@@ -55,13 +55,13 @@ public:
             XLOGE("eglGetDisplay failed!");
             return false;
         }
-        XLOGE("eglGetDisplay success!");
+        XLOGI("eglGetDisplay success!");
         if (EGL_TRUE != eglInitialize(display ,0 ,0)) {
             mux.unlock();
             XLOGE("eglInitialized failed!");
             return false;
         }
-        XLOGE("eglInitialized success!");
+        XLOGI("eglInitialized success!");
         EGLint configSpec [] = {
                 EGL_RED_SIZE,8,
                 EGL_GREEN_SIZE,8,
@@ -76,7 +76,7 @@ public:
             XLOGE("eglChooseConfig failed!");
             return false;
         }
-        XLOGE("eglChooseConfig success!");
+        XLOGI("eglChooseConfig success!");
         surface = eglCreateWindowSurface(display ,config ,nwin ,NULL);
         const EGLint ctxAttr[] = {EGL_CONTEXT_CLIENT_VERSION ,2 ,EGL_NONE};
         context = eglCreateContext(display ,config ,EGL_NO_CONTEXT ,ctxAttr);
@@ -89,7 +89,7 @@ public:
             mux.unlock();
             XLOGE("eglMakeCurrent failed!");
         }
-        XLOGE("eglMakeCurrent success!");
+        XLOGI("eglMakeCurrent success!");
         mux.unlock();
         return true;
     }
