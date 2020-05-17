@@ -35,6 +35,9 @@ void GLVideoView::Render(XData data) {
     }
     if (!txt) {
         txt = XTexture::Create();
+        if (GLVideoView_DEBUG_LOG) {
+            XLOGD("GLVideoView Render date format is %d" ,data.format);
+        }
         txt->Init(view ,(XTextureType)data.format);
         if (GLVideoView_DEBUG_LOG) {
             XLOGD("GLVideoView Render create.");

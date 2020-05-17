@@ -83,10 +83,7 @@ void IPlayer::Close()
 
 void IPlayer::SetPause(bool isP)
 {
-    XLOGE("thread pause.");
-    if (IPLAYER_DEBUG_LOG) {
-        XLOGD("IPlayer SetPause methods.");
-    }
+    XLOGE("IPlayer thread pause.");
     mux.lock();
     XThread::SetPause(isP);
     if(demux)
@@ -138,24 +135,24 @@ bool IPlayer::Open(const char *path) {
         XLOGD("IPlayer Open methods.");
     }
     //Close();  //Debug for process go
-    mux.lock();
     if (!demux || !demux->Open(path)) {
-        mux.unlock();
-        XLOGD("demux->Open %s failed!",path);
+        XLOGD("IPlayer Open demux->Open %s failed!",path);
         return false;
     }
     if (!vdecode || !vdecode->Open(demux->GetVPara(),isHardDecode)) {
-        XLOGE("vdecode->Open %s failed!",path);
+        XLOGE("IPlayer Open vdecode->Open %s failed!",path);
     }
     if (!adecode || !adecode->Open(demux->GetAPara(),isHardDecode)) {
-        XLOGE("adecode->Open %s failed!",path);
+        XLOGE("IPlayer Open adecode->Open %s failed!",path);
     }
     //if (outPara.sample_rate <= 0)
     outPara = demux->GetAPara();
     if (!resample || !resample->Open(demux->GetAPara(),outPara)) {
-        XLOGE("resmaple->Open %s failed!",path);
+        XLOGE("IPlayer Open resmaple->Open %s failed!",path);
     }
-    mux.unlock();
+    if (IPLAYER_DEBUG_LOG) {
+        XLOGD("IPlayer Open methods success.");
+    }
     return true;
 }
 

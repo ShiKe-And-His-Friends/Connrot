@@ -29,6 +29,7 @@ void XThread::SetPause(bool isP)
 }
 
 bool XThread::Start() {
+    XLOGI("XThread Main Thread Stop methods begins.");
     isExit = false;
     thread th(&XThread::ThreadMain,this);
     th.detach();
@@ -37,22 +38,22 @@ bool XThread::Start() {
 
 void XThread::ThreadMain() {
     isRunning = true;
-    XLOGI("Main Thread in.");
+    XLOGI("XThread Main Thread in.");
     Main();
-    XLOGI("Main Thread out.");
+    XLOGI("XThread Main Thread out.");
     isRunning = false;
 }
 
 void XThread::Stop() {
-    XLOGI("Main Thread Stop Start.");
+    XLOGI("XThread Main Thread Stop methods begins.");
     isExit = true;
     for (int i = 0 ; i < 200 ; i++) {
         if (!isRunning)
         {
-            XLOGE("Main Thread Stop Sucess.");
+            XLOGE("XThread Main Thread Stop methods Sucess.");
             return;
         }
         XSleep(1);
     }
-    XLOGI("Main Thread Stop Time out.");
+    XLOGI("XThread Main Thread Stop Time out.");
 }

@@ -20,7 +20,7 @@ public:
     FFDemux();
 
 private:
-    int DEBUG = 0;
+    int DEBUG = 1;
     AVFormatContext *ic = 0;
     std::mutex mux;
     int audioStream = 1;

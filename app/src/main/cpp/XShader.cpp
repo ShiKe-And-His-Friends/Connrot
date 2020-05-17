@@ -8,8 +8,8 @@
 
 #define GET_STR(x) #x
 static const char *vertexShader = GET_STR(
-        attribute vec4 aPositionl;
-        attribute vec2 aTextCoord;
+        attribute vec4 aPosition;
+        attribute vec2 aTexCoord;
         varying vec2 vTexCoord;
         void main () {
             vTexCoord = vec2(aTexCoord.x ,1.0-aTexCoord.y);
@@ -73,23 +73,30 @@ static const char *fragNV21 = GET_STR(
 );
 
 static GLuint InitShader (const char * code ,GLint type) {
+    XLOGD("XShader InitShader methods.");
     GLuint sh = glCreateShader (type);
     if (sh == 0) {
-        XLOGE("glCreateShader %d failed!" ,type);
+        XLOGE("XShader glCreateShader %d failed!" ,type);
         return 0;
     }
     glShaderSource (sh
-                    ,1
-                    ,&code
-                    ,0);
-    glCompileShader (sh);
+                    ,1  //shader数量
+                    ,&code  //shader代码
+                    ,0);    //代码长度
+    glCompileShader (sh);  //编译shader
     GLint status;
     glGetShaderiv (sh ,GL_COMPILE_STATUS ,&status);
     if (status == 0) {
-        XLOGI("glCompileShader failed!");
+        char szLog[1024] = {0};
+        GLsizei logLen = 0;
+        glGetShaderInfoLog(sh,1024,&logLen,szLog);
+        XLOGE("XShader Compile Shader fail error log: %s \nshader code:\n%s\n",szLog,vertexShader);
+        glDeleteShader(sh);
+
+        XLOGE("XShader glCompileShader failed!");
         return 0;
     }
-    XLOGE("glCompileShader success!");
+    XLOGI("XShader glCompileShader success!");
     return sh;
 }
 
@@ -119,16 +126,19 @@ void XShader::Close () {
     mux.unlock();
 }
 
-bool XShader::Init (XShaderType type) {
+bool XShader::Init(XShaderType type) {
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Init. Type is %d" ,type);
+    }
     Close();
     mux.lock();
-    vsh = InitShader (vertexShader ,GL_VERTEX_SHADER);
+    vsh = InitShader(vertexShader ,GL_VERTEX_SHADER);
     if (vsh == 0) {
         mux.unlock();
-        XLOGE("Init Shader GL_VERTEX_SHADER failed!");
+        XLOGE("Init XShader GL_VERTEX_SHADER failed!");
         return false;
     }
-    XLOGE("Init Shader GL_VERTEX_SHADER success! %d" ,type);
+    XLOGI("Init XShader GL_VERTEX_SHADER success! %d" ,type);
     switch (type) {
         case XSHADER_YUV420P:
             fsh = InitShader(fragYUV420P ,GL_FRAGMENT_SHADER);
@@ -145,15 +155,15 @@ bool XShader::Init (XShaderType type) {
     }
     if (fsh == 0) {
         mux.unlock();
-        XLOGE("InitShader GL_FRAGMENT_SHADER failed!");
+        XLOGE("XShader InitShader GL_FRAGMENT_SHADER failed!");
         return false;
     }
-    XLOGE("InitShader GL_FRAGMENT_SHADER success!");
+    XLOGE("XShader InitShader GL_FRAGMENT_SHADER success!");
 
     program = glCreateProgram ();
     if (program == 0) {
         mux.unlock();
-        XLOGE("glCreateProgram failed!");
+        XLOGE("XShader glCreateProgram failed!");
         return false;
     }
     glAttachShader (program ,vsh);
@@ -163,11 +173,11 @@ bool XShader::Init (XShaderType type) {
     glGetProgramiv (program ,GL_LINK_STATUS ,&status);
     if (status != GL_TRUE) {
         mux.unlock();
-        XLOGE("glLinkPrograme failed!");
+        XLOGE("XShader glLinkPrograme failed!");
         return false;
     }
     glUseProgram (program);
-    XLOGE("glLinkPrograme success!");
+    XLOGE("XShader glLinkPrograme success!");
     static float vers[] = {
             1.0f ,0.0f
             ,0.0f ,0.0f
@@ -198,23 +208,36 @@ bool XShader::Init (XShaderType type) {
             break;
     }
     mux.unlock();
-    XLOGI("初始化Shader成功！");
+    XLOGI("初始化XShader成功！");
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Init success.");
+    }
     return true;
 }
 
 void XShader::Draw() {
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Draw.");
+    }
     mux.lock();
     if(!program)
     {
         mux.unlock();
+        XLOGD("XShader Draw failure, program is null.");
         return;
     }
     //三维绘制
     glDrawArrays(GL_TRIANGLE_STRIP,0,4);
     mux.unlock();
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader Draw success.");
+    }
 }
 
 void XShader::GetTexture(unsigned int index,int width,int height, unsigned char *buf,bool isa) {
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader GetTexture index is %d ,width is %d ,height is %d ,isa is %d" ,index ,width ,height ,isa );
+    }
     unsigned int format =GL_LUMINANCE;
     if (isa) {
         format = GL_LUMINANCE_ALPHA;
@@ -239,4 +262,7 @@ void XShader::GetTexture(unsigned int index,int width,int height, unsigned char 
     glBindTexture(GL_TEXTURE_2D,texts[index]);
     glTexSubImage2D(GL_TEXTURE_2D,0,0,0,width,height,format,GL_UNSIGNED_BYTE,buf);
     mux.unlock();
+    if (XShader_DEBUG_LOG) {
+        XLOGD("XShader GetTexture success.");
+    }
 }
