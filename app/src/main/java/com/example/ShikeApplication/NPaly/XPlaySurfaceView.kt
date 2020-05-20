@@ -38,6 +38,10 @@ class XPlaySurfaceView(context: Context, attrs: AttributeSet) : GLSurfaceView(co
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         var path = Environment.getExternalStorageDirectory().path + "/1080test.mp4"
+        var yuvPath = Environment.getExternalStorageDirectory().path + "/1080test.yuv"
+        if (File(yuvPath).exists()) {
+            File(yuvPath).delete();
+        }
         ndktool.NPlayerInitView(holder.surface)
         ndktool.NPlayerOpenUrl(path)
         //ndktool.NPlayerOpenUrl(this.resources.getString(R.string.fragment_native_player_remota_src))

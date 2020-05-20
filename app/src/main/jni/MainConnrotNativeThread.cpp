@@ -138,6 +138,7 @@ Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, j
                                                            jobject surface) {
     ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
     IPlayerPorxy::Get()->InitView(win);
+    IPlayerPorxy::Get()->Init();
 }
 
 extern "C"

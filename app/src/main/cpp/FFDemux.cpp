@@ -184,7 +184,7 @@ XData FFDemux::Read () {
     pkt->dts = pkt->dts * (1000 * r2d(ic->streams[pkt->stream_index]->time_base));
     d.pts = (int) pkt->pts;
     mux.unlock();
-    XLOGE("FFDemux Read success. XData type is %d" ,d.isAudio);
+    XLOGE("FFDemux Read success. XData type is %d, size is %d" ,d.isAudio ,d.size);
     return  d;
 }
 

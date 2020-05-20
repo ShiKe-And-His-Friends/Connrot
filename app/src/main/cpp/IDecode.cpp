@@ -7,7 +7,7 @@
 
 void IDecode::Update (XData pkt) {
     if (IDecode_DEBUG_LOG) {
-        XLOGI("IDecode Update methods.");
+        XLOGI("IDecode Update methods. XData type is %d ,size is %d" ,pkt.isAudio ,pkt.size);
     }
     if (pkt.isAudio != isAudio) {
         return;
@@ -64,6 +64,7 @@ void IDecode::Main () {
         }
         XData pack = packs.front();
         packs.pop_front();
+
         if (this->SendPacket(pack)) {
             while (!isExit) {
                 XData frame = RecvFrame();
@@ -71,6 +72,9 @@ void IDecode::Main () {
                     break;
                 }
                 pts = frame.pts;
+                if (IDecode_DEBUG_LOG) {
+                    XLOGI("IDecode notify a data. XData size is %d ",frame.size);
+                }
                 this->Notify(frame);
                 if (IDecode_DEBUG_LOG) {
                     XLOGI("IDecode notify a data.");

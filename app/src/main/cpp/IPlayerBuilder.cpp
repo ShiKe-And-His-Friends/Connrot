@@ -22,7 +22,7 @@ IPlayer *IPlayerBuilder::BuilderPlayer(unsigned char index) {
     IResample *resample = CreateResample();
     adecode->AddObs(resample);
     IAudioPlay *audioPlay = CreateAudioPlay();
-    resample->AddObs(resample);
+    resample->AddObs(audioPlay);
 
     play->demux = de;
     play->adecode = adecode;

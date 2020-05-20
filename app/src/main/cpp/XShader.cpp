@@ -26,9 +26,9 @@ static const char *fragYUV420P = GET_STR(
         void main () {
             vec3 yuv;
             vec3 rgb;
-            yuv.r = texture2D (yTexture ,vTexture).r;
-            yuv.g = texture2D (uTexture ,vTexture).r - 0.5;
-            yuv.b = texture2D (vTexture ,vTexture).r - 0.5;
+            yuv.r = texture2D (yTexture ,vTexCoord).r;
+            yuv.g = texture2D (uTexture ,vTexCoord).r - 0.5;
+            yuv.b = texture2D (vTexture ,vTexCoord).r - 0.5;
             rgb = mat3 (1.0 ,1.0 ,1.0
                         ,0.0 ,-0.39465 ,2.03211
                         ,1.12983 ,-0.58060 ,0.0) * yuv;
@@ -158,7 +158,7 @@ bool XShader::Init(XShaderType type) {
         XLOGE("XShader InitShader GL_FRAGMENT_SHADER failed!");
         return false;
     }
-    XLOGE("XShader InitShader GL_FRAGMENT_SHADER success!");
+    XLOGI("XShader InitShader GL_FRAGMENT_SHADER success!");
 
     program = glCreateProgram ();
     if (program == 0) {
@@ -177,7 +177,7 @@ bool XShader::Init(XShaderType type) {
         return false;
     }
     glUseProgram (program);
-    XLOGE("XShader glLinkPrograme success!");
+    XLOGI("XShader glLinkPrograme success!");
     static float vers[] = {
             1.0f ,0.0f
             ,0.0f ,0.0f

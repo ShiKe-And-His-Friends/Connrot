@@ -28,9 +28,6 @@ void IPlayerPorxy::Init (void *vm) {
     if (!player) {
         player = FFPlayerBuilder::Get()->BuilderPlayer();
     }
-    if (!player) {
-        player = FFPlayerBuilder::Get()->BuilderPlayer();
-    }
     mux.unlock();
 }
 
