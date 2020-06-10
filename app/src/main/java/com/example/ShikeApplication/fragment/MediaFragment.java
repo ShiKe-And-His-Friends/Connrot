@@ -49,8 +49,6 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
     private VideoEncoder mVideoEncoder;
     private CameraPreview mCameraPreview;
 
-
-
     private MediaFragment(){}
 
     public static MediaFragment getInstance(){
@@ -71,7 +69,7 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
             mCameraPreview.setSurfaceTexture(surfaceTexture);
             mCameraPreview.cameraOpen();
             mCameraPreview.startCamera();
-            mVideoEncoder = new VideoEncoder(mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight());
+            mVideoEncoder = new VideoEncoder(mCameraPreview.getPreviewWidth(), mCameraPreview.getPreviewHeight() ,null/*,new Surface(surfaceTexture)*/);
             mVideoEncoder.startEncoder();
         }
 
@@ -165,11 +163,16 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
             }
             Log.e(TAG ,"Measure background image , machineWidth " + machineWidth + " machineHeight " + machineHeight);
             if (canChangeSurfaceTexture) {
-                ViewGroup.LayoutParams layoutParams = mDecodeTexture.getLayoutParams();
+                /*ViewGroup.LayoutParams layoutParams = mDecodeTexture.getLayoutParams();
                 layoutParams.width = machineWidth;
                 layoutParams.height = (int) (machineWidth * (360/640));
-                mDecodeTexture.setLayoutParams(layoutParams);
+                mDecodeTexture.setLayoutParams(layoutParams);*/
             }
+            ViewGroup.LayoutParams layoutParams = mDecodeTexture.getLayoutParams();
+            layoutParams.width = machineWidth;
+            layoutParams.height = (int) (machineWidth * (360/640.0));
+            Log.e(TAG ,"Measure background image , set Width " + machineWidth + " set Height " + machineWidth * (360/640.0));
+            mDecodeTexture.setLayoutParams(layoutParams);
         } else {
             Log.e(TAG ,"Measure background image , mWindowManager is null.");
         }

@@ -36,11 +36,16 @@ public class VideoDecoder {
             byte [] dataSources = null;
             if(mVideoEncoder != null) {
                 dataSources = mVideoEncoder.pollFrameFromEncoder();
+            } else {
+                Log.i(TAG, "encode is null.");
             }
             int length = 0;
             if(dataSources != null) {
                 inputBuffer.put(dataSources);
                 length = dataSources.length;
+                Log.i(TAG, "encode poll data length is " + length);
+            } else {
+                Log.i(TAG, "encode poll no data.");
             }
 //            String yuvPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/camera_record_main_stream_ut12.h264";
             mediaCodec.queueInputBuffer(id,0, length,0,0);
@@ -95,11 +100,12 @@ public class VideoDecoder {
     }
 
     public void setEncoder(VideoEncoder videoEncoder){
+        Log.i(TAG,"set encoder not null is " + (videoEncoder!=null));
         this.mVideoEncoder = videoEncoder;
     }
 
     public void startDecoder(){
-        if(mMediaCodec != null && mSurface != null){
+        if(mMediaCodec != null /*&& mSurface != null*/){
             mMediaCodec.setCallback(mCallback, mVideoDecoderHandler);
             mMediaCodec.configure(mMediaFormat, mSurface,null,CONFIGURE_FLAG_DECODE);
             mMediaCodec.start();

@@ -90,11 +90,12 @@ public class MediaConstant {
 			CrashReport.postCatchedException(e);
 		}
 		if (encodeSystemSizeUnsupport) {
+			Log.e(TAG,"maxSupportWidth ="+maxSupportWidth+",maxSupportHeight = "+maxSupportHeight+" ,VIDEO_HEIGHT = "+VIDEO_HEIGHT+" <-> VIDEO_WIDTH ="+VIDEO_WIDTH);
 			if (maxSupportWidth <= VIDEO_WIDTH && maxSupportHeight <= VIDEO_HEIGHT) {
 				VIDEO_WIDTH = maxSupportWidth;
 				VIDEO_HEIGHT = maxSupportHeight;
-				Log.e(TAG,"maxSupportWidth ="+maxSupportWidth+",maxSupportHeight = "+maxSupportHeight+" ,VIDEO_HEIGHT = "+VIDEO_HEIGHT+" <-> VIDEO_WIDTH ="+VIDEO_WIDTH);
 			}
+			Log.e(TAG,"maxSupportWidth ="+maxSupportWidth+",maxSupportHeight = "+maxSupportHeight+" ,VIDEO_HEIGHT = "+VIDEO_HEIGHT+" <-> VIDEO_WIDTH ="+VIDEO_WIDTH);
 		}
 	}
 

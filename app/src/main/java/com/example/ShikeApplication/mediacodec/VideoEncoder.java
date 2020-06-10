@@ -6,21 +6,25 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.view.Surface;
 
 import androidx.annotation.NonNull;
 
 import com.example.ShikeApplication.utils.CameraUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class VideoEncoder {
     private final static String TAG = "VideoEncoder";
+    private final static String SAVE_URL = Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video.h264";
     private final static int CONFIGURE_FLAG_ENCODE = MediaCodec.CONFIGURE_FLAG_ENCODE;
 
     private MediaCodec  mMediaCodec;
     private MediaFormat mMediaFormat;
+    private Surface mSurface;
 
     private Handler mVideoEncoderHandler;
     private HandlerThread mVideoEncoderHandlerThread = new HandlerThread("VideoEncoder");
@@ -52,7 +56,7 @@ public class VideoEncoder {
                 byte [] buffer = new byte[outputBuffer.remaining()];
                 outputBuffer.get(buffer);
                 boolean result = mOutputDatasQueue.offer(buffer);
-                CameraUtil.save(buffer,0,buffer.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video.h264",true);
+                CameraUtil.save(buffer,0,buffer.length, SAVE_URL,true);
                 Log.d(TAG, "Offer to queue success.");
             }
             mMediaCodec.releaseOutputBuffer(id, true);
@@ -65,16 +69,21 @@ public class VideoEncoder {
 
         @Override
         public void onOutputFormatChanged(@NonNull MediaCodec mediaCodec, @NonNull MediaFormat mediaFormat) {
-            Log.d(TAG, "------> onOutputFormatChanged");
+            Log.d(TAG, "------> onOutputFormatChanged " + mediaFormat.toString());
         }
     };
 
-    public VideoEncoder(int viewwidth, int viewheight){
+    public VideoEncoder(int viewwidth, int viewheight ,Surface surface){
         try {
+            this.mSurface = surface;
             mMediaCodec = MediaCodec.createEncoderByType(MediaConstant.MimeTypeVideoList[0]);
             MediaConstant.setEncoderSupportVideoWidth(1920);
             MediaConstant.setEncoderSupportVideoHeight(1080);
             MediaConstant.getSupportEncodeFormat();
+            File saveFile = new File(SAVE_URL);
+            if(saveFile.exists()) {
+                saveFile.delete();
+            }
         } catch (IOException e) {
             Log.e(TAG, Log.getStackTraceString(e));
             mMediaCodec = null;
@@ -113,8 +122,9 @@ public class VideoEncoder {
      */
     public void startEncoder(){
         if(mMediaCodec != null){
+            Log.i(TAG, "encoder format is " + mMediaFormat.toString());
             mMediaCodec.setCallback(mCallback, mVideoEncoderHandler);
-            mMediaCodec.configure(mMediaFormat, null, null, CONFIGURE_FLAG_ENCODE);
+            mMediaCodec.configure(mMediaFormat, mSurface, null, CONFIGURE_FLAG_ENCODE);
             mMediaCodec.start();
         }else{
             throw new IllegalArgumentException("startEncoder failed,is the MediaCodec has been init correct?");

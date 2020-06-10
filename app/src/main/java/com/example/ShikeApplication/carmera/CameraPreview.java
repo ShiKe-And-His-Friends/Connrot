@@ -13,8 +13,8 @@ import java.util.List;
 
 public class CameraPreview implements Camera.PreviewCallback {
     private static final String TAG = "CameraPreview";
-    public static int PREVIEW_DEFAULT_HEIGHT = 720;
-    public static int PREVIEW_DEFAULT_WIDTH = 1280;
+    public static int PREVIEW_DEFAULT_HEIGHT = 1080;
+    public static int PREVIEW_DEFAULT_WIDTH = 1920;
     private static final int MY_TEXTURE_ID = 123321;
 
     private int previewHeight;
@@ -60,7 +60,7 @@ public class CameraPreview implements Camera.PreviewCallback {
         for (int i = 1 ; i < mCameraSize.size() ; i++) {
             int sizeSimilarity = Math.abs(mCameraSize.get(i).height - PREVIEW_DEFAULT_HEIGHT)
                     + Math.abs(mCameraSize.get(i).width - PREVIEW_DEFAULT_WIDTH);
-            Log.d(TAG,"mCameraParameters.getSupportedPreviewSizes(" + i + ") ="
+            Log.d(TAG,"mCameraParameters supported preview sizes(" + i + ") ="
                     + mCameraSize.get(i).height+ ","+mCameraSize.get(i).width);
             if (sizeSimilarity <= 0) {
                 previewHeight = mCameraSize.get(i).height;
@@ -72,13 +72,14 @@ public class CameraPreview implements Camera.PreviewCallback {
                 previewWidth = mCameraSize.get(i).width;
             }
         }
+        Log.d(TAG,"mCameraParameters preview format before =" + mCameraParameters.getPreviewFormat());
         mCameraParameters.setPictureSize(previewWidth,previewHeight);
-        mCameraParameters.setPreviewFormat(ImageFormat.NV21);
+        mCameraParameters.setPreviewFormat(ImageFormat.NV21);  //set camera raw format NV21 YV12
         mCamera.setParameters(mCameraParameters);
-
+        int format = mCameraParameters.getPreviewFormat();
         int mBufferSize = previewHeight * previewWidth;
-        mBufferSize = mBufferSize * ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
-        Log.d(TAG,"mCameraParameters.getPreviewFormat() =" + mCameraParameters.getPreviewFormat());
+        mBufferSize = mBufferSize * ImageFormat.getBitsPerPixel(format) / 8;
+        Log.d(TAG,"mCameraParameters preview format after =" + mCameraParameters.getPreviewFormat());
         Log.d(TAG,"mBufferSize =" + mBufferSize);
 
         i420bytes = new byte[mBufferSize];
@@ -167,11 +168,11 @@ public class CameraPreview implements Camera.PreviewCallback {
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        //Log.d(TAG,"time1 =" + System.currentTimeMillis());
-        //Log.d(TAG, "onPreviewFrame thread id:" + android.os.Process.myTid());
+        /*Log.d(TAG,"time1 =" + System.currentTimeMillis());
+        Log.d(TAG, "onPreviewFrame thread id:" + android.os.Process.myTid());*/
 
         if (data != null) {
-            Log.i(TAG,"data = " + data.length);
+//            Log.i(TAG,"data = " + data.length);
             //CameraUtil.save(data,0,data.length, Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video1.YV20",true);
             //from YV20 TO i420
 //            System.arraycopy(data, 0, i420bytes, 0, previewWidth * previewHeight);
