@@ -3,6 +3,7 @@ package com.example.ShikeApplication.mediacodec;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -41,6 +42,7 @@ public class VideoDecoder {
                 inputBuffer.put(dataSources);
                 length = dataSources.length;
             }
+//            String yuvPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/camera_record_main_stream_ut12.h264";
             mediaCodec.queueInputBuffer(id,0, length,0,0);
         }
 
@@ -49,6 +51,7 @@ public class VideoDecoder {
             Log.d(TAG, "------> onOutputBufferAvailable");
             ByteBuffer outputBuffer = mMediaCodec.getOutputBuffer(id);
             MediaFormat outputFormat = mMediaCodec.getOutputFormat(id);
+            Log.i(TAG,"show decode info fprmat is " + outputFormat.toString());
             if(mMediaFormat == outputFormat && outputBuffer != null && bufferInfo.size > 0){
                 byte [] buffer = new byte[outputBuffer.remaining()];
                 outputBuffer.get(buffer);

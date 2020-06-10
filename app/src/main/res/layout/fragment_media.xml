@@ -5,17 +5,17 @@
     android:layout_height="match_parent">
 
     <TextureView
+        android:id="@+id/decode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextureView
         android:id="@+id/camera"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="150dp"
         android:layout_height="267dp" />
-
-    <TextureView
-        android:id="@+id/decode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="267dp"
-        android:layout_height="150dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

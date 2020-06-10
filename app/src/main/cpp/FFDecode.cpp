@@ -11,6 +11,7 @@ extern "C" {
 #include "FFDecode.h"
 #include "XLog.h"
 void FFDecode::InitHard(void *vm) {
+    XLOGD("FFDecode init hard.");
     av_jni_set_java_vm(vm ,0);
 }
 

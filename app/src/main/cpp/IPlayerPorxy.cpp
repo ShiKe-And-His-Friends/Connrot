@@ -78,8 +78,13 @@ bool IPlayerPorxy::Open (const char *path) {
     if (player) {
         player->isHardDecode = isHardDecode;
         re = player->Open(path);
+    } else {
+        XLOGE("IPlayerPorxy player is null.");
     }
     mux.unlock();
+    if (IPlayerPorxy_DEBUG_LOG) {
+        XLOGD("IPlayerPorxy Open methods success.");
+    }
     return re;
 }
 

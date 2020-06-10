@@ -2,16 +2,20 @@ package com.example.ShikeApplication.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -149,6 +153,26 @@ public class MediaFragment extends Fragment implements IFramePreviewInterface {
 
     private void initView(){
         mCameraTexture.setSurfaceTextureListener(mCameraTextureListener);
+        boolean canChangeSurfaceTexture = false;
+        WindowManager mWindowManager = (WindowManager)getInstance().getActivity().getSystemService(Context.WINDOW_SERVICE);
+        if (mWindowManager != null) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
+            int machineWidth = displayMetrics.widthPixels;
+            int machineHeight = displayMetrics.heightPixels;
+            if (machineWidth > 0 && machineHeight > 0) {
+                canChangeSurfaceTexture = true;
+            }
+            Log.e(TAG ,"Measure background image , machineWidth " + machineWidth + " machineHeight " + machineHeight);
+            if (canChangeSurfaceTexture) {
+                ViewGroup.LayoutParams layoutParams = mDecodeTexture.getLayoutParams();
+                layoutParams.width = machineWidth;
+                layoutParams.height = (int) (machineWidth * (360/640));
+                mDecodeTexture.setLayoutParams(layoutParams);
+            }
+        } else {
+            Log.e(TAG ,"Measure background image , mWindowManager is null.");
+        }
         mDecodeTexture.setSurfaceTextureListener(mDecodeTextureListener);
     }
 
