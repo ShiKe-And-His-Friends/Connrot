@@ -41,6 +41,10 @@ public class VideoDecoder {
             }
             int length = 0;
             if(dataSources != null) {
+                if (dataSources.length > 4 && ((dataSources[4] & 0x1F) == 0x07)) {
+                    Log.d(TAG, "format is iIkey");
+                }
+
                 inputBuffer.put(dataSources);
                 length = dataSources.length;
                 Log.i(TAG, "encode poll data length is " + length);
@@ -105,7 +109,7 @@ public class VideoDecoder {
     }
 
     public void startDecoder(){
-        if(mMediaCodec != null /*&& mSurface != null*/){
+        if(mMediaCodec != null && mSurface != null){
             mMediaCodec.setCallback(mCallback, mVideoDecoderHandler);
             mMediaCodec.configure(mMediaFormat, mSurface,null,CONFIGURE_FLAG_DECODE);
             mMediaCodec.start();
