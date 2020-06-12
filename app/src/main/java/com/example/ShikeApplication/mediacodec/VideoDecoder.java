@@ -18,6 +18,7 @@ public class VideoDecoder {
     private final static String TAG = "VideoDecoder";
     private final static int CONFIGURE_FLAG_DECODE = 0;
 
+    private boolean startWithIFrameFlag;
     private MediaCodec  mMediaCodec;
     private MediaFormat mMediaFormat;
     private Surface     mSurface;
@@ -43,8 +44,12 @@ public class VideoDecoder {
             if(dataSources != null) {
                 if (dataSources.length > 4 && ((dataSources[4] & 0x1F) == 0x07)) {
                     Log.d(TAG, "format is iIkey");
+                    startWithIFrameFlag = true;
                 }
-
+                if (!startWithIFrameFlag) {
+                    Log.d(TAG, "Not iIkey first.");
+                    return;
+                }
                 inputBuffer.put(dataSources);
                 length = dataSources.length;
                 Log.i(TAG, "encode poll data length is " + length);
@@ -60,7 +65,7 @@ public class VideoDecoder {
             Log.d(TAG, "------> onOutputBufferAvailable");
             ByteBuffer outputBuffer = mMediaCodec.getOutputBuffer(id);
             MediaFormat outputFormat = mMediaCodec.getOutputFormat(id);
-            Log.i(TAG,"show decode info fprmat is " + outputFormat.toString());
+            Log.i(TAG,"show decode info format is " + outputFormat.toString());
             if(mMediaFormat == outputFormat && outputBuffer != null && bufferInfo.size > 0){
                 byte [] buffer = new byte[outputBuffer.remaining()];
                 outputBuffer.get(buffer);
@@ -110,6 +115,7 @@ public class VideoDecoder {
 
     public void startDecoder(){
         if(mMediaCodec != null && mSurface != null){
+            startWithIFrameFlag = false;  //MediaCodec decode must pull I Frame first
             mMediaCodec.setCallback(mCallback, mVideoDecoderHandler);
             mMediaCodec.configure(mMediaFormat, mSurface,null,CONFIGURE_FLAG_DECODE);
             mMediaCodec.start();
