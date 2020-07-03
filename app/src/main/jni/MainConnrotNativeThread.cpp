@@ -45,6 +45,7 @@ extern "C"  JNIEXPORT void JNICALL Java_com_example_ShikeApplication_ndkdemo_ndk
 
 #include "queue"
 #include "unistd.h"
+#include "../cpp/VideoDecodeFfmpegDemo.h"
 
 pthread_t produc;
 pthread_t custom;
@@ -165,4 +166,12 @@ Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerSeek(JNIEnv *env, jclas
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerPauseOrPlay(JNIEnv *env, jclass clazz) {
     IPlayerPorxy::Get()->SetPause(!IPlayerPorxy::Get()->IsPause());
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ShikeApplication_ndkdemo_ndktool_deocdeVideoMethod(JNIEnv *env, jclass clazz
+        , jstring readPathStr, jstring savePathStr) {
+    const char *readPath = env->GetStringUTFChars(readPathStr ,0);
+    const char *savePath = env->GetStringUTFChars(savePathStr ,0);
+    VideoDecodeFfmpegDemo *decodeFfmpegDemo = new VideoDecodeFfmpegDemo();
+    decodeFfmpegDemo->StartDecode(readPath ,savePath);
 }

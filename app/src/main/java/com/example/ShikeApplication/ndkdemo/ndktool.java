@@ -16,4 +16,6 @@ public class ndktool {
     public native static double NPlayerGetPos();
     public native static void NPlayerPauseOrPlay();
     public native static void NPlayerSeek(double pos);
+
+    public native static void deocdeVideoMethod(String localVideoPath ,String saveVideoPath);
 }

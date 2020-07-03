@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.example.ShikeApplication.ndkdemo.CallbackInterface.ThreadErrorListene
 import com.example.ShikeApplication.ndkdemo.ndktool;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.File;
 import java.util.UUID;
 
 public class NativeRenderFragment extends Fragment {
@@ -53,7 +55,7 @@ public class NativeRenderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nativerendler,container,false);
         Button ijkPlayerButton = (Button)view.findViewById(R.id.ijkplayer_button);
-        Button startThreadButton = (Button)view.findViewById(R.id.native_thread_start_button);
+        Button decodeThreadButton = (Button)view.findViewById(R.id.native_thread_start_button);
         Button setNormalThreadButton = (Button)view.findViewById(R.id.native_thread_set_normal_thread_button);
         Button setMutexThreadButton = (Button)view.findViewById(R.id.native_thread_set_mutex_thread_button);
         Button callBackCMethodsButton = (Button)view.findViewById(R.id.native_thread_call_back_from_c_button);
@@ -66,10 +68,19 @@ public class NativeRenderFragment extends Fragment {
 //                startActivity(new Intent(this,FileExplorerActivity.class));
             }
         });
-        startThreadButton.setOnClickListener(new View.OnClickListener() {
+        decodeThreadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                File readFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Sugar.mp4");
+                File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video.h264");
+                if (saveFile.exists()) {
+                    saveFile.delete();
+                }
+                if (!readFile.exists()) {
+                    Toast.makeText(getActivity() , R.string.native_fragment_no_input_video_file_text ,Toast.LENGTH_LONG).show();
+                } else {
+                    ndktool.deocdeVideoMethod(readFile.getAbsolutePath(), saveFile.getAbsolutePath());
+                }
             }
         });
         setNormalThreadButton.setOnClickListener(new View.OnClickListener() {

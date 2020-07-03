@@ -15,4 +15,5 @@
     <string name="audio_output_text">输出声音 : </string>
     <string name="audio_input_initialize_text">输入声音 :  0 (未开始)</string>
     <string name="audio_output_initialize_text">输出声音 :  0 (未开始)</string>
+    <string name="native_fragment_no_input_video_file_text">，没有发现视频文件</string>
 </resources>

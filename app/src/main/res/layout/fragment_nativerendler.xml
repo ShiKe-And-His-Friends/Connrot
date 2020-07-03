@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Native pthread"
+            android:text="Decode pthread"
             />
         <Button
             android:id="@+id/native_thread_set_normal_thread_button"
