@@ -71,8 +71,8 @@ public class NativeRenderFragment extends Fragment {
         decodeThreadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File readFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Sugar.mp4");
-                File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/record_video.h264");
+                File readFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/1080test.mp4");
+                File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Sugar2");
                 if (saveFile.exists()) {
                     saveFile.delete();
                 }

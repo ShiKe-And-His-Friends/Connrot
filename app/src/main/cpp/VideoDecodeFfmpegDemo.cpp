@@ -34,7 +34,8 @@ int VideoDecodeFfmpegDemo::StartDecode(const char *readPath ,const char *savePat
     memset(inbuf + INBUF_SIZE, 0, AV_INPUT_BUFFER_PADDING_SIZE);
 
     /* find the MPEG-1 video decoder */
-    codec = avcodec_find_decoder(AV_CODEC_ID_MPEG1VIDEO);
+    codec = avcodec_find_decoder(AV_CODEC_ID_H264);  //AV_CODEC_ID_MPEG1VIDEO
+    XLOGI("video codec type is %d" ,AV_CODEC_ID_H264);
     if (!codec) {
         fprintf(stderr, "Codec not found\n");
         exit(1);
