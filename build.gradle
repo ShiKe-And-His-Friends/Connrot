@@ -9,7 +9,7 @@ buildscript {
         versionCompiler = 29
         versionTarget = 29
         versionNameString = '1.0.3'
-        versionCodeInt = 4
+        versionCodeInt = 5
 
         supportLibVersion = '27.1.1'
         versionBuildTool = '27.0.3'
