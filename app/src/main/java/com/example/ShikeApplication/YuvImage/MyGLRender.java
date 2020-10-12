@@ -99,7 +99,7 @@ public class MyGLRender implements GLSurfaceView.Renderer{
     public void update(byte[] yuvdata) {
         synchronized (this) {
             int ylen = this.mVideoHeight * this.mVideoWidth;
-            Log.i("shikeDebug" ,"shikeDebug width = " +mVideoWidth + " height = " + mVideoHeight );
+            Log.i(TAG ,"Render update width = " +mVideoWidth + " height = " + mVideoHeight );
             y.clear();
             u.clear();
             v.clear();

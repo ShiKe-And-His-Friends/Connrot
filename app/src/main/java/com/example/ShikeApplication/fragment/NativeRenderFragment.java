@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.example.ShikeApplication.R;
 import com.example.ShikeApplication.activity.OpenGLESSampleActivity;
+import com.example.ShikeApplication.activity.YuvImageActivity;
 import com.example.ShikeApplication.audioProcess.AudioClass;
 import com.example.ShikeApplication.ndkdemo.CallbackInterface.JavaNdkListener;
 import com.example.ShikeApplication.ndkdemo.CallbackInterface.ThreadErrorListener;
@@ -62,6 +63,7 @@ public class NativeRenderFragment extends Fragment {
         Button startAudioThreadButton = (Button)view.findViewById(R.id.audio_service_start);
         Button stopAudioThreadButton = (Button)view.findViewById(R.id.audio_service_stop);
         Button startOpenGLESButton = (Button)view.findViewById(R.id.start_opengles_button);
+        Button iImageYuvButton = (Button)view.findViewById(R.id.opengl_yuve_4_2_2_start);
         ijkPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +130,10 @@ public class NativeRenderFragment extends Fragment {
         startOpenGLESButton.setOnClickListener(v->{
             Log.d(TAG, "start activity opengles.");
             startActivity(new Intent(getActivity(), OpenGLESSampleActivity.class));
+        });
+        iImageYuvButton.setOnClickListener(v-> {
+            Log.d(TAG, "start activity yuv image.");
+            startActivity(new Intent(getActivity(), YuvImageActivity.class));
         });
         return view;
     }

@@ -27,6 +27,7 @@ class YuvImageActivity : BaseActivity() {
         var file: File = File("/sdcard/test.yuv")
 
         if (!file.exists()) {
+            // A test.yuv file that format is YUV NY14 4:2:0 size is height 720 width 1280
             Toast.makeText(this, "/sdcard/test.yuv 1280X720 ，文件不存在", Toast.LENGTH_LONG).show()
         } else {
             object : Thread() {
