@@ -29,7 +29,7 @@ public:
     virtual void SetPause(bool isP);
 
     bool isHardDecode = false;
-    int IPLAYER_DEBUG_LOG = 1;
+    int IPLAYER_DEBUG_LOG = 0;
 
     XParameter outPara;
 

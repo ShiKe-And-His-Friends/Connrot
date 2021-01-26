@@ -4,6 +4,7 @@
 
 #include "SLAudioPlay.h"
 #include "XLog.h"
+#include <string.h>
 #include <SLES/OpenSLES.h>
 #include <SLES/OpenSLES_Android.h>
 

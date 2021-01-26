@@ -116,7 +116,7 @@ XData FFDecode::RecvFrame() {
     int re = avcodec_receive_frame(codec ,frame);
     if (re != 0) {
         mux.unlock();
-        XLOGE("FFDecode RecvFrame failure ,frame is null.");
+        XLOGI("FFDecode RecvFrame failure ,frame is null.");
         return XData();
     }
     if (FFDecode_DEBUG_LOG) {

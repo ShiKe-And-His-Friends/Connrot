@@ -43,6 +43,7 @@ bool FFDemux::Open (const char *url) {
     XLOGI("FFDemux Open file %s begin." ,url);
     Close();
     mux.lock();
+    ic = avformat_alloc_context();
     int re = avformat_open_input(&ic ,url ,0 ,0);
     if (re != 0) {
         mux.unlock();
@@ -184,7 +185,7 @@ XData FFDemux::Read () {
     pkt->dts = pkt->dts * (1000 * r2d(ic->streams[pkt->stream_index]->time_base));
     d.pts = (int) pkt->pts;
     mux.unlock();
-    XLOGE("FFDemux Read success. XData type is %d, size is %d" ,d.isAudio ,d.size);
+    XLOGI("FFDemux Read success. XData type is %d, size is %d" ,d.isAudio ,d.size);
     return  d;
 }
 

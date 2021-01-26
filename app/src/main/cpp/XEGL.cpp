@@ -17,9 +17,14 @@ public:
 
     virtual void Draw () {
         mux.lock();
-        if (display == EGL_NO_DISPLAY || surface == EGL_NO_SURFACE) {
+        if (display == EGL_NO_DISPLAY) {
             mux.unlock();
-            XLOGE("CXEGL Draw failure, display is NO_SURFACE.");
+            XLOGE("CXEGL Draw failure, display is EGL_NO_DISPLAY.");
+            return;
+        }
+        if (surface == EGL_NO_SURFACE) {
+            mux.unlock();
+            XLOGE("CXEGL Draw failure, surface is NO_SURFACE.");
             return;
         }
         eglSwapBuffers(display ,surface);
@@ -36,9 +41,11 @@ public:
         }
         eglMakeCurrent(display ,EGL_NO_SURFACE ,EGL_NO_SURFACE ,EGL_NO_CONTEXT);
         if (surface != EGL_NO_SURFACE) {
+            XLOGE("CXEGL Close ,surface destory.");
             eglDestroySurface(display ,surface);
         }
         if (context != EGL_NO_CONTEXT) {
+            XLOGE("CXEGL Close ,context destory.");
             eglDestroyContext(display ,context);
         }
         eglTerminate(display);
@@ -52,7 +59,7 @@ public:
     virtual bool Init (void *win) {
         ANativeWindow *nwin = (ANativeWindow *)win;
         XLOGE("CXEGL init windows");
-        Close();
+        // Close();
         mux.lock();
         display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
         if (display == EGL_NO_DISPLAY) {
@@ -83,16 +90,23 @@ public:
         }
         XLOGI("CXEGL eglChooseConfig success!");
         surface = eglCreateWindowSurface(display ,config ,nwin ,NULL);
+        if (surface == EGL_NO_SURFACE) {
+            mux.unlock();
+            XLOGE("CXEGL eglCreateWindowSurface surface failed!");
+            return false;
+        }
         const EGLint ctxAttr[] = {EGL_CONTEXT_CLIENT_VERSION ,2 ,EGL_NONE};
         context = eglCreateContext(display ,config ,EGL_NO_CONTEXT ,ctxAttr);
         if (context == EGL_NO_CONTEXT) {
             mux.unlock();
             XLOGE("CXEGL eglCreateContext failed!");
+            return false;
         }
         XLOGI("CXEGL eglCreateContext success!");
         if (EGL_TRUE != eglMakeCurrent(display ,surface ,surface ,context)) {
             mux.unlock();
             XLOGE("CXEGL eglMakeCurrent failed!");
+            return false;
         }
         XLOGI("CXEGL eglMakeCurrent success!");
         mux.unlock();
