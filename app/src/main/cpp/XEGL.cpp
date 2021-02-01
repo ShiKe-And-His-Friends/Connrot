@@ -90,11 +90,6 @@ public:
         }
         XLOGI("CXEGL eglChooseConfig success!");
         surface = eglCreateWindowSurface(display ,config ,nwin ,NULL);
-        if (surface == EGL_NO_SURFACE) {
-            mux.unlock();
-            XLOGE("CXEGL eglCreateWindowSurface surface failed!");
-            return false;
-        }
         const EGLint ctxAttr[] = {EGL_CONTEXT_CLIENT_VERSION ,2 ,EGL_NONE};
         context = eglCreateContext(display ,config ,EGL_NO_CONTEXT ,ctxAttr);
         if (context == EGL_NO_CONTEXT) {

@@ -15,6 +15,15 @@ void FFDecode::InitHard(void *vm) {
     av_jni_set_java_vm(vm ,0);
 }
 
+void FFDecode::Clear() {
+    IDecode::Clear();
+    mux.lock();
+    if (codec) {
+        avcodec_flush_buffers(codec);
+    }
+    mux.unlock();
+}
+
 void FFDecode::Close() {
     if (FFDecode_DEBUG_LOG) {
         XLOGD("FFDecode Close methods.");
@@ -56,11 +65,11 @@ bool FFDecode::Open(XParameter para, bool isHard) {
     codec = avcodec_alloc_context3(cd);
     avcodec_parameters_to_context(codec ,p);
     codec->thread_count = 8;
-    int re = avcodec_open2(codec ,cd ,0);
+    int re = avcodec_open2(codec ,0 ,0);
     if (re != 0) {
         mux.unlock();
         char buf[1024] = {0};
-        av_strerror(re ,buf , sizeof(buf));
+        av_strerror(re ,buf , sizeof(buf) - 1);
         XLOGE("%s" ,buf);
         return false;
     }
@@ -130,8 +139,7 @@ XData FFDecode::RecvFrame() {
     XData d;
     d.data = (unsigned char *)(frame);
     if (codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-        /*d.size = (frame->linesize[0] + frame->linesize[1] + frame->linesize[2])* frame->height;*/
-        d.size = (int)(frame->width * frame->height * 1.5);
+        d.size = (frame->linesize[0] + frame->linesize[1] + frame->linesize[2])* frame->height;
         d.width = frame->width;
         d.height = frame->height;
         if (FFDecode_DEBUG_LOG) {

@@ -31,7 +31,7 @@ static const char *fragYUV420P = GET_STR(
             yuv.b = texture2D (vTexture ,vTexCoord).r - 0.5;
             rgb = mat3 (1.0 ,1.0 ,1.0
                         ,0.0 ,-0.39465 ,2.03211
-                        ,1.12983 ,-0.58060 ,0.0) * yuv;
+                        ,1.13983 ,-0.58060 ,0.0) * yuv;
             gl_FragColor = vec4 (rgb ,1.0);
         }
 );

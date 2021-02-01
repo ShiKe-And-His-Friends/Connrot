@@ -9,7 +9,7 @@
 
 enum XShaderType {
     XSHADER_YUV420P = 0,
-    XSHADER_NV12 = 15,
+    XSHADER_NV12 = 25,
     XSHADER_NV21 = 26
 };
 

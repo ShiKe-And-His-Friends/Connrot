@@ -115,9 +115,16 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     re = (*eng)->CreateOutputMix(eng ,&mix ,0 ,0 ,0);
     if (re != SL_RESULT_SUCCESS) {
         mux.unlock();
+        XLOGI("SL_RESULT_SUCCESS failed!");
+        return false;
+    }
+    re = (*mix)->Realize(mix ,SL_BOOLEAN_FALSE);
+    if (re != SL_RESULT_SUCCESS) {
+        mux.unlock();
         XLOGI("(*mix)->Realize failed!");
         return false;
     }
+
     SLDataLocator_OutputMix outMix = {SL_DATALOCATOR_OUTPUTMIX ,mix};
     SLDataSink audioSink = {&outMix ,0};
     SLDataLocator_AndroidSimpleBufferQueue que = {SL_DATALOCATOR_ANDROIDBUFFERQUEUE ,10};
@@ -158,6 +165,7 @@ bool SLAudioPlay::StartPlay(XParameter out) {
     (*pcmQue)->RegisterCallback(pcmQue ,PcmCall ,this);
     (*iplayer)->SetPlayState(iplayer ,SL_PLAYSTATE_PLAYING);
     (*pcmQue)->Enqueue(pcmQue ,"" ,1);
+    isExit = false;
     mux.unlock();
     XLOGE("SLAudioPlay::StartPlay success!");
     return true;

@@ -43,7 +43,6 @@ bool FFDemux::Open (const char *url) {
     XLOGI("FFDemux Open file %s begin." ,url);
     Close();
     mux.lock();
-    ic = avformat_alloc_context();
     int re = avformat_open_input(&ic ,url ,0 ,0);
     if (re != 0) {
         mux.unlock();
@@ -93,7 +92,6 @@ XParameter FFDemux::GetVPara () {
         }
     }*/
     int re = av_find_best_stream(ic ,AVMEDIA_TYPE_VIDEO ,-1 ,-1 ,0 ,0);
-    AVStream *as = ic->streams[re];
     XLOGI("FFDemux GetVPara stream re is %d ,width = %d ,height = %d ,codec is = %d ,avformat = %d",re ,as->codecpar->width ,as->codecpar->height ,as->codecpar->codec_id ,as->codecpar->format);
     if (re < 0) {
         mux.unlock();
@@ -120,7 +118,8 @@ XParameter FFDemux::GetAPara () {
         return XParameter();
     }
     int re = 0;
-    for (int i = 0 ; i < ic->nb_streams ; i++) {
+    /*
+      for (int i = 0 ; i < ic->nb_streams ; i++) {
         if (DEBUG)
             XLOGI("FFDemux GetAPara stream channel is %d", i);
         AVStream *as = ic->streams[i];
@@ -133,8 +132,8 @@ XParameter FFDemux::GetAPara () {
             ,as->codecpar->sample_rate ,as->codecpar->channels ,as->codecpar->format ,as->codecpar->codec_id);
             re = i;
         }
-    }
-    //int re = av_find_best_stream(ic ,AVMEDIA_TYPE_AUDIO ,-1 ,-1 ,0 ,0);
+    }*/
+    re = av_find_best_stream(ic ,AVMEDIA_TYPE_AUDIO ,-1 ,-1 ,0 ,0);
     if (re < 0) {
         mux.unlock();
         XLOGE("FFDemux avfind_best_stream audio failed!");

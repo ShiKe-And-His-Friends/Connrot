@@ -29,7 +29,7 @@ void XData::Drop () {
         return;
     }
     if (type == AVPACKET_TYPE) {
-//        av_packet_free((AVPacket **)&data);
+        av_packet_free((AVPacket **)&data);
     } else {
         delete  data;
     }

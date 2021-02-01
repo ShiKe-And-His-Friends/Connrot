@@ -49,6 +49,10 @@ void IDecode::Main () {
         XLOGI("IDecode Main methods.");
     }
     while (!isExit) {
+        if(IsPause()){
+            XSleep(2);
+            continue;
+        }
         packsMutex.lock();
         if (!isAudio && synPts > 0) {
             if (synPts <pts) {

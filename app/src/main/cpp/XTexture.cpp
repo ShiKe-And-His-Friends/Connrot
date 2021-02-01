@@ -10,7 +10,7 @@
 class CXTexture:public XTexture{
 public:
     bool ifFirst;
-    FILE *fp;
+    //FILE *fp;
     XShader sh;
     XTextureType type;
     std::mutex mux;
@@ -51,7 +51,7 @@ public:
         return true;
     }
 
-    virtual void Draw(unsigned char *data[] ,int length , int width , int height){
+    virtual void Draw(unsigned char *data[] , int width , int height){
         if (CXTexture_DEBUG_LOG) {
             XLOGD("CXTexture Draw methods. Data length is %d, width is %d ,height is %d ,type is %d" ,length,width ,height ,type);
         }
@@ -63,7 +63,7 @@ public:
         } else {
             sh.GetTexture(1 , width/2 , height/2 , data[1] , true);  //UV
         }
-        if (!ifFirst) {
+        /*if (!ifFirst) {
             fp = fopen("/storage/emulated/0/1080test.yuv","wb+");
             ifFirst = true;
         }
@@ -71,6 +71,7 @@ public:
         fwrite(data[1],1,width * height / 4,fp);
         fwrite(data[2],1,width * height / 4,fp);
         fflush(fp);
+         */
         sh.Draw();
         XEGL::Get()->Draw();
         mux.unlock();

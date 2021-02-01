@@ -16,6 +16,7 @@ public:
     static void InitHard(void *vm);
     virtual bool Open(XParameter para ,bool isHard = false);
     virtual void Close();
+    virtual void Clear();
     virtual bool SendPacket(XData pkt);
     virtual XData RecvFrame();
 

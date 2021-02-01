@@ -138,7 +138,7 @@ JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, jclass clazz,
                                                            jobject surface) {
     ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
-    IPlayerPorxy::Get()->Init();
+    //IPlayerPorxy::Get()->Init();
     IPlayerPorxy::Get()->InitView(win);
 }
 
@@ -149,7 +149,7 @@ Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerOpenUrl(JNIEnv *env, jc
     IPlayerPorxy::Get()->Open(url);
     IPlayerPorxy::Get()->Start();
     //IPlayerPorxy::Get()->Seek(0.5);
-    //env->ReleaseStringUTFChars(SourceUrl ,url);
+    env->ReleaseStringUTFChars(SourceUrl ,url);
 }
 
 extern "C"

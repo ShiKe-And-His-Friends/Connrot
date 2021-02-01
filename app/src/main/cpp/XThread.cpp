@@ -31,6 +31,7 @@ void XThread::SetPause(bool isP)
 bool XThread::Start() {
     XLOGI("XThread Main Thread Stop methods begins.");
     isExit = false;
+    isPause = false;
     thread th(&XThread::ThreadMain,this);
     th.detach();
     return true;

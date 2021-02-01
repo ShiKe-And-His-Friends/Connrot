@@ -53,16 +53,16 @@ void IPlayer::Close()
     if (adecode) {
         adecode->Stop();
     }
-
+    if (audioPlay) {
+        audioPlay->Clear();
+    }
     if (vdecode) {
         vdecode->Clear();
     }
     if (adecode) {
         adecode->Clear();
     }
-    if (audioPlay) {
-        audioPlay->Clear();
-    }
+
 
     if (audioPlay) {
         audioPlay->Close();
@@ -122,11 +122,56 @@ bool IPlayer::Seek(double pos) {
         XLOGD("IPlayer Seek methods.");
     }
     bool re = false;
+    if (!demux) {
+        return false;
+    }
+    SetPause(true);
     mux.lock();
-    if (demux) {
-        re = demux->Seek(pos);
+    if (vdecode) {
+        vdecode->Clear();
+    }
+    if (adecode) {
+        adecode->Clear();
+    }
+    if (audioPlay) {
+        audioPlay->Clear();
+    }
+    re = demux->Seek(pos);
+    if (!vdecode) {
+        mux.unlock();
+        SetPause(false);
+        return ret;
+    }
+    int seekPts = pos * demux->totalMs;
+    while(!isExit) {
+        XData pkt = demux->Read();
+        if (pkt.size <= 0) {
+            break;
+        }
+        if (pkt.isAudio) {
+            if(pkt.pts < seekPts) {
+                pkt.Drop();
+                continue;
+            }
+            demux->Notify(pkt);
+            continue;
+        }
+
+        vdecode->SendPacket(pkt);
+        pkt.Drop();
+        XData data = vdecode->RecvFrame();
+        if (data.size <= 0) {
+            continue;
+        }
+        if (data.size <= 0) {
+            continue;
+        }
+        if (data.pts >= seekPts) {
+            break;
+        }
     }
     mux.unlock();
+    SetPause(false);
     return re;
 }
 
@@ -135,7 +180,9 @@ bool IPlayer::Open(const char *path) {
         XLOGD("IPlayer Open methods.");
     }
     //Close();  //Debug for process go
+    mux.lock();
     if (!demux || !demux->Open(path)) {
+        mux.unlock();
         XLOGD("IPlayer Open demux->Open %s failed!",path);
         return false;
     }
@@ -153,6 +200,7 @@ bool IPlayer::Open(const char *path) {
     if (IPLAYER_DEBUG_LOG) {
         XLOGD("IPlayer Open methods success.");
     }
+    mux.unlock();
     return true;
 }
 
@@ -167,6 +215,7 @@ bool IPlayer::Start(){
 
     if (!demux || !demux->Start()) {
         mux.unlock();
+        return false;
     }
     if (adecode) {
         adecode->Start();
