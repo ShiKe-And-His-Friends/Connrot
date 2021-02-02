@@ -140,7 +140,7 @@ bool IPlayer::Seek(double pos) {
     if (!vdecode) {
         mux.unlock();
         SetPause(false);
-        return ret;
+        return re;
     }
     int seekPts = pos * demux->totalMs;
     while(!isExit) {

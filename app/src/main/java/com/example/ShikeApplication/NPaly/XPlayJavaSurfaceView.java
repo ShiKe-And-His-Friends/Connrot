@@ -18,28 +18,39 @@ public class XPlayJavaSurfaceView extends GLSurfaceView implements GLSurfaceView
 
     private static final String TAG = "XPlayJavaSurface";
 
-
-
     public XPlayJavaSurfaceView(Context context , AttributeSet attributeSet) {
         super(context ,attributeSet);
-        Log.d(TAG , "XPlaySurfaceView init.");
-        setRenderer(this);
-        Log.d(TAG , "XPlaySurfaceView init success.");
+        Log.d(TAG , "XPlaySurfaceView context.");
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        super.surfaceChanged(holder, format, w, h);
+    public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG , "XPlaySurfaceView surfaceCreated.");
-        String path = Environment.getExternalStorageDirectory().getPath() + "/1080.mp4";
+        String path = Environment.getExternalStorageDirectory().getPath() + "/1080test.mp4";
         String yuvPath = Environment.getExternalStorageDirectory().getPath() + "/1080test.yuv";
         File file = new File(yuvPath);
         if (file.exists()) {
             file.delete();
         }
         ndktool.NPlayerInitView(holder.getSurface());
-        ndktool.NPlayerOpenUrl(path);
+        Log.d(TAG , "XPlaySurfaceView init.");
+        setRenderer(this);
+        Log.d(TAG , "XPlaySurfaceView init success.");
+
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG , "NPlayerOpenUrl start.");
+                ndktool.NPlayerOpenUrl(path);
+                Log.d(TAG , "NPlayerOpenUrl success.");
+            }
+        } ,3000);
+
         Log.d(TAG , "XPlaySurfaceView surfaceCreated success.");
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
     }
 
     @Override

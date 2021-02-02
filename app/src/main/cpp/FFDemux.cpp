@@ -90,9 +90,11 @@ XParameter FFDemux::GetVPara () {
                 XLOGI("GetVPara stream fps = %d ,width = %d ,height = %d ,codec is = %d ,avformat = %d"
                     ,fps ,as->codecpar->width ,as->codecpar->height ,as->codecpar->codec_id ,as->codecpar->format);
         }
-    }*/
-    int re = av_find_best_stream(ic ,AVMEDIA_TYPE_VIDEO ,-1 ,-1 ,0 ,0);
+    }
     XLOGI("FFDemux GetVPara stream re is %d ,width = %d ,height = %d ,codec is = %d ,avformat = %d",re ,as->codecpar->width ,as->codecpar->height ,as->codecpar->codec_id ,as->codecpar->format);
+    */
+    int re = av_find_best_stream(ic ,AVMEDIA_TYPE_VIDEO ,-1 ,-1 ,0 ,0);
+
     if (re < 0) {
         mux.unlock();
         char errorBuf[1024] = {0};

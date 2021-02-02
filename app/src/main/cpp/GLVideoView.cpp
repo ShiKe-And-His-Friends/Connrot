@@ -43,5 +43,5 @@ void GLVideoView::Render(XData data) {
             XLOGD("GLVideoView Render create.");
         }
     }
-    txt->Draw(data.datas , sizeof(data.datas) ,data.width ,data.height);
+    txt->Draw(data.datas ,data.width ,data.height);
 }

@@ -53,7 +53,7 @@ public:
 
     virtual void Draw(unsigned char *data[] , int width , int height){
         if (CXTexture_DEBUG_LOG) {
-            XLOGD("CXTexture Draw methods. Data length is %d, width is %d ,height is %d ,type is %d" ,length,width ,height ,type);
+            XLOGD("CXTexture Draw methods. Data width is %d ,height is %d ,type is %d",width ,height ,type);
         }
         mux.lock();
         sh.GetTexture(0 ,width ,height ,data[0]);  // Y

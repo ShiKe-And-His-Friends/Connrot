@@ -22,7 +22,7 @@ extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_
     return env->NewStringUTF("内核版本号:001.19.10.27.1001");
 }
 
-extern "C" JNIEXPORT jint JNI_OnLoad (JavaVM * vm ,void *res){
+extern "C" JNIEXPORT jint JNI_OnLoad (JavaVM* vm ,void* res){
     IPlayerPorxy::Get()->Init(vm);
     //IPlayerPorxy::Get()->Open("/sdcard/v1080.mp4");
     //IPlayerPorxy::Get()->Start();
@@ -146,7 +146,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerOpenUrl(JNIEnv *env, jclass clazz, jstring SourceUrl) {
     const char *url = env->GetStringUTFChars(SourceUrl ,0);
-    IPlayerPorxy::Get()->Open(url);
+    IPlayerPorxy::Get()->Open("/sdcard/1080test.mp4");
     IPlayerPorxy::Get()->Start();
     //IPlayerPorxy::Get()->Seek(0.5);
     env->ReleaseStringUTFChars(SourceUrl ,url);
