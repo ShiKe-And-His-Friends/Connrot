@@ -40,16 +40,18 @@ class NPlayerFragment : Fragment() ,View.OnClickListener{
             R.id.playvideo -> {
                 Toast.makeText(this.activity,"PalyVideo" ,Toast.LENGTH_LONG).show()
                 val initent = Intent(this.activity ,VideoPlayActivity::class.java)
-                /*var bundle = Bundle()
+                var bundle = Bundle()
                 bundle.putString("videoUrl" ,mPlayVideoEditText?.text.toString())
-                initent.putExtras(bundle)*/
+                initent.putExtras(bundle)
                 this.activity.startActivity(initent)
             }
             R.id.playrtmp -> {
                 Log.i(TAG, "player set rtmp")
                 val initent = Intent(this.activity ,VideoPlayActivity::class.java)
+                var bundle = Bundle()
+                bundle.putString("videoUrl" ,mPlayRtmpEditText?.text.toString())
+                initent.putExtras(bundle)
                 Log.i(TAG, "rtmp url is " + mPlayRtmpEditText?.text.toString())
-                ndktool.NPlayerOpenUrl(mPlayRtmpEditText?.text.toString())
                 startActivity(initent)
             }
         }

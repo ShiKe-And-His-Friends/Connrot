@@ -7,9 +7,9 @@
     <string name="fragment_home_below_button_ok_string">OK</string>
     <string name="fragment_native_demo_text_view">JNI is Not the Key to solve all trouble.</string>
 
-    <string name="fragment_native_player_local_src">/sdcard/1080.mp4</string>
+    <string name="fragment_native_player_local_src">/sdcard/1080test.mp4</string>
     <string name="fragment_native_player_local_play">播放</string>
-    <string name="fragment_native_player_remota_src">rtmp://live.hkstv.hk.lxdns.com/live/hks</string>
+    <string name="fragment_native_player_remota_src">rtmp://58.200.131.2:1935/livetv/hunantv</string>
     <string name="fragment_native_player_remota_play">香港卫视直播</string>
     <string name="audio_input_text">输入声音 : </string>
     <string name="audio_output_text">输出声音 : </string>

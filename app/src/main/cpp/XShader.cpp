@@ -38,15 +38,15 @@ static const char *fragYUV420P = GET_STR(
 
 static const char * fragNV12 = GET_STR(
         precision mediump float;
-        varying vec2 vTextCoord;
+        varying vec2 vTexCoord;
         uniform sampler2D yTexture;
         uniform sampler2D uvTexture;
         void main () {
             vec3 yuv;
             vec3 rgb;
-            yuv.r = texture2D (yTexture ,vTextCoord).r;
-            yuv.g = texture2D (uvTexture ,vTextCoord).r - 0.5;
-            yuv.b = texture2D (uvTexture ,vTextCoord).a - 0.5;
+            yuv.r = texture2D (yTexture ,vTexCoord).r;
+            yuv.g = texture2D (uvTexture ,vTexCoord).r - 0.5;
+            yuv.b = texture2D (uvTexture ,vTexCoord).a - 0.5;
             rgb = mat3 (1.0 ,1.0 ,1.0
                     ,0.0 ,-0.39465 ,2.03211
                     ,1.13983 ,-0.58060 ,0.0) * yuv;
@@ -56,15 +56,15 @@ static const char * fragNV12 = GET_STR(
 
 static const char *fragNV21 = GET_STR(
         precision mediump float;
-        varying vec2 vTextCoord;
+        varying vec2 vTexCoord;
         uniform sampler2D yTexture;
         uniform sampler2D uvTexture;
         void main () {
             vec3 yuv;
             vec3 rgb;
-            yuv.r = texture2D (yTexture ,vTextCoord).r;
-            yuv.g = texture2D (uvTexture ,vTextCoord).a - 0.5;
-            yuv.b = texture2D (uvTexture ,vTextCoord).r - 0.5;
+            yuv.r = texture2D (yTexture ,vTexCoord).r;
+            yuv.g = texture2D (uvTexture ,vTexCoord).a - 0.5;
+            yuv.b = texture2D (uvTexture ,vTexCoord).r - 0.5;
             rgb = mat3 (1.0 ,1.0 ,1.0
                         0.0 ,-0.39265 ,2.03211
                         ,1.13983 ,-0.58060 ,0.0) * yuv;
@@ -179,10 +179,10 @@ bool XShader::Init(XShaderType type) {
     glUseProgram (program);
     XLOGI("XShader glLinkPrograme success!");
     static float vers[] = {
-            1.0f ,0.0f
-            ,0.0f ,0.0f
-            ,1.0f ,1.0f
-            ,0.0 ,1.0
+            1.0f,-1.0f,0.0f,
+            -1.0f,-1.0f,0.0f,
+            1.0f,1.0f,0.0f,
+            -1.0f,1.0f,0.0f,
     };
     GLuint apos = (GLuint)glGetAttribLocation(program,"aPosition");
     glEnableVertexAttribArray(apos);

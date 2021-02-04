@@ -22,10 +22,14 @@ extern "C"  JNIEXPORT jstring JNICALL Java_com_example_ShikeApplication_ndkdemo_
     return env->NewStringUTF("内核版本号:001.19.10.27.1001");
 }
 
+JavaVM* thisVm;
 extern "C" JNIEXPORT jint JNI_OnLoad (JavaVM* vm ,void* res){
-    IPlayerPorxy::Get()->Init(vm);
-    //IPlayerPorxy::Get()->Open("/sdcard/v1080.mp4");
-    //IPlayerPorxy::Get()->Start();
+    thisVm = vm;
+    /*
+        IPlayerPorxy::Get()->Init(vm);
+        IPlayerPorxy::Get()->Open("/sdcard/v1080.mp4");
+        IPlayerPorxy::Get()->Start();
+    */
     return JNI_VERSION_1_4;
 }
 
@@ -137,6 +141,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerInitView(JNIEnv *env, jclass clazz,
                                                            jobject surface) {
+    IPlayerPorxy::Get()->Init(thisVm);
     ANativeWindow *win = ANativeWindow_fromSurface(env ,surface);
     //IPlayerPorxy::Get()->Init();
     IPlayerPorxy::Get()->InitView(win);
@@ -146,10 +151,12 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_example_ShikeApplication_ndkdemo_ndktool_NPlayerOpenUrl(JNIEnv *env, jclass clazz, jstring SourceUrl) {
     const char *url = env->GetStringUTFChars(SourceUrl ,0);
-    IPlayerPorxy::Get()->Open("/sdcard/1080test.mp4");
-    IPlayerPorxy::Get()->Start();
+    //IPlayerPorxy::Get()->Open("/sdcard/1080test.mp4");
+    //IPlayerPorxy::Get()->Open("rtmp://58.200.131.2:1935/livetv/hunantv");
     //IPlayerPorxy::Get()->Seek(0.5);
-    env->ReleaseStringUTFChars(SourceUrl ,url);
+    IPlayerPorxy::Get()->Open(url);
+    IPlayerPorxy::Get()->Start();
+    //env->ReleaseStringUTFChars(SourceUrl ,url);
 }
 
 extern "C"

@@ -58,6 +58,6 @@ class XPlaySurfaceView(context: Context, attrs: AttributeSet) : GLSurfaceView(co
         ndktool.NPlayerInitView(holder.surface)
         ndktool.NPlayerOpenUrl(path)
         //ndktool.NPlayerOpenUrl(this.resources.getString(R.string.fragment_native_player_remota_src))
-        Log.d(TAG , "XPlaySurfaceView surfaceCreated success.")
+        Log.d(TAG , "XPlaySurfaceView surfaceCreated kotl success.")
     }
 }

@@ -32,19 +32,16 @@ public class XPlayJavaSurfaceView extends GLSurfaceView implements GLSurfaceView
         if (file.exists()) {
             file.delete();
         }
+
         ndktool.NPlayerInitView(holder.getSurface());
+
+        Log.d(TAG , "NPlayerOpenUrl start.");
+        ndktool.setMyOpenUrl();
+        Log.d(TAG , "NPlayerOpenUrl success.");
+
         Log.d(TAG , "XPlaySurfaceView init.");
         setRenderer(this);
         Log.d(TAG , "XPlaySurfaceView init success.");
-
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(TAG , "NPlayerOpenUrl start.");
-                ndktool.NPlayerOpenUrl(path);
-                Log.d(TAG , "NPlayerOpenUrl success.");
-            }
-        } ,3000);
 
         Log.d(TAG , "XPlaySurfaceView surfaceCreated success.");
     }
@@ -71,7 +68,7 @@ public class XPlayJavaSurfaceView extends GLSurfaceView implements GLSurfaceView
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d(TAG , "XPlaySurfaceView render surfaceDestroyed.");
-        super.surfaceDestroyed(holder);
+
     }
 
 }

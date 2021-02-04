@@ -1,6 +1,12 @@
 package com.example.ShikeApplication.ndkdemo;
 
+import android.util.Log;
+
 public class ndktool {
+
+    private static final String TAG = "ndktool";
+    public static String iStreamUrl = "";
+
     public native static String getSomeDumpTextFromNDK();
     public native static String getNativeCompileVersion();
     public native static String getNativeLibraryVersion();
@@ -18,4 +24,13 @@ public class ndktool {
     public native static void NPlayerSeek(double pos);
 
     public native static void deocdeVideoMethod(String localVideoPath ,String saveVideoPath);
+
+    public static void setUrl (String url) {
+        iStreamUrl = url;
+    }
+
+    public static void setMyOpenUrl() {
+        Log.i(TAG ,"set my open url " + iStreamUrl);
+        NPlayerOpenUrl(iStreamUrl);
+    }
 }

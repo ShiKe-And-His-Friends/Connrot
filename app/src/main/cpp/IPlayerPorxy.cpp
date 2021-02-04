@@ -73,6 +73,7 @@ bool IPlayerPorxy::Open (const char *path) {
         XLOGD("IPlayerPorxy Open methods.");
     }
     XLOGI("IplayerPorxy is %s" ,path);
+    //Close();
     bool re = false;
     mux.lock();
     if (player) {

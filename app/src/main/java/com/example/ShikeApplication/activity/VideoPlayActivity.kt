@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import com.example.ShikeApplication.R
+import com.example.ShikeApplication.ndkdemo.ndktool
 
 class VideoPlayActivity : BaseActivity() {
 
@@ -19,13 +20,14 @@ class VideoPlayActivity : BaseActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
+        var bundle = this.intent.extras
+        var videourl = bundle?.get("videoUrl")
+        ndktool.setUrl(videourl as String?)
         setContentView(R.layout.activity_video_play)
         Log.i(TAG, "onCreate begin.")
-        /*var bundle = this.intent.extras
-        var videourl = bundle?.get("videoUrl")
-        ndktool.NPlayerOpenUrl(videourl as String?)*/
+
         Log.i(TAG, "onCreate success.")
     }
 

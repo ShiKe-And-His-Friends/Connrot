@@ -19,12 +19,6 @@ set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FF}/libswscale.so)
 add_library(swresample SHARED IMPORTED)
 set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FF}/libswresample.so)
 
-add_library(avdevice SHARED IMPORTED)
-set_target_properties(avdevice PROPERTIES IMPORTED_LOCATION ${FF}/libavdevice.so)
-
-add_library(postproc SHARED IMPORTED)
-set_target_properties(postproc PROPERTIES IMPORTED_LOCATION ${FF}/libpostproc.so)
-
 include_directories(include)
 include_directories(src/main/jni/)
 
@@ -122,5 +116,5 @@ target_link_libraries( # Specifies the target library.
         GLESv2 EGL
         OpenSLES
         android
-        avcodec avformat avutil swscale swresample avdevice postproc
+        avcodec avformat avutil swscale swresample
         ${log-lib})
